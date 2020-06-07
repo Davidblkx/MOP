@@ -1,4 +1,4 @@
-﻿using MOP.Core.Domain.Event;
+﻿using MOP.Core.Domain.Events;
 using System;
 
 namespace MOP.Core.Services

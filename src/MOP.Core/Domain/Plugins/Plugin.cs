@@ -1,6 +1,7 @@
 ﻿using MOP.Core.Domain.Events;
 using MOP.Core.Domain.Host;
 using MOP.Core.Helpers;
+using MOP.Core.Services;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -8,11 +9,22 @@ using System.Threading.Tasks;
 
 namespace MOP.Core.Domain.Plugins
 {
+    /// <summary>
+    /// Default implementation for IPlugin
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <seealso cref="MOP.Core.Domain.Plugins.IPlugin" />
     public abstract class Plugin<T> : IPlugin
     {
         public IPluginInfo Info { get; }
-        public IHost Host { get; private set; }
-        public ILogger Logger { get; private set; }
+        public IHost Host => NullHelper.ThrowOnNull(_host);
+        public ILogger Logger => NullHelper.ThrowOnNull(_log);
+        public IEventService Events
+            => NullHelper.ThrowOnNull(_events);
+
+        private IHost? _host { get; set; }
+        private ILogger? _log { get; set; }
+        private IEventService? _events { get; set; }
 
         private readonly List<IDisposable> _disposables
             = new List<IDisposable>();
@@ -23,19 +35,26 @@ namespace MOP.Core.Domain.Plugins
             Info.Priority = priority;
         }
 
-        public virtual async Task<bool> Initialize(IHost host)
-        {
-            Host = host;
-            Logger = host.LogService.GetContextLogger<T>();
-            Logger.Debug("Initializing with priority {Priority}", Info.Priority);
-            var res = await Start();
-            Logger.Debug("Initialization has ended with status: {Res}", res);
-            return res;
-        }
+        public virtual Task PreLoad(IHost host)
+            => Task.Run(() => _host = host);
 
-        public virtual Task AfterInit()
-            => Task.Run(() => 
-                Logger.Debug("Cleaning initialization"));
+        public virtual async Task<bool> Initialize()
+        {
+            _log = Host.LogService?.GetContextLogger<T>();
+            _events = Host.EventService;
+            Logger.Debug("Initializing with priority {Priority}", Info.Priority);
+            try
+            {
+                var res = await Start();
+                Logger.Debug("Initialization has ended with status: {Res}", res);
+                return res;
+            } 
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "Error loading plugin {Name}", Info.Name);
+                return false;
+            }
+        }
 
         public virtual void Dispose()
         {
@@ -59,7 +78,8 @@ namespace MOP.Core.Domain.Plugins
         protected IDisposable Subscribe<TEvent>(Action<TEvent> handler, params string[] types)
             where TEvent : IEvent
         {
-            var res = Host.EventService.Subscribe(ev => { if (ev is TEvent e) handler(e); }, types);
+            var res = Host.EventService?
+                .Subscribe(ev => { if (ev is TEvent e) handler(e); }, types);
             _disposables.Add(res);
             return res;
         }

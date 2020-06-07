@@ -1,5 +1,4 @@
 ﻿using Semver;
-using System.Diagnostics;
 using System.Reflection;
 
 namespace MOP.Core.Helpers
@@ -12,9 +11,10 @@ namespace MOP.Core.Helpers
         /// <returns></returns>
         public static SemVersion GetCoreVersion()
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            var versionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
-            return SemVersion.Parse(versionInfo.FileVersion);
+            var versionInfo = Assembly.GetExecutingAssembly()
+                .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
+                .InformationalVersion;
+            return SemVersion.Parse(versionInfo);
         }
     }
 }
