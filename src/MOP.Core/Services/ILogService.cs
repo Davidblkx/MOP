@@ -1,4 +1,5 @@
 ﻿using Serilog;
+using System;
 
 namespace MOP.Core.Services
 {
@@ -19,5 +20,11 @@ namespace MOP.Core.Services
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         ILogger GetContextLogger<T>();
+
+        /// <summary>
+        /// Adds the logger transformer, to change the logger configuration.
+        /// </summary>
+        /// <param name="fn">The function.</param>
+        void AddLoggerTransformer(Func<LoggerConfiguration, LoggerConfiguration> fn);
     }
 }

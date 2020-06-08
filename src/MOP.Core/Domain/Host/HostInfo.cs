@@ -7,8 +7,8 @@ namespace MOP.Core.Domain.Host
     {
         public Guid Id { get; set; }
 
-        public string Name { get; set; }
+        public string Name { get; set; } = "";
 
-        public SemVersion CoreVersion { get; set; }
+        public SemVersion CoreVersion { get; set; } = new SemVersion(0,1,0);
     }
 }

@@ -6,15 +6,10 @@ namespace MOP.Core.Domain.Plugins
     internal class PluginInfo : IPluginInfo
     {
         public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string Namespace { get; }
-        public SemVersion CoreVersion { get; set; }
+        public string Name { get; set; } = "Unkown";
+        public string Namespace => BuildNamespace();
+        public SemVersion CoreVersion { get; set; } = new SemVersion(0,1,0);
         public ulong Priority { get; set; } = 1000;
-
-        public PluginInfo()
-        {
-            Namespace = BuildNamespace();
-        }
 
         private string BuildNamespace()
         {

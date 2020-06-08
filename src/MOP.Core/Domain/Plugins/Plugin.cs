@@ -78,8 +78,7 @@ namespace MOP.Core.Domain.Plugins
         protected IDisposable Subscribe<TEvent>(Action<TEvent> handler, params string[] types)
             where TEvent : IEvent
         {
-            var res = Host.EventService?
-                .Subscribe(ev => { if (ev is TEvent e) handler(e); }, types);
+            var res = Events.Subscribe(ev => { if (ev is TEvent e) handler(e); }, types);
             _disposables.Add(res);
             return res;
         }
