@@ -50,6 +50,8 @@ namespace MOP.Host.Services
                 _loggerTransformers.Add(e => e.WriteTo.Console());
             if (p.WriteToFile)
                 ConfigureFileLogger(p);
+
+            _loggerTransformers.Add(e => e.MinimumLevel.Is(p.LogEventLevel));
         }
 
         private void ConfigureFileLogger(HostProperties p)

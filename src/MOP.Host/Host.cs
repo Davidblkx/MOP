@@ -82,9 +82,9 @@ namespace MOP.Host
         private T GetValue<T>(bool replace, T instance, T value)
             => (replace || instance is null) ? value : instance;
 
-        public static async Task<MopHost> BuildHost(CancellationToken token)
+        public static async Task<MopHost> BuildHost(string[] args, CancellationToken token)
         {
-            var props = await HostPropertiesService.LoadHostProperties();
+            var props = await HostPropertiesService.LoadHostProperties(args);
             var host = new MopHost(props, token);
             host.SetLogService(new LogService(props));
             return host;

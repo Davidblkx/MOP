@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Optional;
+using System;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using static System.Environment;
@@ -54,6 +56,18 @@ namespace MOP.Host.Helpers
             var extLength = file.Extension?.Length ?? 0;
             var nameLength = file.Name.Length - extLength;
             return file.Name.Substring(0, nameLength);
+        }
+
+        public static DirectoryInfo GetStartDirectory()
+        {
+            var location = Process.GetCurrentProcess().MainModule.FileName;
+            var file = new FileInfo(location);
+            if (!file.Exists)
+            {
+                throw new AccessViolationException("Can't locate running assembly location");
+            }
+
+            return file.Directory;
         }
     }
 }

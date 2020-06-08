@@ -2,9 +2,7 @@
 using MOP.Host.Helpers;
 using Newtonsoft.Json;
 using System;
-using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,13 +10,21 @@ namespace MOP.Host.Services
 {
     internal class HostPropertiesService
     {
-        private const string FILE_NAME = "mop.props.json";
         private const string DIR_NAME = "MOP";
         private const string TEMP_DIR_NAME = "temp";
         private const string DATA_DIR_NAME = "data";
 
-        public static Task<HostProperties> LoadHostProperties()
-            => new HostPropertiesService().BuildProperties();
+        private readonly FileInfo _file;
+
+        public static Task<HostProperties> LoadHostProperties(string[] args)
+            => new HostPropertiesService(
+                PropertiesFileService.GetPropertiesFile(args)
+            ).BuildProperties();
+
+        public HostPropertiesService(FileInfo file)
+        {
+            _file = file;
+        }
 
         public async Task<HostProperties> BuildProperties()
         {
@@ -53,15 +59,14 @@ namespace MOP.Host.Services
 
         private async Task<HostProperties> LoadPropertiesFile()
         {
-            var file = GetPropertiesFile(GetAssemblyDirectory());
-            Console.WriteLine($"Loading start properties from: {file.FullName}");
-            if (file.Exists) return await ReadPropertiesFile(file);
+            Console.WriteLine($"Loading start properties from: {_file.FullName}");
+            if (_file.Exists) return await ReadPropertiesFile(_file);
             return new HostProperties();
         }
 
         private async Task<HostProperties> SaveProperties(HostProperties prop)
         {
-            var filePath = GetPropertiesFile(GetAssemblyDirectory()).FullName;
+            var filePath = _file.FullName;
             var jsonBody = JsonConvert.SerializeObject(prop, Formatting.Indented);
             await File.WriteAllTextAsync(filePath, jsonBody, Encoding.UTF8);
             return prop;
@@ -77,23 +82,6 @@ namespace MOP.Host.Services
         {
             return JsonConvert
                 .DeserializeObject<HostProperties>(jsonBody);
-        }
-
-        private FileInfo GetPropertiesFile(DirectoryInfo directory)
-        {
-            var filePath = Path.Combine(directory.FullName, FILE_NAME);
-            return new FileInfo(filePath);
-        }
-
-        private DirectoryInfo GetAssemblyDirectory()
-        {
-            var location = Process.GetCurrentProcess().MainModule.FileName;
-            var file = new FileInfo(location);
-            if (!file.Exists) {
-                throw new AccessViolationException("Can't locate running assembly location");
-            }
-
-            return file.Directory;
         }
     }
 }
