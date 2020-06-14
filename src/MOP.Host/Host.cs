@@ -87,6 +87,7 @@ namespace MOP.Host
             var props = await HostPropertiesService.LoadHostProperties(args);
             var host = new MopHost(props, token);
             host.SetLogService(new LogService(props));
+            host.SetConfigService(await ConfigServiceBuilder.Build(host));
             return host;
         }
     }
