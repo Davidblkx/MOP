@@ -90,6 +90,7 @@ namespace MOP.Host
             var host = new MopHost(props, token);
             host.SetLogService(new LogService(props));
             host.SetConfigService(await ConfigServiceBuilder.Build(host));
+            host.SetActorService(new ActorService(host));
             return host;
         }
     }

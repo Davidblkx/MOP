@@ -7,7 +7,7 @@
     public class EventCommand<T>
     {
         /// <summary>
-        /// Gets the event that will be emited.
+        /// Gets the event that will be emitted.
         /// </summary>
         /// <value>
         /// The event.
@@ -21,7 +21,7 @@
     }
 
     /// <summary>
-    /// Helper to instaciate event commands
+    /// Helper to instantiate event commands
     /// </summary>
     public static class EventCommand
     {
