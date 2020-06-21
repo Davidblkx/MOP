@@ -11,6 +11,14 @@ namespace MOP.Core.Services
     public interface IActorService
     {
         /// <summary>
+        /// Gets the main actor system.
+        /// </summary>
+        /// <value>
+        /// The main actor system.
+        /// </value>
+        public ActorSystem MainActorSystem { get; }
+
+        /// <summary>
         /// Gets a instance of a <see cref="IActorRef"/> for a name
         /// </summary>
         /// <param name="name">The name.</param>

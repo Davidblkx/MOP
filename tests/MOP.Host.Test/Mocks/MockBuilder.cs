@@ -18,6 +18,7 @@ namespace MOP.Host.Test.Mocks
         {
             var host = new MopHost(BuildMockHostProps(), new CancellationToken());
             host.SetLogService(BuildLogService());
+            host.SetConfigService(new ConfigService(host));
             return host;
         }
 
