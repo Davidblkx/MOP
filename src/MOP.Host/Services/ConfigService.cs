@@ -11,7 +11,7 @@ using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 using Serilog.Events;
 
-using static Optional.Option;
+using static MOP.Core.Helpers.NullHelper;
 
 [assembly: InternalsVisibleTo("MOP.Host.Test")]
 namespace MOP.Host.Services
@@ -67,19 +67,24 @@ namespace MOP.Host.Services
             _log.Information("Loading config for: {@id}", id);
             if (_configObj is null) return LogAndReturnInitFail(None<T>());
 
-            var tokenValue = _configObj[id];
-            if (tokenValue is null) return LogAndReturnMissingId<T>(id);
-
             try
             {
+                var tokenValue = _configObj.GetValue(id.ToString());
+                if (tokenValue is null) return LogAndReturnMissingId(id, defaultValue);
+
                 if (tokenValue.ToObject<T>() is T value)
                     return Some(value);
-                return LogAndReturnCastErrorId<T>(id);
+                return LogAndReturnCastErrorId(id, defaultValue);
+            }
+            catch (ArgumentException e)
+            {
+                _log.Error(e, "Error loading config object to target, id: {@id}", id);
+                return LogAndReturnMissingId(id, defaultValue);
             }
             catch (Exception e)
             {
                 _log.Error(e, "Error casting config object to target, id: {@id}", id);
-                return LogAndReturnCastErrorId<T>(id);
+                return LogAndReturnCastErrorId(id, defaultValue);
             }
         }
 
@@ -91,7 +96,13 @@ namespace MOP.Host.Services
 
             try
             {
-                _configObj[id] = JObject.FromObject(value);
+                var jValue = JObject.FromObject(value);
+
+                if (_configObj.ContainsKey(id.ToString()))
+                    _configObj[id] = jValue;
+                else 
+                    _configObj.Add(id.ToString(), jValue);
+
                 return await SaveConfig();
             }
             catch (Exception e)
@@ -101,17 +112,17 @@ namespace MOP.Host.Services
             }
         }
 
-        private Option<T> LogAndReturnCastErrorId<T>(Guid id)
-            => LogAndReturn(None<T>(), LogEventLevel.Warning, "Can't cast {@id} to target", id);
+        private Option<T> LogAndReturnCastErrorId<T>(Guid id, T value)
+            => LogAndReturn(Some(value), LogEventLevel.Warning, "Can't cast {@id} to target", id);
 
-        private Option<T> LogAndReturnMissingId<T>(Guid id)
-            => LogAndReturn(None<T>(), LogEventLevel.Warning, "Can't find config for {@id}", id);
+        private Option<T> LogAndReturnMissingId<T>(Guid id, T value)
+            => LogAndReturn(Some(value), LogEventLevel.Warning, "Can't find config for {@id}", id);
 
         private T LogAndReturnInitFail<T>(T value)
             => LogAndReturn(value, LogEventLevel.Warning, "Initialization of config failed");
 
         private bool LogAndReturnSaveNull(Guid id)
-            => LogAndReturn(false, LogEventLevel.Warning, "Can't save a null config for {@id}");
+            => LogAndReturn(false, LogEventLevel.Warning, "Can't save a null config for {@id}", id);
 
         private T LogAndReturn<T>(T value, LogEventLevel level, string message, params object[] propValues)
         {

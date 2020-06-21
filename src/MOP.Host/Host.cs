@@ -4,11 +4,13 @@ using MOP.Host.Domain;
 using MOP.Host.Services;
 using System;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 
 using static MOP.Core.Helpers.InfoBuilder;
 
+[assembly: InternalsVisibleTo("MOP.Host.Test")]
 namespace MOP.Host
 {
     internal class MopHost : IHost
@@ -30,7 +32,7 @@ namespace MOP.Host
         /// </value>
         public DirectoryInfo TempDirectory { get; }
 
-        private CancellationToken _token;
+        private readonly CancellationToken _token;
         private int _exitCode = 0;
 
         public event EventHandler<int>? BeforeExit;

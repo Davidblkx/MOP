@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Optional;
+using System;
 
 namespace MOP.Core.Helpers
 {
@@ -19,5 +20,19 @@ namespace MOP.Core.Helpers
 
             return value;
         }
+
+        /// <summary>
+        /// Same as Optional.Some, but null is always None
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
+        public static Option<T> Some<T>(T value)
+            => value is null ? 
+                Option.None<T>() 
+                : Option.Some(value);
+
+        public static Option<T> None<T>()
+            => Option.None<T>();
     }
 }

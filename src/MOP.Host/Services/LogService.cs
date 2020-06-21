@@ -6,18 +6,20 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("MOP.Host.Test")]
 namespace MOP.Host.Services
 {
     internal class LogService : ILogService
     {
         private ILogger? _logger;
 
-        List<Func<LoggerConfiguration, LoggerConfiguration>> _loggerTransformers
-            = new List<Func<LoggerConfiguration, LoggerConfiguration>>();
+        private readonly List<Func<LoggerConfiguration, LoggerConfiguration>> _loggerTransformers;
         
         public LogService(HostProperties p)
         {
+            _loggerTransformers = new List<Func<LoggerConfiguration, LoggerConfiguration>>();
             ConfigureLogger(p);
         }
 
