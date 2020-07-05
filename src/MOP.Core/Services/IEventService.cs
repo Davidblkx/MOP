@@ -1,5 +1,6 @@
 ﻿using MOP.Core.Domain.Events;
 using System;
+using System.Threading.Tasks;
 
 namespace MOP.Core.Services
 {
@@ -13,7 +14,7 @@ namespace MOP.Core.Services
         /// </summary>
         /// <param name="type">The type.</param>
         /// <returns>The event id</returns>
-        Guid Emit(string type);
+        Task<Guid> Emit(string type);
 
         /// <summary>
         /// Emits the specified type.
@@ -22,21 +23,27 @@ namespace MOP.Core.Services
         /// <param name="type">The type.</param>
         /// <param name="body">The body.</param>
         /// <returns>The event id</returns>
-        Guid Emit<T>(string type, T body);
-
-        /// <summary>
-        /// Subscribes to all events using the specified handler.
-        /// </summary>
-        /// <param name="handler">The handler.</param>
-        /// <returns>Disposable instance to allow to unsubscribe</returns>
-        IDisposable Subscribe(Action<IEvent> handler);
+        Task<Guid> Emit<T>(string type, T body);
 
         /// <summary>
         /// Subscribes to events of the specified types using the specified handler.
         /// </summary>
         /// <param name="handler">The handler.</param>
-        /// <param name="types">The types to subscribe to.</param>
-        /// <returns>Disposable instance to allow to unsubscribe</returns>
-        IDisposable Subscribe(Action<IEvent> handler, params string[] types);
+        /// <param name="types">The types to subscribe to. leave empty to subscribe to all</param>
+        /// <returns>Disposable instance to allow to unsubscribed</returns>
+        Task<IDisposable> Subscribe(Action<IEvent> handler, params string[] types);
+
+        /// <summary>
+        /// Replays the events.
+        /// </summary>
+        /// <param name="startEventGuid">Start from this event</param>
+        void ReplayEvents(Guid? startEventGuid);
+
+        /// <summary>
+        /// Replays the events.
+        /// </summary>
+        /// <param name="types">The event types.</param>
+        /// <param name="startEventGuid">Start from this event</param>
+        void ReplayEvents(string[] types, Guid? startEventGuid);
     }
 }

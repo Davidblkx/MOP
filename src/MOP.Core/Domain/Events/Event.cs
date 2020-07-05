@@ -1,21 +1,32 @@
 ﻿using Optional;
 using System;
 
+using static MOP.Core.Helpers.NullHelper;
+
 namespace MOP.Core.Domain.Events
 {
-    internal class Event : IEvent
+    public class Event : IEvent
     {
-        public Guid Id => Guid.NewGuid();
+        public Guid Id { get; private set; }
         public string Type { get; }
-        public DateTime DateTime => DateTime.UtcNow;
+        public DateTime DateTime { get; private set; }
 
         public Event(string type)
         {
             Type = type;
+            Id = Guid.NewGuid();
+            DateTime = DateTime.UtcNow;
+        }
+
+        protected Event(string type, DateTime dateTime, Guid id)
+        {
+            Type = type;
+            Id = id;
+            DateTime = dateTime;
         }
 
         public bool Equals(IEvent x, IEvent y)
-            => x.Id.Equals(y);
+            => x.Id.Equals(y.Id);
 
         public int GetHashCode(IEvent obj)
             => obj.Id.GetHashCode();
@@ -32,16 +43,36 @@ namespace MOP.Core.Domain.Events
 
         public bool Equals(IEvent other)
             => Id.Equals(other.Id);
+
+        public static Event Clone(IEvent e)
+            => new Event(e.Type, e.DateTime, e.Id);
     }
 
-    internal class Event<T> : Event, IEvent<T>
+    public class Event<T> : Event, IEvent<T>
     {
-        public Option<T> Body { get; }
+        public Option<T> Body { get; private set; }
 
         public Event(string type) : base(type) { }
         public Event(string type, T body): base(type)
         {
-            Body = Option.Some(body);
+            Body = Some(body);
+        }
+        public Event(IEvent e):
+            base(e.Type, e.DateTime, e.Id) { }
+
+        public Event(IEvent e, T body) :
+            base(e.Type, e.DateTime, e.Id)
+        { Body = Some(body); }
+
+        public Event<K> Cast<K>()
+        {
+            var @new = new Event<K>(this);
+            Body.MatchSome(v =>
+            {
+                if (v is K castValue)
+                    @new.Body = Some(castValue);
+            });
+            return @new;
         }
     }
 }

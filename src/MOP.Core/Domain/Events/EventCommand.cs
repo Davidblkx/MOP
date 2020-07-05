@@ -3,8 +3,7 @@
     /// <summary>
     /// Command to create and emit an event
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class EventCommand<T>
+    public class EventCommand
     {
         /// <summary>
         /// Gets the event that will be emitted.
@@ -12,23 +11,13 @@
         /// <value>
         /// The event.
         /// </value>
-        public IEvent<T> Event { get; }
+        public IEvent<object> Event { get; private set; }
 
-        internal EventCommand(string type, T body)
-        {
-            Event = new Event<T>(type, body);
-        }
-    }
+        internal EventCommand(IEvent<object> e) { Event = e; }
 
-    /// <summary>
-    /// Helper to instantiate event commands
-    /// </summary>
-    public static class EventCommand
-    {
-        public static EventCommand<T> Create<T>(string type, T body)
-            => new EventCommand<T>(type, body);
+        public static EventCommand Create<T>(string type, T body)
+            => new EventCommand(new Event<T>(type, body).Cast<object>());
 
-        public static EventCommand<Unit> Create(string type)
-            => new EventCommand<Unit>(type, default);
+        public static EventCommand Create(string type) => Create(type, new Unit());
     }
 }
