@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace MOP.Host.Events
 {
-    interface IEventStorage
+    public interface IEventStorage
     {
         /// <summary>
         /// Writes the event.

@@ -1,3 +1,4 @@
+using MOP.Core.Domain.Host;
 using MOP.Host.Services;
 using MOP.Host.Test.Mocks;
 using Optional.Unsafe;
@@ -7,11 +8,19 @@ using Xunit;
 
 namespace MOP.Host.Test.Services
 {
+    [Collection("HOST")]
     public class ConfigServiceTests
     {
+        public IHost Host { get; }
+
+        public ConfigServiceTests(MockBuilder mock)
+        {
+            Host = mock.Host;
+        }
+
         private ConfigService CreateService()
         {
-            return new ConfigService(MockBuilder.BuildHost());
+            return new ConfigService(Host);
         }
 
         [Fact]
@@ -83,11 +92,6 @@ namespace MOP.Host.Test.Services
             Assert.NotNull(loadRes);
             Assert.Equal(targetValue.Name, loadRes.Name);
             Assert.Equal(targetValue.Age, loadRes.Age);
-        }
-
-        ~ConfigServiceTests()
-        {
-            MockBuilder.CleanDirectory();
         }
 
         private class TargetSubject

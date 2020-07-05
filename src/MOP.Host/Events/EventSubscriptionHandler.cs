@@ -1,5 +1,7 @@
 ﻿using MOP.Core.Domain.Events;
+using MOP.Core.Services;
 using MOP.Host.Infra;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,13 +16,15 @@ namespace MOP.Host.Events
         private readonly IncrementalDictionary<string> _eventTypes;
         private readonly Dictionary<Guid, IEventSubscription> _subs;
         private readonly IEventStorage _storage;
+        private readonly ILogger _log;
 
-        public EventSubscriptionHandler(IEventStorage storage)
+        public EventSubscriptionHandler(IEventStorage storage, ILogService logService)
         {
             // Case insensitive dictionary
             _eventTypes = CreateEventDict();
             _subs = new Dictionary<Guid, IEventSubscription>();
             _storage = storage;
+            _log = logService.GetContextLogger<EventSubscriptionHandler>();
         }
 
         /// <summary>
@@ -57,7 +61,11 @@ namespace MOP.Host.Events
         /// <param name="cmd">The command.</param>
         /// <returns></returns>
         public IDisposable Subscribe(SubscribeCommand cmd)
-            => CreateSubscription(cmd.Handler, GetEventsId(cmd.TargetTypes));
+        {
+            var sub = CreateSubscription(cmd.Handler, GetEventsId(cmd.TargetTypes));
+            _log.Debug("New subscription for types {@TargetTypes} with id: {@Id} ", cmd.TargetTypes, sub.Id);
+            return sub;
+        }
 
         /// <summary>
         /// Gets the events identifier.
@@ -79,7 +87,12 @@ namespace MOP.Host.Events
             // Add new subscription
             _subs.Add(sub.Id, sub);
             // Remove subscription on dispose
-            sub.OnDispose += (_, uid) => _subs.Remove(uid);
+            sub.OnDispose += (_, uid) =>
+            {
+                _subs.Remove(uid);
+                _log.Debug("Unsubscribed id {@Uid}", uid);
+            };
+
             return sub;
         }
 

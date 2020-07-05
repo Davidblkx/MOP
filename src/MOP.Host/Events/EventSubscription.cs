@@ -10,7 +10,7 @@ namespace MOP.Host.Events
     /// <seealso cref="MOP.Host.Events.IEventSubscription" />
     internal class EventSubscription : IEventSubscription
     {
-        public Guid Id => Guid.NewGuid();
+        public Guid Id { get; }
         public Action<IEvent> Handler { get; }
         public IEnumerable<ulong> EventTypes { get; }
 
@@ -18,6 +18,7 @@ namespace MOP.Host.Events
 
         public EventSubscription(Action<IEvent> handler, IEnumerable<ulong> events)
         {
+            Id = Guid.NewGuid();
             Handler = handler;
             EventTypes = events;
         }

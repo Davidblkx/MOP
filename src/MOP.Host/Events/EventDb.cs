@@ -1,8 +1,10 @@
 ﻿using Akka.Util;
 using MOP.Core.Domain.Events;
 using System;
+using System.Runtime.CompilerServices;
 using static MOP.Core.Helpers.NullHelper;
 
+[assembly: InternalsVisibleTo("MOP.Host.Test")]
 namespace MOP.Host.Events
 {
     /// <summary>
@@ -19,10 +21,9 @@ namespace MOP.Host.Events
 
         public IEvent<object> ToEvent()
         {
-            Option<object> obj = Body is null
-                ? None<object>()
-                : Some(Body);
-            return new Event<object>(this, obj);
+            return Body is null
+                ? new Event<object>(this)
+                : new Event<object>(this, Body);
         }
 
         public bool Equals(IEvent x, IEvent y)
@@ -50,7 +51,9 @@ namespace MOP.Host.Events
                 Id = e.Id,
                 Type = e.Type,
                 DateTime = e.DateTime,
-                Body = e.Body.ValueOr(null)
+#pragma warning disable CS8604 // Possible null reference argument.
+                Body = e.Body.ValueOr(default(T))
+#pragma warning restore CS8604 // Possible null reference argument.
             };
     }
 }

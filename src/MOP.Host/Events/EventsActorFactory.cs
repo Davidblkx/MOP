@@ -16,14 +16,16 @@ namespace MOP.Host.Events
     internal class EventsActorFactory : IActorFactory
     {
         private readonly IHost _host;
+        private readonly string _filename;
 
         public string ActorRefName { get; }
         public IActorRefInstanceType InstanceType => Singleton;
 
-        public EventsActorFactory(IHost host)
+        public EventsActorFactory(IHost host, string filename)
         {
             _host = host;
             ActorRefName = "Events-" + _host.Info.Id.ToString();
+            _filename = filename;
         }
 
         public Option<IActorRef> BuildActorRef(ActorSystem actorSystem)
@@ -32,9 +34,9 @@ namespace MOP.Host.Events
             if (_logService is null) return None<IActorRef>();
             try
             {
-                var dbPath = _host.DataDirectory.RelativeFile("events.db");
+                var dbPath = _host.DataDirectory.RelativeFile($"{_filename}.db");
                 var storage = new EventStorage(dbPath, _logService);
-                var handler = new EventSubscriptionHandler(storage);
+                var handler = new EventSubscriptionHandler(storage, _logService);
                 var actor = actorSystem.ActorOf(EventsActor.WithProps(handler), ActorRefName);
                 return Some(actor);
             } catch (Exception e)

@@ -1,20 +1,35 @@
 ﻿using MOP.Core.Domain.Host;
 using MOP.Core.Services;
 using MOP.Host.Domain;
+using MOP.Host.Events;
+using MOP.Host.Helpers;
 using MOP.Host.Services;
+using Serilog;
 using System;
+using System.IO;
 using System.Threading;
 
 namespace MOP.Host.Test.Mocks
 {
-    public static class MockBuilder
+    public class MockBuilder : IDisposable
     {
-        public static ILogService BuildLogService()
+        public IHost Host { get; }
+        public IEventStorage Storage { get; }
+
+        private FileInfo db;
+
+        public MockBuilder()
+        {
+            Host = BuildHost();
+            Storage = BuildStorage();
+        }
+
+        private ILogService BuildLogService()
         {
             return new LogService(BuildMockHostProps());
         }
 
-        public static IHost BuildHost()
+        private IHost BuildHost()
         {
             var host = new MopHost(BuildMockHostProps(), new CancellationToken());
             host.SetLogService(BuildLogService());
@@ -22,16 +37,29 @@ namespace MOP.Host.Test.Mocks
             return host;
         }
 
-        public static void CleanDirectory()
+        private IEventStorage BuildStorage()
         {
-            var host = BuildHost();
-            if (host.DataDirectory.Exists)
-                host.DataDirectory.Delete(true);
-            if (host.TempDirectory.Exists)
-                host.TempDirectory.Delete(true);
+            db = Host.DataDirectory.RelativeFile("events.sb");
+            return new EventStorage(db, Host.LogService);
         }
 
-        private static HostProperties BuildMockHostProps()
+        private void CleanDirectory()
+        {
+            try
+            {
+                if (Host.LogService is LogService e)
+                    e.Dispose();
+                Log.CloseAndFlush();
+                if (db?.Exists ?? false)
+                    db?.Delete();
+                if (Host.DataDirectory.Exists)
+                    Host.DataDirectory.Delete(true);
+                if (Host.TempDirectory.Exists)
+                    Host.TempDirectory.Delete(true);
+            } catch (Exception e) { }
+        }
+
+        private HostProperties BuildMockHostProps()
         {
             return new HostProperties
             {
@@ -43,6 +71,11 @@ namespace MOP.Host.Test.Mocks
                 WriteToConsole = true,
                 WriteToFile = true,
             };
+        }
+
+        public void Dispose()
+        {
+            CleanDirectory();
         }
     }
 }

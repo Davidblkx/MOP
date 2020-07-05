@@ -60,6 +60,10 @@ namespace MOP.Core.Domain.Events
         public Event(IEvent e):
             base(e.Type, e.DateTime, e.Id) { }
 
+        public Event(IEvent<T> e) :
+            base(e.Type, e.DateTime, e.Id)
+        { Body = e.Body; }
+
         public Event(IEvent e, T body) :
             base(e.Type, e.DateTime, e.Id)
         { Body = Some(body); }

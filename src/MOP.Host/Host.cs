@@ -2,6 +2,7 @@
 using MOP.Core.Services;
 using MOP.Host.Domain;
 using MOP.Host.Services;
+using Serilog;
 using System;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -34,6 +35,7 @@ namespace MOP.Host
 
         private readonly CancellationToken _token;
         private int _exitCode = 0;
+        private ILogger? _logger => LogService?.GetContextLogger<IHost>();
 
         public event EventHandler<int>? BeforeExit;
         public event EventHandler<int>? Exit;
@@ -57,7 +59,7 @@ namespace MOP.Host
         /// </summary>
         public async Task<int> Start()
         {
-            Console.WriteLine($"Starting using name: {Info.Name}");
+            _logger?.Information("Starting MOP host with Name {@Name} and Id {@Id}", Info.Name, Info.Id);
             await Task.Run(() 
                 => { while (!_token.IsCancellationRequested) { } });
             return _exitCode;
@@ -91,6 +93,7 @@ namespace MOP.Host
             host.SetLogService(new LogService(props));
             host.SetConfigService(await ConfigServiceBuilder.Build(host));
             host.SetActorService(new ActorService(host));
+            host.SetEventService(new EventService(host));
             return host;
         }
     }

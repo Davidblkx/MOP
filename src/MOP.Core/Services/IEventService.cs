@@ -1,4 +1,5 @@
 ﻿using MOP.Core.Domain.Events;
+using Optional;
 using System;
 using System.Threading.Tasks;
 
@@ -31,7 +32,7 @@ namespace MOP.Core.Services
         /// <param name="handler">The handler.</param>
         /// <param name="types">The types to subscribe to. leave empty to subscribe to all</param>
         /// <returns>Disposable instance to allow to unsubscribed</returns>
-        Task<IDisposable> Subscribe(Action<IEvent> handler, params string[] types);
+        Task<Option<IDisposable>> Subscribe(Action<IEvent> handler, params string[] types);
 
         /// <summary>
         /// Replays the events.

@@ -2,6 +2,7 @@
 using MOP.Host.Domain;
 using MOP.Host.Helpers;
 using Serilog;
+using Serilog.Core;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,7 +12,7 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("MOP.Host.Test")]
 namespace MOP.Host.Services
 {
-    internal class LogService : ILogService
+    internal class LogService : ILogService, IDisposable
     {
         private ILogger? _logger;
 
@@ -63,6 +64,12 @@ namespace MOP.Host.Services
 
             _loggerTransformers.Add(e =>
                 e.WriteTo.File(logFile.FullName));
+        }
+
+        public void Dispose()
+        {
+            if (_logger is Logger e)
+                e.Dispose();
         }
     }
 }

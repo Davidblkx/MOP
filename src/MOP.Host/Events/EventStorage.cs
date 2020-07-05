@@ -7,9 +7,11 @@ using System.Linq;
 using LiteDB;
 using Serilog;
 using MOP.Core.Services;
+using System.Runtime.CompilerServices;
 
 using static MOP.Core.Helpers.NullHelper;
 
+[assembly: InternalsVisibleTo("MOP.Host.Test")]
 namespace MOP.Host.Events
 {
     internal class EventStorage : IEventStorage, IDisposable
