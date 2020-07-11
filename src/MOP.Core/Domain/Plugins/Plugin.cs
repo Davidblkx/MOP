@@ -1,6 +1,7 @@
 ﻿using MOP.Core.Domain.Events;
 using MOP.Core.Domain.Host;
 using MOP.Core.Helpers;
+using MOP.Core.Optional;
 using MOP.Core.Services;
 using Serilog;
 using System;
@@ -17,10 +18,10 @@ namespace MOP.Core.Domain.Plugins
     public abstract class Plugin<T> : IPlugin
     {
         public IPluginInfo Info { get; }
-        public IHost Host => NullHelper.ThrowOnNull(_host);
-        public ILogger Logger => NullHelper.ThrowOnNull(_log);
+        public IHost Host => StaticOption.ThrowOnNull(_host);
+        public ILogger Logger => StaticOption.ThrowOnNull(_log);
         public IEventService Events
-            => NullHelper.ThrowOnNull(_events);
+            => StaticOption.ThrowOnNull(_events);
 
         private IHost? _host { get; set; }
         private ILogger? _log { get; set; }

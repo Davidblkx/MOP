@@ -8,7 +8,7 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 
-using static MOP.Core.Helpers.NullHelper;
+using static MOP.Core.Optional.StaticOption;
 
 namespace MOP.Host.Services
 {

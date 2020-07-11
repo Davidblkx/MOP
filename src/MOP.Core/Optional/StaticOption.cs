@@ -1,9 +1,9 @@
 ﻿using Optional;
 using System;
 
-namespace MOP.Core.Helpers
+namespace MOP.Core.Optional
 {
-    public static class NullHelper
+    public static class StaticOption
     {
         /// <summary>
         /// Throws on null.
@@ -28,8 +28,8 @@ namespace MOP.Core.Helpers
         /// <param name="value">The value.</param>
         /// <returns></returns>
         public static Option<T> Some<T>(T value)
-            => value is null ? 
-                Option.None<T>() 
+            => value is null ?
+                Option.None<T>()
                 : Option.Some(value);
 
         public static Option<T> None<T>()

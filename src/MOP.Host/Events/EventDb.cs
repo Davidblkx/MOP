@@ -2,7 +2,7 @@
 using MOP.Core.Domain.Events;
 using System;
 using System.Runtime.CompilerServices;
-using static MOP.Core.Helpers.NullHelper;
+using static MOP.Core.Optional.StaticOption;
 
 [assembly: InternalsVisibleTo("MOP.Host.Test")]
 namespace MOP.Host.Events

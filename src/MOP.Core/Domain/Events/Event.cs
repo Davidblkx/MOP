@@ -1,7 +1,7 @@
 ﻿using Optional;
 using System;
 
-using static MOP.Core.Helpers.NullHelper;
+using static MOP.Core.Optional.StaticOption;
 
 namespace MOP.Core.Domain.Events
 {

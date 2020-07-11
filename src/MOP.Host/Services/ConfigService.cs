@@ -11,7 +11,7 @@ using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 using Serilog.Events;
 
-using static MOP.Core.Helpers.NullHelper;
+using static MOP.Core.Optional.StaticOption;
 
 [assembly: InternalsVisibleTo("MOP.Host.Test")]
 namespace MOP.Host.Services

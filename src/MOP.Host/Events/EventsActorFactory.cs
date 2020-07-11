@@ -5,7 +5,7 @@ using MOP.Host.Helpers;
 using Optional;
 using System;
 using static MOP.Core.Domain.Actors.IActorRefInstanceType;
-using static MOP.Core.Helpers.NullHelper;
+using static MOP.Core.Optional.StaticOption;
 
 namespace MOP.Host.Events
 {
