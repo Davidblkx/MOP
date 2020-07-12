@@ -1,5 +1,6 @@
 ﻿using Optional;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MOP.Core.Optional
 {
@@ -27,7 +28,7 @@ namespace MOP.Core.Optional
         /// <typeparam name="T"></typeparam>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public static Option<T> Some<T>(T value)
+        public static Option<T> Some<T>([AllowNull]T value)
             => value is null ?
                 Option.None<T>()
                 : Option.Some(value);

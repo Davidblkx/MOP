@@ -24,6 +24,12 @@ namespace MOP.Core.Services
         IEnumerable<IPlugin> GetPendingPlugins();
 
         /// <summary>
+        /// Gets the plugins that failed to load.
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<IPlugin> GetFailedPlugins();
+
+        /// <summary>
         /// Add plugins to pending list
         /// </summary>
         /// <param name="pluginList">The plugin list.</param>

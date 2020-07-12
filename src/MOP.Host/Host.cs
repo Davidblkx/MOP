@@ -94,6 +94,7 @@ namespace MOP.Host
             host.SetConfigService(await ConfigServiceBuilder.Build(host));
             host.SetActorService(new ActorService(host));
             host.SetEventService(new EventService(host));
+            host.SetPluginService(new PluginService(host));
             return host;
         }
     }
