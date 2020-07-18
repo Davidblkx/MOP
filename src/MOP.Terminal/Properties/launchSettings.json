@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MOP.Terminal": {
+      "commandName": "Executable",
+      "executablePath": "$(SolutionDir)\\output\\MOPTerminal\\MOP.Terminal.exe"
+    }
+  }
+}

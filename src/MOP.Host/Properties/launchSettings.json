@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MOP.Host": {
+      "commandName": "Executable",
+      "executablePath": "$(SolutionDir)\\output\\MOPHost\\MOP.Host.exe"
+    }
+  }
+}
