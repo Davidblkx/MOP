@@ -14,12 +14,12 @@ partial class Build
 {
     List<AbsolutePath> PluginsSourceDirectory => new List<AbsolutePath>
     {
-        SourceDirectory / "MOP.Coms",
+        SourceDirectory / "MOP.Remote",
     };
 
     List<Project> PluginsProjects => new List<Project>
     {
-        MopSolution.GetProject("MOP.Coms"),
+        MopSolution.GetProject("MOP.Remote"),
     };
     
     AbsolutePath PluginsOutputDirectory => OutputDirectory / "MOPHost" / "Plugins";
@@ -42,6 +42,21 @@ partial class Build
                 DotNetRestore(s => s
                     .SetMopRuntime(Runtime)
                     .SetProjectFile(p));
+            });
+        });
+
+    public Target PluginsQuick => _ => _
+        .DependsOn(PluginsClean)
+        .Executes(() =>
+        {
+            PluginsProjects.ForEach(p =>
+            {
+                Logger.Info("Compiling plugin: " + p.Name);
+                DotNetBuild(s => s
+                    .SetProjectFile(p)
+                    .SetConfiguration(Configuration)
+                    .SetMopRuntime(Runtime)
+                    .SetOutputDirectory(PluginsOutputDirectory));
             });
         });
 

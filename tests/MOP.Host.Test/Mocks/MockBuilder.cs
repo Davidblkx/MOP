@@ -56,7 +56,7 @@ namespace MOP.Host.Test.Mocks
                     Host.DataDirectory.Delete(true);
                 if (Host.TempDirectory.Exists)
                     Host.TempDirectory.Delete(true);
-            } catch (Exception e) { }
+            } catch { }
         }
 
         private HostProperties BuildMockHostProps()

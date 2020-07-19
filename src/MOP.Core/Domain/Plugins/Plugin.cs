@@ -43,11 +43,12 @@ namespace MOP.Core.Domain.Plugins
         {
             _log = Host.LogService?.GetContextLogger<T>();
             _events = Host.EventService;
-            Logger.Debug("Initializing with priority {Priority}", Info.Priority);
+            Logger.Debug("Initializing {Name} with priority {Priority}", Info.Name, Info.Priority);
             try
             {
                 var res = await Start();
-                Logger.Debug("Initialization has ended with status: {Res}", res);
+                var status = res ? "Success" : "Failed";
+                Logger.Debug("Initialization has ended with status: {status}", status);
                 return res;
             } 
             catch (Exception ex)

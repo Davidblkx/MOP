@@ -16,7 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MOP.Terminal", "src\MOP.Terminal\MOP.Terminal.csproj", "{04816151-0371-495C-BAB8-D087E9E48F7A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MOP.Coms", "src\MOP.Coms\MOP.Coms.csproj", "{D2F961E0-B4F1-4FCE-A873-BDCA5A54EAE4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MOP.Remote", "src\MOP.Coms\MOP.Remote.csproj", "{D2F961E0-B4F1-4FCE-A873-BDCA5A54EAE4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{CC3C9ECD-BF99-44AB-B674-B64F5EB20589}"
 EndProject

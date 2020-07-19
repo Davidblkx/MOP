@@ -60,6 +60,7 @@ namespace MOP.Host
         public async Task<int> Start()
         {
             _logger?.Information("Starting MOP host with Name {@Name} and Id {@Id}", Info.Name, Info.Id);
+            await LoadLocalPlugins();
             await Task.Run(() 
                 => { while (!_token.IsCancellationRequested) { } });
             return _exitCode;
@@ -85,6 +86,15 @@ namespace MOP.Host
 
         private T GetValue<T>(bool replace, T instance, T value)
             => (replace || instance is null) ? value : instance;
+
+        private async Task LoadLocalPlugins()
+        {
+            if (PluginService is null)
+                throw new ArgumentNullException("Plugin service must be defined");
+            var dirPath = Path.Combine(Environment.CurrentDirectory, "Plugins");
+            await PluginService.AddPluginsFolder(new DirectoryInfo(dirPath));
+            await PluginService.Load();
+        }
 
         public static async Task<MopHost> BuildHost(string[] args, CancellationToken token)
         {

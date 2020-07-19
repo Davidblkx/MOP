@@ -46,12 +46,13 @@ namespace MOP.Host.Plugins
         {
             foreach(var t in assembly.GetTypes())
             {
+                if (t.FullName == "MOP.Core.Domain.Plugins.IPlugin") continue;
                 var typed = t.GetInterface(nameof(IPlugin));
-                if (typed is null || typed.FullName is null) continue;
+                if (t.IsAbstract || t.IsInterface || typed is null || t.FullName is null) continue;
 
                 try
                 {
-                    var instance = assembly.CreateInstance(typed.FullName) as IPlugin;
+                    var instance = assembly.CreateInstance(t.FullName) as IPlugin;
                     if (instance is null)
                         _log.Debug("Failed to instantiate type: {@FullName}", typed.FullName);
                     else return Some(instance);
