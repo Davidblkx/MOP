@@ -1,4 +1,5 @@
-﻿using Nuke.Common;
+﻿using MOPBUILD;
+using Nuke.Common;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tools.DotNet;
@@ -26,6 +27,7 @@ partial class Build
         .Executes(() =>
         {
             DotNetRestore(s => s
+                .SetMopRuntime(Runtime)
                 .SetProjectFile(MopTerminal));
         });
 
@@ -37,6 +39,7 @@ partial class Build
             DotNetBuild(s => s
                 .SetProjectFile(MopTerminal)
                 .SetConfiguration(Configuration)
+                .SetMopRuntime(Runtime)
                 .SetOutputDirectory(TerminalOutputDirectory)
                 .EnableNoRestore());
         });

@@ -1,0 +1,66 @@
+on:
+  push:
+    tags:
+      - 'v*'
+name: Create Release
+
+jobs:
+  build:
+    name: Create Release
+    runs-on: ubuntu-latest
+    env:
+      TARGET_WIN: win-x64
+      TARGET_LIN: linux-x64
+      TARGET_OSX: osx-x64
+    steps:
+      - uses: actions/checkout@v2
+      - name: Extract tag name
+        shell: bash
+        run: echo "##[set-output name=tag;]$(echo ${GITHUB_REF#refs/tags/})"
+        id: extract_tag
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.1.300
+      - name: Setup nuke build
+        run: |
+          dotnet tool install Nuke.GlobalTool --global
+      - name: Package windows version
+        run: |
+          nuke Compile --configuration Release --runtime $TARGET_WIN
+          zip --junk-paths -r MOPHost.$TARGET_WIN-${{ steps.extract_tag.outputs.tag }}.zip output/MOPHost/*
+          zip --junk-paths -r MOPTerminal.$TARGET_WIN-${{ steps.extract_tag.outputs.tag }}.zip output/MOPTerminal/*
+      - name: Package linux version
+        run: |
+          nuke Compile --configuration Release --runtime $TARGET_LIN
+          zip --junk-paths -r MOPHost.$TARGET_LIN-${{ steps.extract_tag.outputs.tag }}.zip output/MOPHost/*
+          zip --junk-paths -r MOPTerminal.$TARGET_LIN-${{ steps.extract_tag.outputs.tag }}.zip output/MOPTerminal/*
+      - name: Package OSX version
+        run: |
+          nuke Compile --configuration Release --runtime $TARGET_OSX
+          zip --junk-paths -r MOPHost.$TARGET_OSX-${{ steps.extract_tag.outputs.tag }}.zip output/MOPHost/*
+          zip --junk-paths -r MOPTerminal.$TARGET_OSX-${{ steps.extract_tag.outputs.tag }}.zip output/MOPTerminal/*
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.extract_tag.outputs.tag }}
+          release_name: Release ${{ steps.extract_tag.outputs.tag }}
+          draft: false
+          prerelease: false
+      - name: Upload Release Asset
+        id: upload-release-asset 
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          files: |
+            MOPHost.$TARGET_OSX-${{ steps.extract_tag.outputs.tag }}.zip
+            MOPTerminal.$TARGET_OSX-${{ steps.extract_tag.outputs.tag }}.zip
+            MOPHost.$TARGET_LIN-${{ steps.extract_tag.outputs.tag }}.zip
+            MOPTerminal.$TARGET_LIN-${{ steps.extract_tag.outputs.tag }}.zip
+            MOPHost.$TARGET_WIN-${{ steps.extract_tag.outputs.tag }}.zip
+            MOPTerminal.$TARGET_WIN-${{ steps.extract_tag.outputs.tag }}.zip
+          draft: true

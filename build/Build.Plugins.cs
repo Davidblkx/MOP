@@ -1,13 +1,14 @@
-﻿using Nuke.Common;
+﻿using MOPBUILD;
+using Nuke.Common;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Utilities.Collections;
+using System.Collections.Generic;
 
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.IO.FileSystemTasks;
 using static Nuke.Common.IO.PathConstruction;
-using System.Collections.Generic;
 
 partial class Build
 {
@@ -38,7 +39,9 @@ partial class Build
             PluginsProjects.ForEach(p =>
             {
                 Logger.Info("Restoring plugin: " + p.Name);
-                DotNetRestore(s => s.SetProjectFile(p));
+                DotNetRestore(s => s
+                    .SetMopRuntime(Runtime)
+                    .SetProjectFile(p));
             });
         });
 
@@ -53,6 +56,7 @@ partial class Build
                 DotNetBuild(s => s
                     .SetProjectFile(p)
                     .SetConfiguration(Configuration)
+                    .SetMopRuntime(Runtime)
                     .SetOutputDirectory(PluginsOutputDirectory)
                     .EnableNoRestore());
             });

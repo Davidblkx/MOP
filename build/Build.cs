@@ -12,10 +12,12 @@ partial class Build : NukeBuild
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
+    [Parameter("Runtime configuration: win-x64, linux-x64, osx-x64")]
+    readonly string Runtime = "";
+
     [Solution] readonly Solution MopSolution;
 
     AbsolutePath SourceDirectory => RootDirectory / "src";
-    AbsolutePath TestsDirectory => RootDirectory / "tests";
     AbsolutePath OutputDirectory => RootDirectory / "output";
 
     Target Compile => _ => _
