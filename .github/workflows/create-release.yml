@@ -57,10 +57,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           files: |
-            MOPHost.$TARGET_OSX-${{ steps.extract_tag.outputs.tag }}.zip
-            MOPTerminal.$TARGET_OSX-${{ steps.extract_tag.outputs.tag }}.zip
-            MOPHost.$TARGET_LIN-${{ steps.extract_tag.outputs.tag }}.zip
-            MOPTerminal.$TARGET_LIN-${{ steps.extract_tag.outputs.tag }}.zip
-            MOPHost.$TARGET_WIN-${{ steps.extract_tag.outputs.tag }}.zip
-            MOPTerminal.$TARGET_WIN-${{ steps.extract_tag.outputs.tag }}.zip
+            MOPHost.${{ env.TARGET_OSX }}-${{ steps.extract_tag.outputs.tag }}.zip
+            MOPTerminal.${{ env.TARGET_OSX }}-${{ steps.extract_tag.outputs.tag }}.zip
+            MOPHost.${{ env.TARGET_LIN }}-${{ steps.extract_tag.outputs.tag }}.zip
+            MOPTerminal.${{ env.TARGET_LIN }}-${{ steps.extract_tag.outputs.tag }}.zip
+            MOPHost.${{ env.TARGET_WIN }}-${{ steps.extract_tag.outputs.tag }}.zip
+            MOPTerminal.${{ env.TARGET_WIN }}-${{ steps.extract_tag.outputs.tag }}.zip
           draft: true
