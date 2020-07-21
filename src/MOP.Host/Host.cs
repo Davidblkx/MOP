@@ -102,7 +102,7 @@ namespace MOP.Host
             var host = new MopHost(props, token);
             host.SetLogService(new LogService(props));
             host.SetConfigService(await ConfigServiceBuilder.Build(host));
-            host.SetActorService(new ActorService(host));
+            host.SetActorService(new ActorService(host, props));
             host.SetEventService(new EventService(host));
             host.SetPluginService(new PluginService(host));
             return host;

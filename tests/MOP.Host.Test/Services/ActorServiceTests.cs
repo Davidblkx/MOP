@@ -13,6 +13,7 @@ using System.Linq;
 using static MOP.Core.Domain.Actors.IActorRefInstanceType;
 using System.Collections.Generic;
 using MOP.Core.Domain.Host;
+using MOP.Core.Services;
 
 namespace MOP.Host.Test.Services
 {
@@ -20,15 +21,17 @@ namespace MOP.Host.Test.Services
     public class ActorServiceTests
     {
         private IHost Host { get; }
+        private MockBuilder Builder { get; }
 
         public ActorServiceTests(MockBuilder mock)
         {
             Host = mock.Host;
+            Builder = mock;
         }
 
-        private ActorService CreateService()
+        private IActorService CreateService()
         {
-            return new ActorService(Host);
+            return Builder.BuildActorService();
         }
 
         [Fact]

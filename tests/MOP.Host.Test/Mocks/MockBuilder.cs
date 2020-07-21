@@ -24,6 +24,11 @@ namespace MOP.Host.Test.Mocks
             Storage = BuildStorage();
         }
 
+        public IActorService BuildActorService()
+        {
+            return new ActorService(Host, BuildMockHostProps());
+        }
+
         private ILogService BuildLogService()
         {
             return new LogService(BuildMockHostProps());
@@ -70,6 +75,9 @@ namespace MOP.Host.Test.Mocks
                 Name = "TestHost",
                 WriteToConsole = true,
                 WriteToFile = true,
+                AllowRemote = true,
+                RemoteHostname = "localhost",
+                RemotePort = 0
             };
         }
 

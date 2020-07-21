@@ -2,6 +2,7 @@
 using MOP.Core.Domain.Actors;
 using MOP.Core.Domain.Host;
 using MOP.Core.Services;
+using MOP.Host.Domain;
 using Optional;
 using Optional.Unsafe;
 using Serilog;
@@ -20,15 +21,14 @@ namespace MOP.Host.Services
         private readonly ILogger _log;
         public ActorSystem MainActorSystem { get; }
 
-        public ActorService(IHost host)
+        public ActorService(IHost host, HostProperties props)
         {
             if (host.LogService is null)
                 throw new ArgumentNullException("Can't initialize IConfigService before ILogService");
 
             _host = host;
             _log = _host.LogService.GetContextLogger<IActorService>();
-            var id = _host.Info.Id.ToString();
-            MainActorSystem = ActorSystem.Create(id);
+            MainActorSystem = CreateActorSystem(props);
             _factories = new Dictionary<string, IActorFactory>();
             _instances = new Dictionary<string, IActorRef>();
         }
@@ -67,6 +67,14 @@ namespace MOP.Host.Services
         public IEnumerable<IActorFactory> GetActorRefFactories() => _factories.Values;
 
         public bool HasActorFactory(string name) => _factories.ContainsKey(name);
+
+        private ActorSystem CreateActorSystem(HostProperties props)
+        {
+            var id = _host.Info.Id.ToString();
+            return ActorConfigFactory.Build(props)
+                .Map(e => ActorSystem.Create(id, e))
+                .ValueOr(ActorSystem.Create(id));
+        }
 
         private void AddNewFactory(IActorFactory factory)
         {

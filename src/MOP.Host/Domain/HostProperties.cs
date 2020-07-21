@@ -12,5 +12,8 @@ namespace MOP.Host.Domain
         public string? DataDirectory { get; set; }
         public bool WriteToConsole { get; set; } = true;
         public bool WriteToFile { get; set; } = true;
+        public bool AllowRemote { get; set; } = true;
+        public int RemotePort { get; set; } = 7654;
+        public string RemoteHostname { get; set; } = "localhost";
     }
 }

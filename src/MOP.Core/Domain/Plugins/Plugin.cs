@@ -6,6 +6,7 @@ using MOP.Core.Services;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Security.Permissions;
 using System.Threading.Tasks;
 
 namespace MOP.Core.Domain.Plugins
@@ -18,10 +19,17 @@ namespace MOP.Core.Domain.Plugins
     public abstract class Plugin<T> : IPlugin
     {
         public IPluginInfo Info { get; }
-        public IHost Host => StaticOption.ThrowOnNull(_host);
-        public ILogger Logger => StaticOption.ThrowOnNull(_log);
-        public IEventService Events
+
+        protected IHost Host => StaticOption.ThrowOnNull(_host);
+        protected ILogger Logger => StaticOption.ThrowOnNull(_log);
+        protected IEventService Events
             => StaticOption.ThrowOnNull(_events);
+        protected IActorService Actors
+            => StaticOption.ThrowOnNull(_host?.ActorService);
+        protected IConfigService Config
+            => StaticOption.ThrowOnNull(_host?.ConfigService);
+        protected IPluginService Plugins
+            => StaticOption.ThrowOnNull(_host?.PluginService);
 
         private IHost? _host { get; set; }
         private ILogger? _log { get; set; }
