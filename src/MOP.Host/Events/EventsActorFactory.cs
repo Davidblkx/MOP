@@ -1,7 +1,7 @@
 ﻿using Akka.Actor;
 using MOP.Core.Domain.Actors;
 using MOP.Core.Domain.Host;
-using MOP.Host.Helpers;
+using MOP.Core.Helpers;
 using Optional;
 using System;
 using static MOP.Core.Domain.Actors.IActorRefInstanceType;

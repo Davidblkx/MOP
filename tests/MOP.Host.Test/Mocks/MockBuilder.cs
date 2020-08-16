@@ -1,8 +1,8 @@
 ﻿using MOP.Core.Domain.Host;
+using MOP.Core.Helpers;
 using MOP.Core.Services;
 using MOP.Host.Domain;
 using MOP.Host.Events;
-using MOP.Host.Helpers;
 using MOP.Host.Services;
 using Serilog;
 using System;

@@ -1,6 +1,6 @@
-﻿using MOP.Core.Domain.Plugins;
-using Optional.Unsafe;
-using Serilog;
+﻿using MOP.Core.Domain.Host;
+using MOP.Core.Domain.Plugins;
+using MOP.Core.Services;
 using System;
 using System.Threading.Tasks;
 
@@ -20,20 +20,26 @@ namespace MOP.Remote
 
             try
             {
-                await InitActor();
+                var service = Host?.LogService;
+                var info = Host?.Info;
+                if (service is null || info is null) throw new ArgumentNullException("Log service is null");
+                return InitActor(service, info);
             }
             catch (Exception ex)
             {
                 Logger.Error(ex, "Error starting MOP.Remote actor");
                 return false;
             }
-
-            return true;
         }
 
-        private async Task InitActor()
+        private bool InitActor(ILogService service, IHostInfo info)
         {
-
+            var factory = new RemoteActorFactory(service, info);
+            Host?.ActorService?.AddActorFactory(factory);
+            return Host?.ActorService?
+                .GetActorOf(factory.ActorRefName)
+                .Map(_ => true)
+                .ValueOr(false) ?? false;
         }
                 
     }

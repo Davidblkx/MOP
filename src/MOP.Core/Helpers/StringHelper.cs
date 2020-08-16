@@ -1,4 +1,6 @@
-﻿using Optional;
+﻿using Newtonsoft.Json.Schema;
+using Optional;
+using System;
 using System.IO;
 
 namespace MOP.Core.Helpers
@@ -39,6 +41,17 @@ namespace MOP.Core.Helpers
         {
             try { return Option.Some(new FileInfo(value)); }
             catch { return Option.None<FileInfo>();  }
+        }
+
+        /// <summary>
+        /// Compare string and ignoring case.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <param name="compareValue">The compare value.</param>
+        /// <returns></returns>
+        public static bool InvariantCompare(this string? value, string? compareValue)
+        {
+            return string.Equals(value, compareValue, StringComparison.OrdinalIgnoreCase);
         }
     }
 }

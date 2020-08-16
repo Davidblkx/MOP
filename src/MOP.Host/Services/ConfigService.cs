@@ -5,13 +5,13 @@ using Optional;
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using MOP.Host.Helpers;
 using Serilog;
 using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 using Serilog.Events;
 
 using static MOP.Core.Optional.StaticOption;
+using MOP.Core.Helpers;
 
 [assembly: InternalsVisibleTo("MOP.Host.Test")]
 namespace MOP.Host.Services

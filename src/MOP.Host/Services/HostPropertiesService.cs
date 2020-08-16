@@ -1,5 +1,5 @@
-﻿using MOP.Host.Domain;
-using MOP.Host.Helpers;
+﻿using MOP.Core.Helpers;
+using MOP.Host.Domain;
 using Newtonsoft.Json;
 using System;
 using System.IO;

@@ -1,11 +1,10 @@
-﻿using Optional;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using static System.Environment;
 
-namespace MOP.Host.Helpers
+namespace MOP.Core.Helpers
 {
     public static class PathHelpers
     {
@@ -58,6 +57,11 @@ namespace MOP.Host.Helpers
             return file.Name.Substring(0, nameLength);
         }
 
+        /// <summary>
+        /// Gets the start directory.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="AccessViolationException">Can't locate running assembly location</exception>
         public static DirectoryInfo GetStartDirectory()
         {
             var location = Process.GetCurrentProcess().MainModule.FileName;

@@ -1,7 +1,5 @@
 ﻿using Akka.Actor;
 using MOP.Core.Domain.Events;
-using MOP.Core.Services;
-using System.IO;
 
 namespace MOP.Host.Events
 {
