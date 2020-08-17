@@ -40,7 +40,6 @@ partial class Build
                 .SetProjectFile(MopTerminal)
                 .SetConfiguration(Configuration)
                 .SetMopRuntime(Runtime)
-                .SetOutputDirectory(TerminalOutputDirectory)
-                .EnableNoRestore());
+                .SetOutputDirectory(TerminalOutputDirectory));
         });
 }

@@ -53,5 +53,15 @@ namespace MOP.Core.Helpers
         {
             return string.Equals(value, compareValue, StringComparison.OrdinalIgnoreCase);
         }
+
+        /// <summary>
+        /// Determines whether string [is null or empty].
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>
+        ///   <c>true</c> if [is null or empty] [the specified value]; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsNullOrEmpty(this string? value)
+            => string.IsNullOrEmpty(value);
     }
 }

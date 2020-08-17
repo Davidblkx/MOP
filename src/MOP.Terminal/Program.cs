@@ -1,13 +1,20 @@
-﻿using System;
+﻿using MOP.Terminal.Commands;
+using MOP.Terminal.ConsoleEmulator;
+using System.CommandLine;
+using System.Threading.Tasks;
 
 namespace MOP.Terminal
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task<int> Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
-            Console.ReadKey();
+            var root = CommandBuilder.Build();
+            if (args.Length > 0)
+                return await root.InvokeAsync(args);
+
+            await Emulator.Execute(root);
+            return 0;
         }
     }
 }
