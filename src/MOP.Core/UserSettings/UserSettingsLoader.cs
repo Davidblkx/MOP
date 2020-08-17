@@ -64,7 +64,7 @@ namespace MOP.Core.UserSettings
             if (!SettingsFile.Directory.Exists)
                 SettingsFile.Directory.Create();
 
-            var json = JsonConvert.SerializeObject(settings);
+            var json = JsonConvert.SerializeObject(settings, Formatting.Indented);
             await File.WriteAllTextAsync(SettingsFile.FullName, json);
         }
 

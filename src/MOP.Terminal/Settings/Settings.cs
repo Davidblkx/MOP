@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MOP.Terminal.Settings
 {
-    internal class Settings : ISettings
+    internal class LocalSettings : ISettings
     {
         public Guid Id { get; set; } = Guid.NewGuid();
 
@@ -17,5 +18,9 @@ namespace MOP.Terminal.Settings
             = new List<HostSettings>();
 
         public bool LogToFile { get; set; }
+
+        public static ISettings Current { get; private set; } = new LocalSettings();
+        public static async Task ReloadSettings()
+            => Current = await SettingsHandler.Instance.Load();
     }
 }

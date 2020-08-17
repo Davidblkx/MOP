@@ -1,6 +1,6 @@
 ﻿using MOP.Terminal.Commands;
 using MOP.Terminal.ConsoleEmulator;
-using System.CommandLine;
+using System.CommandLine.Parsing;
 using System.Threading.Tasks;
 
 namespace MOP.Terminal
@@ -9,12 +9,9 @@ namespace MOP.Terminal
     {
         static async Task<int> Main(string[] args)
         {
-            var root = CommandBuilder.Build();
-            if (args.Length > 0)
-                return await root.InvokeAsync(args);
-
-            await Emulator.Execute(root);
-            return 0;
+            var parser = await CommandBuilder.Build();
+            Emulator.CommonParser = parser;
+            return await parser.InvokeAsync(args);
         }
     }
 }

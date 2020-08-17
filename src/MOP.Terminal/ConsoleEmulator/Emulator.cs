@@ -8,14 +8,17 @@ namespace MOP.Terminal.ConsoleEmulator
 {
     public static class Emulator
     {
-        public static async Task Execute(RootCommand rootCommand)
+        public static async Task Execute()
         {
+            if (CommonParser is null)
+                throw new Exception("Parser not set");
+
             PrintWelcome();
-            while(true)
+            while (true)
             {
                 PrintCaret();
                 var input = Console.ReadLine();
-                if (input.IsNullOrEmpty()) continue;
+                if (IsReserved(input)) continue;
                 if (input.InvariantCompare("exit")) break;
                 if (input.InvariantCompare("help")) input = "--help";
                 if (input.InvariantCompare("clear"))
@@ -23,7 +26,7 @@ namespace MOP.Terminal.ConsoleEmulator
                     Console.Clear();
                     continue;
                 }
-                await rootCommand.InvokeAsync(input);
+                await CommonParser.InvokeAsync(input);
             }
             Console.WriteLine("Exiting...");
         }
@@ -41,5 +44,14 @@ namespace MOP.Terminal.ConsoleEmulator
         {
             Console.Write("&> ");
         }
+
+        private static bool IsReserved(string input)
+        {
+            return input.IsNullOrEmpty()
+                || input.InvariantCompare("i")
+                || input.InvariantCompare("interactive");
+        }
+
+        public static Parser? CommonParser { get; set; }
     }
 }

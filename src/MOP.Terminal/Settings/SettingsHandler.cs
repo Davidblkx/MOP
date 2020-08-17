@@ -34,7 +34,7 @@ namespace MOP.Terminal.Settings
             FileInfo settingsFile = file ?? GetDefaultFile();
             var factory = UserSettingsFactory
                 .Create<ISettings>()
-                .SetDefaultValue(new Settings())
+                .SetDefaultValue(new LocalSettings())
                 .SetFile(settingsFile);
 
             if (!(logger is null))

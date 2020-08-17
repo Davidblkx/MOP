@@ -1,19 +1,31 @@
-﻿using System.CommandLine;
+﻿using MOP.Terminal.Commands.Configs;
+using System.Collections.Generic;
+using System.CommandLine.Builder;
+using System.CommandLine.Parsing;
+using System.Threading.Tasks;
 
 namespace MOP.Terminal.Commands
 {
     public static class CommandBuilder
     {
-        public static RootCommand Build()
+        public static async Task<Parser> Build()
         {
-            var rootCommand = new RootCommand
+            var builder = new CommandLineBuilder();
+            foreach(var config in GetCommandConfigs())
             {
+                builder = await config.ApplyConfig(builder);
+            }
+            return builder.Build();
+        }
 
+        public static IEnumerable<ICommandConfig> GetCommandConfigs()
+        {
+            return new List<ICommandConfig>
+            {
+                new SettingsConfig(),
+                new InteractiveConfig(),
+                new SettingsMiddleware(),
             };
-
-            rootCommand.Description = "Terminal for MOP";
-
-            return rootCommand;
         }
     }
 }
