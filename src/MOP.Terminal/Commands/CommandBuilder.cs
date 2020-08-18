@@ -24,7 +24,7 @@ namespace MOP.Terminal.Commands
             {
                 new SettingsConfig(),
                 new InteractiveConfig(),
-                new SettingsMiddleware(),
+                new MiddlewareConfig(),
             };
         }
     }

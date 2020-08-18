@@ -11,7 +11,7 @@ namespace MOP.Terminal.Settings
         /// <value>
         /// The identifier.
         /// </value>
-        Guid Id { get; }
+        Guid Id { get; set; }
 
         /// <summary>
         /// Gets the port to communicate, 0 to use random.
@@ -19,7 +19,7 @@ namespace MOP.Terminal.Settings
         /// <value>
         /// The port.
         /// </value>
-        int Port { get; }
+        int Port { get; set; }
 
         /// <summary>
         /// Gets the address to use, localhost by default
@@ -27,7 +27,7 @@ namespace MOP.Terminal.Settings
         /// <value>
         /// The address.
         /// </value>
-        string Hostname { get; }
+        string Hostname { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether [log to file].
@@ -35,9 +35,23 @@ namespace MOP.Terminal.Settings
         /// <value>
         ///   <c>true</c> if [log to file]; otherwise, <c>false</c>.
         /// </value>
-        bool LogToFile { get; }
+        bool LogToFile { get; set; }
 
-        string? DefaultHost { get; }
+        /// <summary>
+        /// Gets or sets the log level.
+        /// 0 - Disabled
+        /// 1 - Fatal
+        /// 2 - Error
+        /// 3 - Warning
+        /// 4 - Information
+        /// 5 - Verbose
+        /// </summary>
+        /// <value>
+        /// The log level.
+        /// </value>
+        int LogLevel { get; set; }
+
+        string? DefaultHost { get; set; }
 
         /// <summary>
         /// Gets the hosts.
@@ -45,6 +59,6 @@ namespace MOP.Terminal.Settings
         /// <value>
         /// The hosts.
         /// </value>
-        IEnumerable<IHostSettings> Hosts { get; }
+        List<IHostSettings> Hosts { get; }
     }
 }

@@ -14,13 +14,37 @@ namespace MOP.Terminal.Settings
 
         public string? DefaultHost { get ; set; }
 
-        public IEnumerable<IHostSettings> Hosts { get; set; }
-            = new List<HostSettings>();
+        public List<IHostSettings> Hosts { get; set; }
+            = new List<IHostSettings>();
 
         public bool LogToFile { get; set; }
 
+        public int LogLevel { get; set; } = 2;
+
+
+        public static LocalSettings FromInterface(ISettings s)
+        {
+            if (s is LocalSettings local)
+                return local;
+            return new LocalSettings
+            {
+                Id = s.Id,
+                Port = s.Port,
+                Hostname = s.Hostname,
+                DefaultHost = s.DefaultHost,
+                Hosts = new List<IHostSettings>(s.Hosts),
+                LogLevel = s.LogLevel,
+                LogToFile = s.LogToFile
+            };
+        }
+
+
         public static ISettings Current { get; private set; } = new LocalSettings();
+
         public static async Task ReloadSettings()
             => Current = await SettingsHandler.Instance.Load();
+
+        public static Task<bool> SaveSettings()
+            => SettingsHandler.Instance.Save(Current);
     }
 }

@@ -10,7 +10,7 @@ namespace MOP.Terminal.Settings
     internal class SettingsHandler
     {
         private const string FILE_NAME = ".mop-terminal.json";
-        private readonly IUserSettingsLoader<ISettings> _loader;
+        private readonly IUserSettingsLoader<LocalSettings> _loader;
 
         public SettingsHandler(FileInfo? file = default, ILogger? logger = default)
         {
@@ -25,15 +25,15 @@ namespace MOP.Terminal.Settings
 
         public Task<bool> Save(ISettings settings)
         {
-            return _loader.Save(settings);
+            return _loader.Save(LocalSettings.FromInterface(settings));
         }
 
-        private IUserSettingsLoader<ISettings> BuildSettingsLoader(
+        private IUserSettingsLoader<LocalSettings> BuildSettingsLoader(
             FileInfo? file = default, ILogger? logger = default)
         {
             FileInfo settingsFile = file ?? GetDefaultFile();
             var factory = UserSettingsFactory
-                .Create<ISettings>()
+                .Create<LocalSettings>()
                 .SetDefaultValue(new LocalSettings())
                 .SetFile(settingsFile);
 

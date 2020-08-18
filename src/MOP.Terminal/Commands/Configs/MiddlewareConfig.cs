@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using System.IO;
 using MOP.Terminal.Settings;
 using MOP.Terminal.ConsoleEmulator;
+using MOP.Terminal.Logger;
 
 namespace MOP.Terminal.Commands.Configs
 {
-    public class SettingsMiddleware : ICommandConfig
+    public class MiddlewareConfig : ICommandConfig
     {
         public Task<CommandLineBuilder> ApplyConfig(CommandLineBuilder builder)
         {
@@ -30,9 +31,15 @@ namespace MOP.Terminal.Commands.Configs
             }
 
             await LocalSettings.ReloadSettings();
+            GlobalLogger.InitLogger();
             await next(context);
         }
 
+        /// <summary>
+        /// Starts in interactive mode if no command is provided.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <param name="next">The next.</param>
         public async Task DefaultCommandMiddleware(
             InvocationContext context, Func<InvocationContext, Task> next)
         {
