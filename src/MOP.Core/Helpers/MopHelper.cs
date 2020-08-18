@@ -1,7 +1,7 @@
 ﻿using Semver;
 using System.Reflection;
 
-namespace MOP.Core.Helpers
+namespace MOP.Infra.Tools
 {
     public static class MopHelper
     {
@@ -11,10 +11,7 @@ namespace MOP.Core.Helpers
         /// <returns></returns>
         public static SemVersion GetCoreVersion()
         {
-            var versionInfo = Assembly.GetExecutingAssembly()
-                .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
-                .InformationalVersion;
-            return SemVersion.Parse(versionInfo);
+            return AssemblyTools.GetAssemblyVersion(Assembly.GetExecutingAssembly());
         }
     }
 }

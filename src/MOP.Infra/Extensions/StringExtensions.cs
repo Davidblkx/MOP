@@ -1,11 +1,10 @@
-﻿using Newtonsoft.Json.Schema;
-using Optional;
+﻿using Optional;
 using System;
 using System.IO;
 
-namespace MOP.Core.Helpers
+namespace MOP.Infra.Extensions
 {
-    public static class StringHelper
+    public static class StringExtensions
     {
         /// <summary>
         /// return the value, or if it is null or empty, return the defaultValue
@@ -40,7 +39,7 @@ namespace MOP.Core.Helpers
         public static Option<FileInfo> ToFileInfo(this string? value)
         {
             try { return Option.Some(new FileInfo(value)); }
-            catch { return Option.None<FileInfo>();  }
+            catch { return Option.None<FileInfo>(); }
         }
 
         /// <summary>
@@ -49,7 +48,7 @@ namespace MOP.Core.Helpers
         /// <param name="value">The value.</param>
         /// <param name="compareValue">The compare value.</param>
         /// <returns></returns>
-        public static bool InvariantCompare(this string? value, string? compareValue)
+        public static bool EqualIgnoreCase(this string? value, string? compareValue)
         {
             return string.Equals(value, compareValue, StringComparison.OrdinalIgnoreCase);
         }

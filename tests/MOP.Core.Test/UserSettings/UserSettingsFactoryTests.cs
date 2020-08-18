@@ -1,7 +1,7 @@
-﻿using MOP.Core.UserSettings;
+﻿using MOP.Infra.UserSettings;
 using Xunit;
 
-namespace MOP.Core.Test.UserSettings
+namespace MOP.Infra.Test.UserSettings
 {
     public class UserSettingsFactoryTests
     {

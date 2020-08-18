@@ -1,10 +1,10 @@
-﻿using MOP.Core.Domain.Plugins;
+﻿using MOP.Infra.Domain.Plugins;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace MOP.Core.Services
+namespace MOP.Infra.Services
 {
     /// <summary>
     /// Load, unload plugins

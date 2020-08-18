@@ -1,18 +1,18 @@
 ﻿using Akka.Actor;
-using MOP.Core.Domain.Actors;
-using MOP.Core.Domain.Host;
-using MOP.Core.Helpers;
+using MOP.Infra.Domain.Actors;
+using MOP.Infra.Domain.Host;
+using MOP.Infra.Extensions;
 using Optional;
 using System;
-using static MOP.Core.Domain.Actors.IActorRefInstanceType;
-using static MOP.Core.Optional.StaticOption;
+using static MOP.Infra.Domain.Actors.IActorRefInstanceType;
+using static MOP.Infra.Optional.Static;
 
 namespace MOP.Host.Events
 {
     /// <summary>
     /// Factory to create the Events actor
     /// </summary>
-    /// <seealso cref="MOP.Core.Domain.Actors.IActorFactory" />
+    /// <seealso cref="MOP.Infra.Domain.Actors.IActorFactory" />
     internal class EventsActorFactory : IActorFactory
     {
         private readonly IHost _host;

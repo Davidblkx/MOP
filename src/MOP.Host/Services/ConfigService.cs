@@ -1,5 +1,5 @@
-﻿using MOP.Core.Domain.Host;
-using MOP.Core.Services;
+﻿using MOP.Infra.Domain.Host;
+using MOP.Infra.Services;
 using Newtonsoft.Json.Linq;
 using Optional;
 using System;
@@ -9,9 +9,9 @@ using Serilog;
 using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 using Serilog.Events;
+using MOP.Infra.Extensions;
 
-using static MOP.Core.Optional.StaticOption;
-using MOP.Core.Helpers;
+using static MOP.Infra.Optional.Static;
 
 [assembly: InternalsVisibleTo("MOP.Host.Test")]
 namespace MOP.Host.Services

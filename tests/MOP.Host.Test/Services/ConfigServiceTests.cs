@@ -1,4 +1,4 @@
-using MOP.Core.Domain.Host;
+using MOP.Infra.Domain.Host;
 using MOP.Host.Services;
 using MOP.Host.Test.Mocks;
 using Optional.Unsafe;

@@ -1,7 +1,7 @@
 using Akka.Actor;
 using Optional;
 
-namespace MOP.Core.Domain.Actors
+namespace MOP.Infra.Domain.Actors
 {
     /// <summary>
     /// Exposes a factory method for a <see cref="IActorRef"/>

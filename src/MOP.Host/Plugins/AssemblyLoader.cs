@@ -1,18 +1,19 @@
-﻿using MOP.Core.Domain.Plugins;
-using MOP.Core.Services;
+﻿using MOP.Infra.Domain.Plugins;
+using MOP.Infra.Services;
+using MOP.Infra.Tools;
 using Optional;
 using Serilog;
 using System;
 using System.IO;
 using System.Reflection;
 
-using static MOP.Core.Optional.StaticOption;
+using static MOP.Infra.Optional.Static;
 
 namespace MOP.Host.Plugins
 {
     internal class AssemblyLoader
     {
-        private ILogger _log;
+        private readonly ILogger _log;
 
         public AssemblyLoader(ILogService logService)
         {
@@ -46,20 +47,17 @@ namespace MOP.Host.Plugins
         {
             foreach(var t in assembly.GetTypes())
             {
-                if (t.FullName == "MOP.Core.Domain.Plugins.IPlugin") continue;
-                var typed = t.GetInterface(nameof(IPlugin));
-                if (t.IsAbstract || t.IsInterface || typed is null || t.FullName is null) continue;
-
                 try
                 {
-                    var instance = assembly.CreateInstance(t.FullName) as IPlugin;
+                    if (!TypeTools.CanInstantiate<IPlugin>(t)) continue;
+                    var instance = assembly.CreateInstance(t.FullName!) as IPlugin;
                     if (instance is null)
-                        _log.Debug("Failed to instantiate type: {@FullName}", typed.FullName);
+                        _log.Debug("Failed to instantiate type: {@FullName}", t.FullName);
                     else return Some(instance);
                 }
                 catch (Exception ex)
                 {
-                    _log.Error("Error instantiate IPlugin from {@FullName}", typed.FullName);
+                    _log.Error("Error instantiate IPlugin from {@FullName}", t.FullName);
                     _log.Debug(ex, "Error instantiate IPlugin");
                 }
             }

@@ -1,8 +1,8 @@
-﻿using MOP.Core.Domain.Host;
+﻿using MOP.Infra.Domain.Host;
 using System;
 using System.Threading.Tasks;
 
-namespace MOP.Core.Domain.Plugins
+namespace MOP.Infra.Domain.Plugins
 {
     /// <summary>
     /// To be implemented by plugins

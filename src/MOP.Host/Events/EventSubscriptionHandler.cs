@@ -1,10 +1,10 @@
-﻿using MOP.Core.Domain.Events;
-using MOP.Core.Services;
-using MOP.Host.Infra;
+﻿using MOP.Infra.Domain.Events;
+using MOP.Infra.Services;
 using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MOP.Infra.Collections;
 
 namespace MOP.Host.Events
 {

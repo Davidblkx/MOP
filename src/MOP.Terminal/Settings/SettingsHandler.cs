@@ -1,5 +1,6 @@
-﻿using MOP.Core.Helpers;
-using MOP.Core.UserSettings;
+﻿using MOP.Infra.Tools;
+using MOP.Infra.Extensions;
+using MOP.Infra.UserSettings;
 using Optional.Unsafe;
 using Serilog;
 using System.IO;
@@ -45,7 +46,7 @@ namespace MOP.Terminal.Settings
 
         private FileInfo GetDefaultFile()
         {
-            return PathHelpers
+            return PathTools
                 .GetUserHome()
                 .RelativeDirectory("MOPTerminal")
                 .RelativeFile(FILE_NAME);

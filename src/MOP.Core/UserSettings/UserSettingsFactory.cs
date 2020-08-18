@@ -1,9 +1,10 @@
-﻿using MOP.Core.Helpers;
+﻿using MOP.Infra.Tools;
+using MOP.Infra.Extensions;
 using Serilog;
 using System;
 using System.IO;
 
-namespace MOP.Core.UserSettings
+namespace MOP.Infra.UserSettings
 {
     public class UserSettingsFactory<T>
     {
@@ -41,7 +42,7 @@ namespace MOP.Core.UserSettings
             Logger = new LoggerConfiguration().CreateLogger();
             DefaultValue = BuildDefault();
             FileName = "settings.json";
-            Directory = PathHelpers.GetStartDirectory();
+            Directory = PathTools.GetStartDirectory();
         }
 
         public UserSettingsFactory<T> SetDirectory(DirectoryInfo dir)
@@ -65,7 +66,7 @@ namespace MOP.Core.UserSettings
 
         public UserSettingsFactory<T> UseUserFolder()
         {
-            Directory = PathHelpers.GetUserHome();
+            Directory = PathTools.GetUserHome();
             return this;
         }
 

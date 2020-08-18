@@ -2,9 +2,9 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace MOP.Core.Optional
+namespace MOP.Infra.Optional
 {
-    public static class StaticOption
+    public static class Static
     {
         /// <summary>
         /// Throws on null.
@@ -28,7 +28,7 @@ namespace MOP.Core.Optional
         /// <typeparam name="T"></typeparam>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public static Option<T> Some<T>([AllowNull]T value)
+        public static Option<T> Some<T>([AllowNull] T value)
             => value is null ?
                 Option.None<T>()
                 : Option.Some(value);

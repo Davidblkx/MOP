@@ -1,5 +1,5 @@
-﻿using MOP.Core.Domain.Host;
-using MOP.Core.Services;
+﻿using MOP.Infra.Domain.Host;
+using MOP.Infra.Services;
 using MOP.Host.Domain;
 using MOP.Host.Services;
 using Serilog;
@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 
-using static MOP.Core.Helpers.InfoBuilder;
+using static MOP.Infra.Tools.InfoBuilder;
 
 [assembly: InternalsVisibleTo("MOP.Host.Test")]
 namespace MOP.Host

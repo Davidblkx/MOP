@@ -1,5 +1,5 @@
 using Akka.Actor;
-using MOP.Core.Domain.Actors;
+using MOP.Infra.Domain.Actors;
 using MOP.Host.Services;
 using MOP.Host.Test.Mocks;
 using Optional;
@@ -10,10 +10,10 @@ using System;
 using System.Linq;
 
 
-using static MOP.Core.Domain.Actors.IActorRefInstanceType;
+using static MOP.Infra.Domain.Actors.IActorRefInstanceType;
 using System.Collections.Generic;
-using MOP.Core.Domain.Host;
-using MOP.Core.Services;
+using MOP.Infra.Domain.Host;
+using MOP.Infra.Services;
 
 namespace MOP.Host.Test.Services
 {

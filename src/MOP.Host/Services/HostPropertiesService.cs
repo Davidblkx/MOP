@@ -1,4 +1,5 @@
-﻿using MOP.Core.Helpers;
+﻿using MOP.Infra.Extensions;
+using MOP.Infra.Tools;
 using MOP.Host.Domain;
 using Newtonsoft.Json;
 using System;
@@ -53,7 +54,7 @@ namespace MOP.Host.Services
                 .CreateIfRequired();
 
         private DirectoryInfo GetUserMopDirectory()
-            => PathHelpers.GetUserHome()
+            => PathTools.GetUserHome()
                 .RelativeDirectory(DIR_NAME)
                 .CreateIfRequired();
 

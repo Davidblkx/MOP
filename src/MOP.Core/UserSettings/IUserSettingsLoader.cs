@@ -2,7 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 
-namespace MOP.Core.UserSettings
+namespace MOP.Infra.UserSettings
 {
     /// <summary>
     /// Save and load settings from a JSON file

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MOP.Core.Domain.Events
+namespace MOP.Infra.Domain.Events
 {
     public class SubscribeCommand
     {

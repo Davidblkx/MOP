@@ -2,7 +2,7 @@
 using Semver;
 using System;
 
-namespace MOP.Core.Domain.Host
+namespace MOP.Infra.Domain.Host
 {
     /// <summary>
     /// Information of a MOP host

@@ -1,7 +1,7 @@
 ﻿using Semver;
 using System;
 
-namespace MOP.Core.Domain.Plugins
+namespace MOP.Infra.Domain.Plugins
 {
     /// <summary>
     /// Plugin information

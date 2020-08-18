@@ -1,9 +1,9 @@
 ﻿using Akka.Actor;
-using MOP.Core.Domain.Actors;
+using MOP.Infra.Domain.Actors;
 using Optional;
 using System.Collections.Generic;
 
-namespace MOP.Core.Services
+namespace MOP.Infra.Services
 {
     /// <summary>
     /// Service handle <see cref="IActorRef"/> instances

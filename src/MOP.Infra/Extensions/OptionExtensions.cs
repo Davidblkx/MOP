@@ -3,9 +3,9 @@ using Optional.Unsafe;
 using System;
 using System.Threading.Tasks;
 
-namespace MOP.Core.Optional
+namespace MOP.Infra.Extensions
 {
-    public static class Extensions
+    public static class OptionExtensions
     {
         public static bool HasValue<T>(this Option<T> option, out T value)
         {

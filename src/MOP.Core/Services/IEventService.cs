@@ -1,9 +1,9 @@
-﻿using MOP.Core.Domain.Events;
+﻿using MOP.Infra.Domain.Events;
 using Optional;
 using System;
 using System.Threading.Tasks;
 
-namespace MOP.Core.Services
+namespace MOP.Infra.Services
 {
     /// <summary>
     /// Service to emit and subscribe to events

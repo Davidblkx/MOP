@@ -1,7 +1,7 @@
 ﻿using Optional;
 using System.IO;
 using System.Linq;
-using MOP.Core.Helpers;
+using MOP.Infra.Extensions;
 
 using static Optional.Option;
 

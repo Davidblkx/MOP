@@ -1,5 +1,5 @@
 ﻿using Optional;
-using MOP.Core.Domain.Events;
+using MOP.Infra.Domain.Events;
 using System;
 using System.Collections.Generic;
 

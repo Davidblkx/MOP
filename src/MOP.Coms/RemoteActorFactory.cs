@@ -1,12 +1,12 @@
 ﻿using Akka.Actor;
-using MOP.Core.Domain.Actors;
-using MOP.Core.Domain.Host;
-using MOP.Core.Services;
+using MOP.Infra.Domain.Actors;
+using MOP.Infra.Domain.Host;
+using MOP.Infra.Services;
 using Optional;
 using Serilog;
 using System;
 
-using static MOP.Core.Optional.StaticOption;
+using static MOP.Infra.Optional.Static;
 
 namespace MOP.Remote
 {

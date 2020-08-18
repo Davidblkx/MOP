@@ -1,15 +1,15 @@
 ﻿using Optional;
-using MOP.Core.Domain.Events;
+using MOP.Infra.Domain.Events;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using LiteDB;
 using Serilog;
-using MOP.Core.Services;
+using MOP.Infra.Services;
 using System.Runtime.CompilerServices;
 
-using static MOP.Core.Optional.StaticOption;
+using static MOP.Infra.Optional.Static;
 
 [assembly: InternalsVisibleTo("MOP.Host.Test")]
 namespace MOP.Host.Events

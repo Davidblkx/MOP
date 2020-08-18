@@ -2,9 +2,9 @@
 using System;
 using System.Collections.Generic;
 
-using static MOP.Core.Optional.StaticOption;
+using static MOP.Infra.Optional.Static;
 
-namespace MOP.Host.Infra
+namespace MOP.Infra.Collections
 {
     /// <summary>
     /// Contains a collection of <typeparamref name="T"/> assigned to a id
@@ -90,7 +90,7 @@ namespace MOP.Host.Infra
             where T : notnull
         {
             return new IncrementalDictionary<T>
-                { Transformer = transformer };
+            { Transformer = transformer };
         }
     }
 }

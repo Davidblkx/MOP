@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace MOP.Core.Domain.Events
+namespace MOP.Infra.Domain.Events
 {
     /// <summary>
     /// Base event

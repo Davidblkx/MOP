@@ -1,4 +1,4 @@
-﻿namespace MOP.Core.Domain.Plugins
+﻿namespace MOP.Infra.Domain.Plugins
 {
     public static class PluginPriority
     {

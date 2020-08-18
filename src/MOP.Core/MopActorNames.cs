@@ -1,4 +1,4 @@
-namespace MOP.Core.Model
+namespace MOP.Infra.Model
 {
     public static class MopActorNames
     {

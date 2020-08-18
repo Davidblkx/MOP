@@ -1,7 +1,7 @@
 ﻿using Akka.Actor;
-using MOP.Core.Domain.Host;
-using MOP.Core.Helpers;
-using MOP.Core.Services;
+using MOP.Infra.Domain.Host;
+using MOP.Infra.Extensions;
+using MOP.Infra.Services;
 using Serilog;
 
 namespace MOP.Remote
@@ -20,7 +20,7 @@ namespace MOP.Remote
 
         private void HandleMessage(string message)
         {
-            if (message.InvariantCompare(message))
+            if (message.EqualIgnoreCase(message))
             {
                 Sender.Tell(_info);
                 return;

@@ -1,8 +1,8 @@
-﻿using MOP.Core.Domain.Host;
-using MOP.Core.Domain.Plugins;
-using MOP.Core.Optional;
-using MOP.Core.Services;
+﻿using MOP.Infra.Domain.Host;
+using MOP.Infra.Domain.Plugins;
+using MOP.Infra.Services;
 using MOP.Host.Plugins;
+using MOP.Infra.Extensions;
 using Serilog;
 using System;
 using System.Collections.Generic;

@@ -1,9 +1,9 @@
 ﻿using Optional;
 using System;
 
-using static MOP.Core.Optional.StaticOption;
+using static MOP.Infra.Optional.Static;
 
-namespace MOP.Core.Domain.Events
+namespace MOP.Infra.Domain.Events
 {
     public class Event : IEvent
     {

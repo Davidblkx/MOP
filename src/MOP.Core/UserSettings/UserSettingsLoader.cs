@@ -5,9 +5,9 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-using static MOP.Core.Optional.StaticOption;
+using static MOP.Infra.Optional.Static;
 
-namespace MOP.Core.UserSettings
+namespace MOP.Infra.UserSettings
 {
     internal class UserSettingsLoader<T> : IUserSettingsLoader<T>
     {

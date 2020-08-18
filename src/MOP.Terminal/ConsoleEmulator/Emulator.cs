@@ -1,4 +1,4 @@
-﻿using MOP.Core.Helpers;
+﻿using MOP.Infra.Extensions;
 using System;
 using System.CommandLine;
 using System.CommandLine.Parsing;
@@ -19,9 +19,9 @@ namespace MOP.Terminal.ConsoleEmulator
                 PrintCaret();
                 var input = Console.ReadLine();
                 if (IsReserved(input)) continue;
-                if (input.InvariantCompare("exit")) break;
-                if (input.InvariantCompare("help")) input = "--help";
-                if (input.InvariantCompare("clear"))
+                if (input.EqualIgnoreCase("exit")) break;
+                if (input.EqualIgnoreCase("help")) input = "--help";
+                if (input.EqualIgnoreCase("clear"))
                 {
                     Console.Clear();
                     continue;
@@ -48,8 +48,8 @@ namespace MOP.Terminal.ConsoleEmulator
         private static bool IsReserved(string input)
         {
             return input.IsNullOrEmpty()
-                || input.InvariantCompare("i")
-                || input.InvariantCompare("interactive");
+                || input.EqualIgnoreCase("i")
+                || input.EqualIgnoreCase("interactive");
         }
 
         public static Parser? CommonParser { get; set; }

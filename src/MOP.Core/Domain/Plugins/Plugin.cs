@@ -1,35 +1,35 @@
-﻿using MOP.Core.Domain.Events;
-using MOP.Core.Domain.Host;
-using MOP.Core.Helpers;
-using MOP.Core.Optional;
-using MOP.Core.Services;
+﻿using MOP.Infra.Domain.Events;
+using MOP.Infra.Domain.Host;
+using MOP.Infra.Tools;
+using MOP.Infra.Services;
+using MOP.Infra.Optional;
 using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Security.Permissions;
 using System.Threading.Tasks;
 
-namespace MOP.Core.Domain.Plugins
+namespace MOP.Infra.Domain.Plugins
 {
     /// <summary>
     /// Default implementation for IPlugin
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    /// <seealso cref="MOP.Core.Domain.Plugins.IPlugin" />
+    /// <seealso cref="MOP.Infra.Domain.Plugins.IPlugin" />
     public abstract class Plugin<T> : IPlugin
     {
         public IPluginInfo Info { get; }
 
-        protected IHost Host => StaticOption.ThrowOnNull(_host);
-        protected ILogger Logger => StaticOption.ThrowOnNull(_log);
+        protected IHost Host => Static.ThrowOnNull(_host);
+        protected ILogger Logger => Static.ThrowOnNull(_log);
         protected IEventService Events
-            => StaticOption.ThrowOnNull(_events);
+            => Static.ThrowOnNull(_events);
         protected IActorService Actors
-            => StaticOption.ThrowOnNull(_host?.ActorService);
+            => Static.ThrowOnNull(_host?.ActorService);
         protected IConfigService Config
-            => StaticOption.ThrowOnNull(_host?.ConfigService);
+            => Static.ThrowOnNull(_host?.ConfigService);
         protected IPluginService Plugins
-            => StaticOption.ThrowOnNull(_host?.PluginService);
+            => Static.ThrowOnNull(_host?.PluginService);
 
         private IHost? _host { get; set; }
         private ILogger? _log { get; set; }

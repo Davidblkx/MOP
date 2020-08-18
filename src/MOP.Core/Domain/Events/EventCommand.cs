@@ -1,4 +1,4 @@
-﻿namespace MOP.Core.Domain.Events
+﻿namespace MOP.Infra.Domain.Events
 {
     /// <summary>
     /// Command to create and emit an event

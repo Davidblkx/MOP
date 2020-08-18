@@ -1,6 +1,6 @@
-﻿using MOP.Core.Domain.Host;
-using MOP.Core.Helpers;
-using MOP.Core.Services;
+﻿using MOP.Infra.Domain.Host;
+using MOP.Infra.Extensions;
+using MOP.Infra.Services;
 using MOP.Host.Domain;
 using MOP.Host.Events;
 using MOP.Host.Services;

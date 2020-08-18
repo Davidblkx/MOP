@@ -1,15 +1,15 @@
 ﻿using Akka.Actor;
 using Optional;
-using MOP.Core.Domain.Events;
-using MOP.Core.Domain.Host;
-using MOP.Core.Services;
+using MOP.Infra.Domain.Events;
+using MOP.Infra.Domain.Host;
+using MOP.Infra.Services;
 using MOP.Host.Events;
 using Serilog;
 using System;
 using System.Threading.Tasks;
 using Optional.Unsafe;
 
-using static MOP.Core.Optional.StaticOption;
+using static MOP.Infra.Optional.Static;
 
 namespace MOP.Host.Services
 {

@@ -1,8 +1,8 @@
 ﻿using Akka.Util;
-using MOP.Core.Domain.Events;
+using MOP.Infra.Domain.Events;
 using System;
 using System.Runtime.CompilerServices;
-using static MOP.Core.Optional.StaticOption;
+using static MOP.Infra.Optional.Static;
 
 [assembly: InternalsVisibleTo("MOP.Host.Test")]
 namespace MOP.Host.Events
