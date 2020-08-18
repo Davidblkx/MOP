@@ -48,8 +48,8 @@ namespace MOP.Terminal.ConsoleEmulator
         private static bool IsReserved(string input)
         {
             return input.IsNullOrEmpty()
-                || input.EqualIgnoreCase("i")
-                || input.EqualIgnoreCase("interactive");
+                || input.EqualIgnoreCase("-i")
+                || input.EqualIgnoreCase("--interactive");
         }
 
         public static Parser? CommonParser { get; set; }

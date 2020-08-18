@@ -1,12 +1,13 @@
-﻿using System.CommandLine;
+﻿using MOP.Terminal.CommandLine;
+using System.CommandLine;
 using System.CommandLine.Builder;
 using System.Threading.Tasks;
 
-namespace MOP.Terminal.Commands.Configs
+namespace MOP.Terminal.CommandLineTransformers
 {
-    internal class SettingsConfig : ICommandConfig
+    internal class SettingsConfig : ICommandBuilderFactory
     {
-        public Task<CommandLineBuilder> ApplyConfig(CommandLineBuilder builder)
+        public Task<CommandLineBuilder> Transform(CommandLineBuilder builder)
         {
             return Task.Run(() => builder
                 .AddGlobalOption(BuildSettingsPathOption())
@@ -27,7 +28,7 @@ namespace MOP.Terminal.Commands.Configs
         private Option BuildSettingsHostOption()
         {
             return new Option<string>(
-                new string[] { "--host", "-h" },
+                new string[] { "--host", "-H" },
                 getDefaultValue: () => "",
                 description: "Name of host to use"
             );

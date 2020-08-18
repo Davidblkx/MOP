@@ -7,12 +7,13 @@ using System.IO;
 using MOP.Terminal.Settings;
 using MOP.Terminal.ConsoleEmulator;
 using MOP.Terminal.Logger;
+using MOP.Terminal.CommandLine;
 
-namespace MOP.Terminal.Commands.Configs
+namespace MOP.Terminal.CommandLineTransformers
 {
-    public class MiddlewareConfig : ICommandConfig
+    public class MiddlewareConfig : ICommandBuilderFactory
     {
-        public Task<CommandLineBuilder> ApplyConfig(CommandLineBuilder builder)
+        public Task<CommandLineBuilder> Transform(CommandLineBuilder builder)
         {
             return Task.Run(() => builder
                 .UseMiddleware(LoadSettingsMiddleware)
@@ -43,8 +44,8 @@ namespace MOP.Terminal.Commands.Configs
         public async Task DefaultCommandMiddleware(
             InvocationContext context, Func<InvocationContext, Task> next)
         {
-            var cmd = context.ParseResult.CommandResult;
-            if (cmd.Tokens.Count == 0)
+            var isInteractive = context.ParseResult.ValueForOption<bool>("--interactive");
+            if (isInteractive)
             {
                 await Emulator.Execute();
                 return;
