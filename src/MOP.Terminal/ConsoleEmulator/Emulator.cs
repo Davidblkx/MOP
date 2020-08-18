@@ -42,7 +42,7 @@ namespace MOP.Terminal.ConsoleEmulator
 
         private static void PrintCaret()
         {
-            Console.Write("&> ");
+            Console.Write("|MOP|> ");
         }
 
         private static bool IsReserved(string input)

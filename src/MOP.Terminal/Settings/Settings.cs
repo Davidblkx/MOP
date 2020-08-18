@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MOP.Terminal.Logger;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -40,9 +41,14 @@ namespace MOP.Terminal.Settings
 
 
         public static ISettings Current { get; private set; } = new LocalSettings();
+        public static bool HasInit { get; private set; } = false;
 
         public static async Task ReloadSettings()
-            => Current = await SettingsHandler.Instance.Load();
+        {
+            Current = await SettingsHandler.Instance.Load();
+            GlobalLogger.InitLogger();
+            HasInit = true;
+        }
 
         public static Task<bool> SaveSettings()
             => SettingsHandler.Instance.Save(Current);

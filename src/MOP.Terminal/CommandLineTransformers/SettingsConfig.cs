@@ -13,6 +13,7 @@ namespace MOP.Terminal.CommandLineTransformers
                 .AddGlobalOption(BuildSettingsPathOption())
                 .AddGlobalOption(BuildSettingsHostOption())
                 .AddGlobalOption(BuildVerboseLevelOption())
+                .AddGlobalOption(BuildSettingsReloadOption())
             );
         }
 
@@ -22,6 +23,14 @@ namespace MOP.Terminal.CommandLineTransformers
                 new string[] { "--settings", "-s" },
                 getDefaultValue: () => "",
                 description: "Path to .json file with settings to load"
+            );
+        }
+
+        private Option BuildSettingsReloadOption()
+        {
+            return new Option<bool>(
+                new string[] { "--reload-settings" },
+                description: "Force settings to be reloaded"
             );
         }
 
@@ -38,8 +47,8 @@ namespace MOP.Terminal.CommandLineTransformers
         {
             return new Option<int>(
                 new string[] { "--verbose", "-V" },
-                getDefaultValue: () => 5,
-                description: "Verbose level to show, max 5, 0 to disable output"
+                getDefaultValue: () => -1,
+                description: "Verbose level to show, max 5, 0 to disable output, -1 to use settings config"
             );
         }
     }
