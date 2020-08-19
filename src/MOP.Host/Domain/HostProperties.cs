@@ -5,7 +5,7 @@ namespace MOP.Host.Domain
 {
     internal class HostProperties
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public Guid Id { get; set; } = Guid.Parse("f777f44d-3e0a-41a6-8f2c-1efe9d0a78d7");
         public string Name { get; set; } = "DefaultHost";
         public LogEventLevel LogEventLevel { get; set; } = LogEventLevel.Debug;
         public string? TempDirectory { get; set; }

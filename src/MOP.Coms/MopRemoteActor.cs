@@ -20,9 +20,9 @@ namespace MOP.Remote
 
         private void HandleMessage(string message)
         {
-            if (message.EqualIgnoreCase(message))
+            if (message.EqualIgnoreCase("info"))
             {
-                Sender.Tell(_info);
+                Sender.Tell("ola");
                 return;
             }
 

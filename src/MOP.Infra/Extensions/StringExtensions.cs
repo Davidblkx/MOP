@@ -1,5 +1,7 @@
 ﻿using Optional;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
 namespace MOP.Infra.Extensions
@@ -60,7 +62,10 @@ namespace MOP.Infra.Extensions
         /// <returns>
         ///   <c>true</c> if [is null or empty] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        public static bool IsNullOrEmpty(this string? value)
+        public static bool IsNullOrEmpty([NotNullWhen(false)]this string? value)
             => string.IsNullOrEmpty(value);
+
+        public static string Join(this IEnumerable<string> list, string separator = ";")
+            => string.Join(separator, list);
     }
 }

@@ -3,7 +3,7 @@ using System;
 
 namespace MOP.Infra.Domain.Host
 {
-    internal class HostInfo : IHostInfo
+    public class HostInfo : IHostInfo
     {
         public Guid Id { get; set; }
 
