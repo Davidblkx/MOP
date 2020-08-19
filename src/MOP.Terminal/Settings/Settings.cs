@@ -15,8 +15,8 @@ namespace MOP.Terminal.Settings
 
         public string? DefaultHost { get ; set; }
 
-        public List<IHostSettings> Hosts { get; set; }
-            = new List<IHostSettings>();
+        public List<HostSettings> Hosts { get; set; }
+            = new List<HostSettings>();
 
         public bool LogToFile { get; set; }
 
@@ -33,7 +33,7 @@ namespace MOP.Terminal.Settings
                 Port = s.Port,
                 Hostname = s.Hostname,
                 DefaultHost = s.DefaultHost,
-                Hosts = new List<IHostSettings>(s.Hosts),
+                Hosts = new List<HostSettings>(s.Hosts),
                 LogLevel = s.LogLevel,
                 LogToFile = s.LogToFile
             };

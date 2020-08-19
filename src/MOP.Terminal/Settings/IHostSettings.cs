@@ -9,5 +9,6 @@ namespace MOP.Terminal.Settings
         int Port { get; }
         string Hostname { get; }
         string Name { get; }
+        Guid Id { get; }
     }
 }

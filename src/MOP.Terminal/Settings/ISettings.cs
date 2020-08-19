@@ -59,6 +59,6 @@ namespace MOP.Terminal.Settings
         /// <value>
         /// The hosts.
         /// </value>
-        List<IHostSettings> Hosts { get; }
+        List<HostSettings> Hosts { get; set; }
     }
 }
