@@ -5,7 +5,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-using static MOP.Infra.Optional.Static;
+using static MOP.Core.Infra.Optional.Static;
 
 namespace MOP.Infra.UserSettings
 {

@@ -1,4 +1,4 @@
-﻿using MOP.Infra.Extensions;
+﻿using MOP.Core.Infra.Extensions;
 using System;
 using System.CommandLine;
 using System.CommandLine.Parsing;

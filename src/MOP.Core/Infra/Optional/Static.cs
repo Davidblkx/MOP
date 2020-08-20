@@ -2,7 +2,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace MOP.Infra.Optional
+namespace MOP.Core.Infra.Optional
 {
     public static class Static
     {

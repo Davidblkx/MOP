@@ -2,12 +2,12 @@
 using MOP.Infra.Domain.Host;
 using MOP.Infra.Tools;
 using MOP.Infra.Services;
-using MOP.Infra.Optional;
 using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Security.Permissions;
 using System.Threading.Tasks;
+using MOP.Core.Infra.Optional;
 
 namespace MOP.Infra.Domain.Plugins
 {

@@ -1,5 +1,4 @@
-﻿using MOP.Infra.Extensions;
-using MOP.Infra.Services;
+﻿using MOP.Infra.Services;
 using MOP.Host.Domain;
 using Serilog;
 using Serilog.Core;
@@ -8,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using MOP.Core.Infra.Extensions;
 
 [assembly: InternalsVisibleTo("MOP.Host.Test")]
 namespace MOP.Host.Services
@@ -35,8 +35,11 @@ namespace MOP.Host.Services
 
         public ILogger GetLogger()
         {
-            if (_logger is null) 
+            if (_logger is null)
+            {
                 _logger = BuildLogger();
+                Log.Logger = _logger;
+            }
             return _logger;
         }
 

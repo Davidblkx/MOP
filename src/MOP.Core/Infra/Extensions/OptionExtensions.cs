@@ -3,7 +3,7 @@ using Optional.Unsafe;
 using System;
 using System.Threading.Tasks;
 
-namespace MOP.Infra.Extensions
+namespace MOP.Core.Infra.Extensions
 {
     public static class OptionExtensions
     {

@@ -1,4 +1,5 @@
-﻿using Semver;
+﻿using MOP.Core.Infra.Tools;
+using Semver;
 using System.Reflection;
 
 namespace MOP.Infra.Tools

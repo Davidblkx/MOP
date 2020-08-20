@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 using static System.Environment;
 
-namespace MOP.Infra.Tools
+namespace MOP.Core.Infra.Tools
 {
     public static class PathTools
     {

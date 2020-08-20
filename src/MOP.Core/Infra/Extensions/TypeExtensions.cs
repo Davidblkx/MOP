@@ -3,16 +3,16 @@ using Optional.Unsafe;
 using System;
 using System.Reflection;
 
-using static MOP.Infra.Optional.Static;
+using static MOP.Core.Infra.Optional.Static;
 
-namespace MOP.Infra.Extensions
+namespace MOP.Core.Infra.Extensions
 {
     public static class TypeExtensions
     {
         public static void SetValue<T>(this Type type, object target, string propName, T value)
         {
             var prop = type.GetPropertyIgnoreCase(propName);
-            if (!prop.HasValue) 
+            if (!prop.HasValue)
                 throw new ArgumentException("Can't find property with name {@propName}", propName);
 
             var pinfo = prop.ValueOrFailure();

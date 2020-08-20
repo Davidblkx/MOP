@@ -1,5 +1,4 @@
 ﻿using System;
-using MOP.Infra.Extensions;
 using System.CommandLine.Builder;
 using System.CommandLine.Invocation;
 using System.Threading.Tasks;
@@ -8,6 +7,7 @@ using MOP.Terminal.Settings;
 using MOP.Terminal.ConsoleEmulator;
 using MOP.Terminal.Logger;
 using MOP.Terminal.CommandLine;
+using MOP.Core.Infra.Extensions;
 
 namespace MOP.Terminal.CommandLineTransformers
 {

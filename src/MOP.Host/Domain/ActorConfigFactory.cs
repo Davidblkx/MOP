@@ -1,7 +1,7 @@
 ﻿using Akka.Configuration;
 using Optional;
 
-using static MOP.Infra.Optional.Static;
+using static MOP.Core.Infra.Optional.Static;
 
 namespace MOP.Host.Domain
 {

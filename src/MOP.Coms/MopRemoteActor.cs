@@ -1,6 +1,6 @@
 ﻿using Akka.Actor;
+using MOP.Core.Infra.Extensions;
 using MOP.Infra.Domain.Host;
-using MOP.Infra.Extensions;
 using MOP.Infra.Services;
 using Serilog;
 

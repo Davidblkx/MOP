@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace MOP.Infra.Tools
+namespace MOP.Core.Infra.Tools
 {
     public static class AssemblyTools
     {
@@ -23,7 +23,7 @@ namespace MOP.Infra.Tools
         /// <returns></returns>
         public static IEnumerable<T> GetImplementedBy<T>(Assembly assembly) where T : class
         {
-            foreach(var t in assembly.GetTypes())
+            foreach (var t in assembly.GetTypes())
             {
                 if (!TypeTools.CanInstantiate<T>(t)) continue;
 

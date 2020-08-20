@@ -2,7 +2,6 @@
 using MOP.Infra.Domain.Plugins;
 using MOP.Infra.Services;
 using MOP.Host.Plugins;
-using MOP.Infra.Extensions;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -10,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using MOP.Core.Infra.Extensions;
 
 namespace MOP.Host.Services
 {

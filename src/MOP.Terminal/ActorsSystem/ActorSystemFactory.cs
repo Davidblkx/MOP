@@ -1,6 +1,6 @@
 ﻿using Akka.Actor;
 using Akka.Configuration;
-using MOP.Infra.AKKA;
+using MOP.Core.Infra.AKKA;
 using MOP.Terminal.Settings;
 using System;
 

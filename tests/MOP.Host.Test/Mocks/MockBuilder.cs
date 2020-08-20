@@ -1,5 +1,4 @@
 ﻿using MOP.Infra.Domain.Host;
-using MOP.Infra.Extensions;
 using MOP.Infra.Services;
 using MOP.Host.Domain;
 using MOP.Host.Events;
@@ -8,6 +7,7 @@ using Serilog;
 using System;
 using System.IO;
 using System.Threading;
+using MOP.Core.Infra.Extensions;
 
 namespace MOP.Host.Test.Mocks
 {

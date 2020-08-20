@@ -9,9 +9,9 @@ using Serilog;
 using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 using Serilog.Events;
-using MOP.Infra.Extensions;
 
-using static MOP.Infra.Optional.Static;
+using static MOP.Core.Infra.Optional.Static;
+using MOP.Core.Infra.Extensions;
 
 [assembly: InternalsVisibleTo("MOP.Host.Test")]
 namespace MOP.Host.Services

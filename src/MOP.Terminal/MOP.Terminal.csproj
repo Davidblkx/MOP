@@ -22,7 +22,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MOP.Core\MOP.Core.csproj" />
-    <ProjectReference Include="..\MOP.Infra\MOP.Infra.csproj" />
   </ItemGroup>
 
 </Project>

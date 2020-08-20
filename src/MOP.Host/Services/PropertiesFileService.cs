@@ -1,9 +1,9 @@
 ﻿using Optional;
 using System.IO;
 using System.Linq;
-using MOP.Infra.Extensions;
 
 using static Optional.Option;
+using MOP.Core.Infra.Extensions;
 
 namespace MOP.Host.Services
 {

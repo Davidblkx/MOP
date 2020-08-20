@@ -4,7 +4,7 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MOP.Infra.Collections;
+using MOP.Core.Infra.Collections;
 
 namespace MOP.Host.Events
 {

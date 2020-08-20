@@ -1,8 +1,8 @@
 ﻿using MOP.Terminal.Settings;
-using MOP.Infra.Extensions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MOP.Core.Infra.Extensions;
 
 namespace MOP.Terminal.ActorsSystem
 {

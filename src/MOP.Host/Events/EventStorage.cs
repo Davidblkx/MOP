@@ -9,7 +9,7 @@ using Serilog;
 using MOP.Infra.Services;
 using System.Runtime.CompilerServices;
 
-using static MOP.Infra.Optional.Static;
+using static MOP.Core.Infra.Optional.Static;
 
 [assembly: InternalsVisibleTo("MOP.Host.Test")]
 namespace MOP.Host.Events

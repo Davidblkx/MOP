@@ -9,7 +9,7 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 
-using static MOP.Infra.Optional.Static;
+using static MOP.Core.Infra.Optional.Static;
 
 namespace MOP.Host.Services
 {

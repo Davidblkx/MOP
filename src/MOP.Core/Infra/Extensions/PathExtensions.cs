@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace MOP.Infra.Extensions
+namespace MOP.Core.Infra.Extensions
 {
     public static class PathExtensions
     {

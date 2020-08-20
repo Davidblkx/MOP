@@ -2,7 +2,7 @@
 using System;
 using System.Reflection;
 
-namespace MOP.Infra.Tools
+namespace MOP.Core.Infra.Tools
 {
     public static class TypeTools
     {
@@ -15,7 +15,7 @@ namespace MOP.Infra.Tools
         /// <returns>
         ///   <c>true</c> if this instance type can be instantiate as <typeparamref name="T"/>; otherwise, <c>false</c>.
         /// </returns>
-        /// <exception cref="System.ArgumentException">target base must be an interface</exception>
+        /// <exception cref="ArgumentException">target base must be an interface</exception>
         public static bool CanInstantiate<T>(Type target)
             => CanInstantiate(target, typeof(T));
 
@@ -28,7 +28,7 @@ namespace MOP.Infra.Tools
         /// <returns>
         ///   <c>true</c> if this instance type can be instantiate as targetBase; otherwise, <c>false</c>.
         /// </returns>
-        /// <exception cref="System.ArgumentException">target base must be an interface</exception>
+        /// <exception cref="ArgumentException">target base must be an interface</exception>
         public static bool CanInstantiate(Type target, Type targetBase)
         {
             if (!targetBase.IsInterface)

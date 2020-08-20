@@ -1,7 +1,7 @@
 ﻿using Optional;
 using System;
 
-using static MOP.Infra.Optional.Static;
+using static MOP.Core.Infra.Optional.Static;
 
 namespace MOP.Infra.Domain.Events
 {

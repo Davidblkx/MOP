@@ -1,13 +1,13 @@
-﻿using MOP.Infra.Domain.Plugins;
+﻿using MOP.Core.Infra.Tools;
+using MOP.Infra.Domain.Plugins;
 using MOP.Infra.Services;
-using MOP.Infra.Tools;
 using Optional;
 using Serilog;
 using System;
 using System.IO;
 using System.Reflection;
 
-using static MOP.Infra.Optional.Static;
+using static MOP.Core.Infra.Optional.Static;
 
 namespace MOP.Host.Plugins
 {

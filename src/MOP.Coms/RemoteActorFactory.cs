@@ -6,7 +6,7 @@ using Optional;
 using Serilog;
 using System;
 
-using static MOP.Infra.Optional.Static;
+using static MOP.Core.Infra.Optional.Static;
 
 namespace MOP.Remote
 {

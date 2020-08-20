@@ -1,12 +1,12 @@
 ﻿using MOP.Terminal.CommandLine;
 using MOP.Terminal.Logger;
 using MOP.Terminal.Settings;
-using MOP.Infra.Extensions;
 using System;
 using System.CommandLine;
 using System.CommandLine.Builder;
 using System.Threading.Tasks;
 using System.CommandLine.Invocation;
+using MOP.Core.Infra.Extensions;
 
 namespace MOP.Terminal.CommandLineTransformers
 {

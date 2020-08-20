@@ -9,7 +9,7 @@ using System;
 using System.Threading.Tasks;
 using Optional.Unsafe;
 
-using static MOP.Infra.Optional.Static;
+using static MOP.Core.Infra.Optional.Static;
 
 namespace MOP.Host.Services
 {

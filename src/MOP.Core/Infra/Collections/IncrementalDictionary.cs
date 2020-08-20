@@ -2,9 +2,9 @@
 using System;
 using System.Collections.Generic;
 
-using static MOP.Infra.Optional.Static;
+using static MOP.Core.Infra.Optional.Static;
 
-namespace MOP.Infra.Collections
+namespace MOP.Core.Infra.Collections
 {
     /// <summary>
     /// Contains a collection of <typeparamref name="T"/> assigned to a id

@@ -1,8 +1,8 @@
-﻿using MOP.Infra.Tools;
-using MOP.Infra.Extensions;
-using Serilog;
+﻿using Serilog;
 using System;
 using System.IO;
+using MOP.Core.Infra.Extensions;
+using MOP.Core.Infra.Tools;
 
 namespace MOP.Infra.UserSettings
 {
