@@ -1,6 +1,6 @@
 ﻿using Akka.Actor;
 using Akka.Configuration;
-using MOP.Core.Infra.AKKA;
+using MOP.Core.Akka.Hocon;
 using MOP.Terminal.Settings;
 using System;
 
@@ -10,9 +10,6 @@ namespace MOP.Terminal.ActorsSystem
     {
         private readonly HoconConfigFactory _hoconFactory;
         private Guid? _id;
-        
-        private const string CONFIG_PORT = "PORT";
-        private const string CONFIG_HOSTNAME = "HOSTNAME";
 
         public ActorSystemFactory()
         {
@@ -21,8 +18,6 @@ namespace MOP.Terminal.ActorsSystem
 
         public ActorSystemFactory SetSettings(ISettings s)
         {
-            _hoconFactory.Set(CONFIG_PORT, s.Port.ToString());
-            _hoconFactory.Set(CONFIG_HOSTNAME, s.Hostname);
             _id = s.Id;
             return this;
         }

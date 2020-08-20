@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MOP.Core.Akka.Hocon;
+using System;
 using System.Collections.Generic;
 
 namespace MOP.Terminal.Settings
@@ -60,5 +61,13 @@ namespace MOP.Terminal.Settings
         /// The hosts.
         /// </value>
         List<HostSettings> Hosts { get; set; }
+
+        /// <summary>
+        /// Gets or sets the actor system settings.
+        /// </summary>
+        /// <value>
+        /// The actor system.
+        /// </value>
+        public HoconConfig ActorSystem { get; set; }
     }
 }

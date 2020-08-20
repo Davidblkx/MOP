@@ -1,0 +1,52 @@
+﻿akka {
+	version = "1.4.9 Akka"
+	loglevel = #!LOG_LEVEL
+	loggers=["Akka.Logger.Serilog.SerilogLogger, Akka.Logger.Serilog"]
+	stdout-loglevel = #!STDOUT_LOG_LEVEL
+	log-config-on-start = #!LOG_CONFIG
+	log-dead-letters = 10
+	log-dead-letters-during-shutdown = off
+	log-dead-letters-suspend-duration = 5 minutes
+	daemonic = off
+
+	actor {
+		serialize-messages = off
+		serialize-creators = off
+
+		inbox {
+			inbox-size = 1000,
+			default-timeout = 5s
+		}
+
+		serializers {
+		  json = "Akka.Serialization.NewtonSoftJsonSerializer, Akka"
+		  bytes = "Akka.Serialization.ByteArraySerializer, Akka"
+		}
+	}
+
+	remote {
+		startup-timeout = 10 s
+		shutdown-timeout = 10 s
+		use-passive-connections = on
+		handshake-timeout = 15 s
+
+		untrusted-mode = off
+		require-cookie = off
+		secure-cookie = ""
+
+		log-received-messages = off
+		log-sent-messages = off
+		log-remote-lifecycle-events = on
+
+		enabled-transports = ["akka.remote.dot-netty.tcp"]
+
+		dot-netty.tcp {
+			transport-protocol = tcp
+			byte-order = "little-endian"
+            port = #!REMOTE_PORT
+            hostname = #!REMOTE_HOSTNAME
+            public-hostname = #!REMOTE_PUBLIC_HOSTNAME
+            public-port = #!REMOTE_PUBLIC_PORT
+        }
+	}
+}

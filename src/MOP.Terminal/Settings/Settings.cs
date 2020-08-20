@@ -1,4 +1,5 @@
-﻿using MOP.Terminal.Logger;
+﻿using MOP.Core.Akka.Hocon;
+using MOP.Terminal.Logger;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -21,6 +22,8 @@ namespace MOP.Terminal.Settings
         public bool LogToFile { get; set; }
 
         public int LogLevel { get; set; } = 2;
+
+        public HoconConfig ActorSystem { get; set; } = new HoconConfig();
 
 
         public static LocalSettings FromInterface(ISettings s)
