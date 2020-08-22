@@ -21,13 +21,10 @@ namespace MOP.Host.Services
         private readonly ILogger _log;
         public ActorSystem MainActorSystem { get; }
 
-        public ActorService(IHost host, HostProperties props)
+        public ActorService(IHost host, ILogService log, HostProperties props)
         {
-            if (host.LogService is null)
-                throw new ArgumentNullException("Can't initialize IConfigService before ILogService");
-
             _host = host;
-            _log = _host.LogService.GetContextLogger<IActorService>();
+            _log = log.GetContextLogger<IActorService>();
             MainActorSystem = CreateActorSystem(props);
             _factories = new Dictionary<string, IActorFactory>();
             _instances = new Dictionary<string, IActorRef>();

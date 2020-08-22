@@ -1,4 +1,4 @@
-﻿using MOP.Core.Plugins;
+﻿using MOP.Core.Domain.Plugins;
 using MOP.Host.Services;
 using System;
 using Xunit;

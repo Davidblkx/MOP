@@ -1,4 +1,4 @@
-﻿namespace MOP.Core.Plugins
+﻿namespace MOP.Core.Domain.Plugins
 {
     public enum LifeCycle
     {

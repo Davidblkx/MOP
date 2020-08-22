@@ -8,6 +8,9 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using MOP.Core.Services;
+using MOP.Core.Domain.Plugins;
+using MOP.Core.Infra;
 
 using static MOP.Infra.Tools.InfoBuilder;
 
@@ -33,25 +36,23 @@ namespace MOP.Host
         /// </value>
         public DirectoryInfo TempDirectory { get; }
 
-        private readonly CancellationToken _token;
+        private readonly MopLifeService _lifeHandler;
         private int _exitCode = 0;
-        private ILogger? _logger => LogService?.GetContextLogger<IHost>();
+        private readonly IInjectorService _injector;
+        private ILogger _logger => _injector
+            .GetService<ILogService>()
+            .GetContextLogger<IHost>();
 
         public event EventHandler<int>? BeforeExit;
         public event EventHandler<int>? Exit;
 
-        public IActorService? ActorService { get; private set; }
-        public IConfigService? ConfigService { get; private set; }
-        public IEventService? EventService { get; private set; }
-        public ILogService? LogService { get; private set; }
-        public IPluginService? PluginService { get; private set; }
-
-        public MopHost(HostProperties p, CancellationToken token)
+        public MopHost(HostProperties p, MopLifeService life, IInjectorService injector)
         {
             Info = BuildHostInfo(p.Id, p.Name);
             DataDirectory = new DirectoryInfo(p.DataDirectory);
             TempDirectory = new DirectoryInfo(p.TempDirectory);
-            _token = token;
+            _lifeHandler = life;
+            _injector = injector;
         }
 
         /// <summary>
@@ -59,10 +60,9 @@ namespace MOP.Host
         /// </summary>
         public async Task<int> Start()
         {
-            _logger?.Information("Starting MOP host with Name {@Name} and Id {@Id}", Info.Name, Info.Id);
+            _logger.Information("Starting MOP host with Name {@Name} and Id {@Id}", Info.Name, Info.Id);
             await LoadLocalPlugins();
-            await Task.Run(() 
-                => { while (!_token.IsCancellationRequested) { } });
+            await _lifeHandler.WaitForExit();
             return _exitCode;
         }
 
@@ -73,39 +73,33 @@ namespace MOP.Host
             Exit?.Invoke(this, exitCode);
         }
 
-        public void SetActorService(IActorService actorService, bool replace = false)
-            => ActorService = GetValue(replace, ActorService, actorService);
-        public void SetConfigService(IConfigService configService, bool replace = false)
-            => ConfigService = GetValue(replace, ConfigService, configService);
-        public void SetEventService(IEventService eventService, bool replace = false)
-            => EventService = GetValue(replace, EventService, eventService);
-        public void SetLogService(ILogService logService, bool replace = false)
-            => LogService = GetValue(replace, LogService, logService);
-        public void SetPluginService(IPluginService pluginService, bool replace = false)
-            => PluginService = GetValue(replace, PluginService, pluginService);
-
         private T GetValue<T>(bool replace, T instance, T value)
             => (replace || instance is null) ? value : instance;
 
         private async Task LoadLocalPlugins()
         {
-            if (PluginService is null)
-                throw new ArgumentNullException("Plugin service must be defined");
-            var dirPath = Path.Combine(Environment.CurrentDirectory, "Plugins");
-            await PluginService.AddPluginsFolder(new DirectoryInfo(dirPath));
-            await PluginService.Load();
+            // TODO
         }
 
         public static async Task<MopHost> BuildHost(string[] args, CancellationToken token)
         {
             var props = await HostPropertiesService.LoadHostProperties(args);
-            var host = new MopHost(props, token);
-            host.SetLogService(new LogService(props));
-            host.SetConfigService(await ConfigServiceBuilder.Build(host));
-            host.SetActorService(new ActorService(host, props));
-            host.SetEventService(new EventService(host));
-            host.SetPluginService(new PluginService(host));
-            return host;
+            var injector = new InjectorService();
+
+            injector.RegisterService(() => props, LifeCycle.Singleton);
+            injector.RegisterService(() => new MopLifeService(token), LifeCycle.Singleton);
+            injector.RegisterService<IInjectorService>(() => injector, LifeCycle.Singleton);
+            injector.RegisterService<IHost, MopHost>(LifeCycle.Singleton);
+            injector.RegisterService<ILogService, LogService>(LifeCycle.Singleton);
+            injector.RegisterService<IConfigService, ConfigService>(LifeCycle.Singleton);
+            injector.RegisterService<IActorService, ActorService>(LifeCycle.Singleton);
+            injector.RegisterService<IEventService, EventService>(LifeCycle.Singleton);
+            injector.RegisterService<IPluginService, PluginService>(LifeCycle.Singleton);
+
+            if (injector.GetService<IHost>() is MopHost host)
+                return host;
+
+            throw new Exception("Failed to instantiate host");
         }
     }
 }

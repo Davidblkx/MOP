@@ -3,13 +3,22 @@ using System;
 
 namespace MOP.Infra.Domain.Plugins
 {
-    internal class PluginInfo : IPluginInfo
+    public class PluginInfo : IPluginInfo
     {
         public Guid Id { get; set; }
-        public string Name { get; set; } = "Unknown";
-        public string Namespace => BuildNamespace();
-        public MopVersion CoreVersion { get; set; } = new MopVersion();
-        public ulong Priority { get; set; } = 1000;
+        public string Name { get; set; }
+        public string Namespace { get; set; }
+        public MopVersion CoreVersion { get; set; }
+        public ulong Priority { get; set; }
+
+        public PluginInfo()
+        {
+            Id = Guid.NewGuid();
+            Name = "Unknown";
+            Namespace = BuildNamespace();
+            CoreVersion = new MopVersion(1, 0, 0);
+            Priority = 1000;
+        }
 
         private string BuildNamespace()
         {

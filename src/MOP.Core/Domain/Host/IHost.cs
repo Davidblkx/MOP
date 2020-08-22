@@ -1,4 +1,4 @@
-﻿using MOP.Infra.Services;
+﻿using MOP.Core.Services;
 using System;
 using System.IO;
 
@@ -35,18 +35,6 @@ namespace MOP.Infra.Domain.Host
 
         event EventHandler<int>? BeforeExit;
         event EventHandler<int>? Exit;
-
-        IActorService? ActorService { get; }
-        IConfigService? ConfigService { get; }
-        IEventService? EventService { get; }
-        ILogService? LogService { get; }
-        IPluginService? PluginService { get; }
-
-        void SetActorService(IActorService actorService, bool replace = false);
-        void SetConfigService(IConfigService configService, bool replace = false);
-        void SetEventService(IEventService eventService, bool replace = false);
-        void SetLogService(ILogService logService, bool replace = false);
-        void SetPluginService(IPluginService pluginService, bool replace = false);
 
         /// <summary>
         /// Terminates with the specified exit code.

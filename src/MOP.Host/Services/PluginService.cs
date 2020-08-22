@@ -23,13 +23,10 @@ namespace MOP.Host.Services
         private readonly List<IPlugin> _ready;
         private readonly List<IPlugin> _failed;
 
-        public PluginService(IHost host)
-        {
-            if (host.LogService is null)
-                throw new ArgumentNullException("IPluginService can't be loaded before logger");
-
+        public PluginService(IHost host, ILogService log)
+        { 
             _host = host;
-            _logService = host.LogService;
+            _logService = log;
             _log = _logService.GetContextLogger<IPluginService>();
             _loader = new AssemblyLoader(_logService);
             _pending = new List<IPlugin>();

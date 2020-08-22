@@ -1,10 +1,13 @@
 using MOP.Infra.Domain.Host;
 using MOP.Host.Services;
 using MOP.Host.Test.Mocks;
+using MOP.Infra.Services;
 using Optional.Unsafe;
 using System;
 using System.Threading.Tasks;
 using Xunit;
+
+using static MOP.Host.Test.Mocks.MockBuilder;
 
 namespace MOP.Host.Test.Services
 {
@@ -20,7 +23,7 @@ namespace MOP.Host.Test.Services
 
         private ConfigService CreateService()
         {
-            return new ConfigService(Host);
+            return new ConfigService(Host, injector.GetService<ILogService>());
         }
 
         [Fact]

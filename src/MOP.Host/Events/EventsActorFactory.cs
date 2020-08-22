@@ -6,6 +6,8 @@ using Optional;
 using System;
 using static MOP.Infra.Domain.Actors.IActorRefInstanceType;
 using static MOP.Core.Infra.Optional.Static;
+using Serilog;
+using MOP.Infra.Services;
 
 namespace MOP.Host.Events
 {
@@ -17,21 +19,23 @@ namespace MOP.Host.Events
     {
         private readonly IHost _host;
         private readonly string _filename;
+        private readonly ILogger _logger;
+        private readonly ILogService _logService;
 
         public string ActorRefName { get; }
         public IActorRefInstanceType InstanceType => Singleton;
 
-        public EventsActorFactory(IHost host, string filename)
+        public EventsActorFactory(IHost host, string filename, ILogService log)
         {
             _host = host;
-            ActorRefName = "Events-" + _host.Info.Id.ToString();
+            _logService = log;
             _filename = filename;
+            _logger = log.GetContextLogger<EventsActorFactory>();
+            ActorRefName = "Events-" + _host.Info.Id.ToString();
         }
 
         public Option<IActorRef> BuildActorRef(ActorSystem actorSystem)
         {
-            var _logService = _host.LogService;
-            if (_logService is null) return None<IActorRef>();
             try
             {
                 var dbPath = _host.DataDirectory.RelativeFile($"{_filename}.db");
@@ -41,8 +45,7 @@ namespace MOP.Host.Events
                 return Some(actor);
             } catch (Exception e)
             {
-                _logService.GetContextLogger<EventsActorFactory>()
-                    .Error(e, "Error initializing actor for events");
+                _logger.Error(e, "Error initializing actor for events");
                 return None<IActorRef>();
             }
         }

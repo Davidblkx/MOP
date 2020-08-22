@@ -31,7 +31,7 @@ namespace MOP.Host.Test.Services
 
         private IActorService CreateService()
         {
-            return Builder.BuildActorService();
+            return MockBuilder.injector.GetService<IActorService>();
         }
 
         [Fact]

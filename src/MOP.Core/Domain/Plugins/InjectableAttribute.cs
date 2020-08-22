@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MOP.Core.Plugins
+namespace MOP.Core.Domain.Plugins
 {
     /// <summary>
     /// Mark class to be injected into the Host container
@@ -8,9 +8,11 @@ namespace MOP.Core.Plugins
     /// <seealso cref="Attribute" />
     public class InjectableAttribute : Attribute
     {
-        public string? Name { get; set; }
-        public LifeCycle Life { get; set; } = LifeCycle.Transient;
+        public LifeCycle Life { get; set; }
 
-        public InjectableAttribute() { }
+        public InjectableAttribute(LifeCycle lifeCycle = LifeCycle.Transient)
+        {
+            Life = lifeCycle;
+        }
     }
 }

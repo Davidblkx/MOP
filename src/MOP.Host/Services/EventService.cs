@@ -18,17 +18,11 @@ namespace MOP.Host.Services
         private readonly ILogger _log;
         private readonly IActorRef _eventsActor;
 
-        public EventService(IHost host)
+        public EventService(IHost host, ILogService log, IActorService actors)
         {
-            if (host.LogService is null)
-                throw new ArgumentNullException("Can't initialize IEventService before ILogService");
-            if (host.ActorService is null)
-                throw new ArgumentNullException("Can't initialize IEventService before IActorService");
-
-            _log = host.LogService.GetContextLogger<IEventService>();
-            _eventsActor = InitActorFactor(host)
+            _log = log.GetContextLogger<IEventService>();
+            _eventsActor = InitActorFactor(host, actors, log)
                 .ValueOrFailure("Failed to initialize events actor");
-
         }
 
         public Task<Guid> Emit(string type)
@@ -74,13 +68,11 @@ namespace MOP.Host.Services
         private Task<object> AskSubscribe(Action<IEvent> handler, params string[] types)
             => _eventsActor.Ask(new SubscribeCommand(handler, types));
 
-        private Option<IActorRef> InitActorFactor(IHost host)
+        private Option<IActorRef> InitActorFactor(IHost host, IActorService actors, ILogService log)
         {
-            var factory = new EventsActorFactory(host, "events");
-            host.ActorService?.AddActorFactory(factory);
-            return host.ActorService?
-                .GetActorOf(factory.ActorRefName)
-                ?? None<IActorRef>();
+            var factory = new EventsActorFactory(host, "events", log);
+            actors.AddActorFactory(factory);
+            return actors.GetActorOf(factory.ActorRefName);
         }
     }
 }

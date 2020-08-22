@@ -30,13 +30,10 @@ namespace MOP.Host.Services
         private JObject? _configObj;
         private bool _hasInit = false;
 
-        public ConfigService(IHost host)
+        public ConfigService(IHost host, ILogService log)
         {
-            if (host.LogService is null)
-                throw new ArgumentNullException("Can't initialize IConfigService before ILogService");
-
             _host = host;
-            _log = host.LogService.GetContextLogger<ConfigService>();
+            _log = log.GetContextLogger<ConfigService>();
         }
 
         public async Task<bool> ReloadConfigObject(bool force = false)
@@ -167,16 +164,6 @@ namespace MOP.Host.Services
                 _log.Error("Error loading config file", e);
                 return false;
             }
-        }
-    }
-
-    internal static class ConfigServiceBuilder
-    {
-        public static async Task<IConfigService> Build(IHost host)
-        {
-            var service = new ConfigService(host);
-            await service.ReloadConfigObject(true);
-            return service;
         }
     }
 }

@@ -8,11 +8,16 @@ using System;
 using System.IO;
 using System.Threading;
 using MOP.Core.Infra.Extensions;
+using MOP.Core.Infra;
+using MOP.Core.Services;
+using MOP.Core.Domain.Plugins;
 
 namespace MOP.Host.Test.Mocks
 {
     public class MockBuilder : IDisposable
     {
+        public static readonly IInjectorService injector = new InjectorService();
+
         public IHost Host { get; }
         public IEventStorage Storage { get; }
 
@@ -24,35 +29,33 @@ namespace MOP.Host.Test.Mocks
             Storage = BuildStorage();
         }
 
-        public IActorService BuildActorService()
-        {
-            return new ActorService(Host, BuildMockHostProps());
-        }
-
-        private ILogService BuildLogService()
-        {
-            return new LogService(BuildMockHostProps());
-        }
-
         private IHost BuildHost()
         {
-            var host = new MopHost(BuildMockHostProps(), new CancellationToken());
-            host.SetLogService(BuildLogService());
-            host.SetConfigService(new ConfigService(host));
-            return host;
+            injector.RegisterService(() => BuildMockHostProps(), LifeCycle.Singleton);
+            injector.RegisterService(() => new MopLifeService(new CancellationToken()), LifeCycle.Singleton);
+            injector.RegisterService(() => injector, LifeCycle.Singleton);
+            injector.RegisterService<IHost, MopHost>(LifeCycle.Singleton);
+            injector.RegisterService<ILogService, LogService>(LifeCycle.Singleton);
+            injector.RegisterService<IConfigService, ConfigService>(LifeCycle.Singleton);
+            injector.RegisterService<IActorService, ActorService>(LifeCycle.Singleton);
+
+            if (injector.GetService<IHost>() is MopHost host)
+                return host;
+
+            throw new Exception("Failed to instantiate host");
         }
 
         private IEventStorage BuildStorage()
         {
             db = Host.DataDirectory.RelativeFile("events.sb");
-            return new EventStorage(db, Host.LogService);
+            return new EventStorage(db, injector.GetService<ILogService>());
         }
 
         private void CleanDirectory()
         {
             try
             {
-                if (Host.LogService is LogService e)
+                if (injector.GetService<ILogService>() is LogService e)
                     e.Dispose();
                 Log.CloseAndFlush();
                 if (db?.Exists ?? false)

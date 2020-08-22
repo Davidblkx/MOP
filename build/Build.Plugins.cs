@@ -14,12 +14,12 @@ partial class Build
 {
     List<AbsolutePath> PluginsSourceDirectory => new List<AbsolutePath>
     {
-        SourceDirectory / "MOP.Remote",
+        // SourceDirectory / "MOP.Remote",
     };
 
     List<Project> PluginsProjects => new List<Project>
     {
-        MopSolution.GetProject("MOP.Remote"),
+        // MopSolution.GetProject("MOP.Remote"),
     };
     
     AbsolutePath PluginsOutputDirectory => OutputDirectory / "MOPHost" / "Plugins";
