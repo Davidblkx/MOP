@@ -1,6 +1,5 @@
 ﻿using Akka.Actor;
 using MOP.Infra.Domain.Events;
-using System;
 
 namespace MOP.Host.Events
 {
@@ -20,13 +19,11 @@ namespace MOP.Host.Events
 
         private void DeclareReceive()
         {
-            Receive<SubscribeCommand>(cmd => 
+            Receive<SubscribeCommand>(cmd =>
                 Sender.Tell(_handler.Subscribe(cmd)));
-            Receive<ReplayCommand>(cmd => 
+            Receive<ReplayCommand>(cmd =>
                 _handler.Emit(cmd.StartId, cmd.EventTypes));
             Receive<EventCommand>(cmd => _handler.Emit(cmd.Event));
-            Receive<string>(e => 
-                Console.WriteLine("BATATAS"));
         }
 
         public static Props WithProps(EventSubscriptionHandler handler)

@@ -19,13 +19,6 @@ namespace MOP.Infra.Domain.Plugins
         IPluginInfo Info { get; }
 
         /// <summary>
-        /// Executed before plugins are initialized.
-        /// </summary>
-        /// <param name="IHost">The i host.</param>
-        /// <returns></returns>
-        Task PreLoad(IHost host);
-
-        /// <summary>
         /// Initializes plugin using the specified host.
         /// </summary>
         /// <param name="host">The host.</param>

@@ -17,13 +17,28 @@ namespace MOP.Infra.Domain.Plugins
             Name = "Unknown";
             Namespace = BuildNamespace();
             CoreVersion = new MopVersion(1, 0, 0);
-            Priority = 1000;
+            Priority = PluginPriority.DEFAULT;
         }
 
         private string BuildNamespace()
         {
             var id = Id.ToString().Replace("-", "");
             return $"[{id}]";
+        }
+
+        public static PluginInfo From(IPluginInfo i)
+        {
+            if (i is PluginInfo info)
+                return info;
+
+            return new PluginInfo
+            { 
+                CoreVersion = i.CoreVersion,
+                Id = i.Id,
+                Name = i.Name,
+                Namespace = i.Namespace,
+                Priority = i.Priority
+            };
         }
     }
 }
