@@ -1,4 +1,4 @@
-﻿using Semver;
+﻿using MOP.Core.Infra;
 using System;
 
 namespace MOP.Infra.Domain.Plugins
@@ -14,7 +14,7 @@ namespace MOP.Infra.Domain.Plugins
         /// <value>
         /// The core version.
         /// </value>
-        SemVersion CoreVersion { get; }
+        MopVersion CoreVersion { get; }
         /// <summary>
         /// Gets the identifier.
         /// </summary>

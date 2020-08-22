@@ -1,5 +1,4 @@
-﻿using Semver;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 
@@ -7,12 +6,12 @@ namespace MOP.Core.Infra.Tools
 {
     public static class AssemblyTools
     {
-        public static SemVersion GetAssemblyVersion(Assembly assembly)
+        public static MopVersion GetAssemblyVersion(Assembly assembly)
         {
             var version = assembly.
                 GetCustomAttribute<AssemblyInformationalVersionAttribute>()
                 .InformationalVersion;
-            return SemVersion.Parse(version);
+            return new MopVersion(version);
         }
 
         /// <summary>

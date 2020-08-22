@@ -1,4 +1,4 @@
-﻿using Semver;
+﻿using MOP.Core.Infra;
 using System;
 
 namespace MOP.Infra.Domain.Plugins
@@ -8,7 +8,7 @@ namespace MOP.Infra.Domain.Plugins
         public Guid Id { get; set; }
         public string Name { get; set; } = "Unknown";
         public string Namespace => BuildNamespace();
-        public SemVersion CoreVersion { get; set; } = new SemVersion(0,1,0);
+        public MopVersion CoreVersion { get; set; } = new MopVersion();
         public ulong Priority { get; set; } = 1000;
 
         private string BuildNamespace()

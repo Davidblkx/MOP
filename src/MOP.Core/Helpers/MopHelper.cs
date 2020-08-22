@@ -1,5 +1,5 @@
-﻿using MOP.Core.Infra.Tools;
-using Semver;
+﻿using MOP.Core.Infra;
+using MOP.Core.Infra.Tools;
 using System.Reflection;
 
 namespace MOP.Infra.Tools
@@ -10,7 +10,7 @@ namespace MOP.Infra.Tools
         /// Gets the MOP core version.
         /// </summary>
         /// <returns></returns>
-        public static SemVersion GetCoreVersion()
+        public static MopVersion GetCoreVersion()
         {
             return AssemblyTools.GetAssemblyVersion(Assembly.GetExecutingAssembly());
         }

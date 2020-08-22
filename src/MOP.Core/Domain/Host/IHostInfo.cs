@@ -1,5 +1,5 @@
 ﻿
-using Semver;
+using MOP.Core.Infra;
 using System;
 
 namespace MOP.Infra.Domain.Host
@@ -31,6 +31,6 @@ namespace MOP.Infra.Domain.Host
         /// <value>
         /// The core version.
         /// </value>
-        SemVersion CoreVersion { get; }
+        MopVersion CoreVersion { get; }
     }
 }

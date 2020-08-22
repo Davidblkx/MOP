@@ -1,4 +1,4 @@
-﻿using Semver;
+﻿using MOP.Core.Infra;
 using System;
 
 namespace MOP.Infra.Domain.Host
@@ -9,6 +9,6 @@ namespace MOP.Infra.Domain.Host
 
         public string Name { get; set; } = "";
 
-        public SemVersion CoreVersion { get; set; } = new SemVersion(0,1,0);
+        public MopVersion CoreVersion { get; set; } = new MopVersion(0,1,0);
     }
 }
