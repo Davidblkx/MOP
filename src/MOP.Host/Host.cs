@@ -95,6 +95,7 @@ namespace MOP.Host
             injector.RegisterService<IHost, MopHost>(LifeCycle.Singleton);
             injector.RegisterService<ILogService, LogService>(LifeCycle.Singleton);
             injector.RegisterService<IConfigService, ConfigService>(LifeCycle.Singleton);
+            injector.RegisterService<IApiService, ApiService>(LifeCycle.Singleton);
             injector.RegisterService<IEventService, EventService>(LifeCycle.Singleton);
             injector.RegisterService<IPluginService, PluginService>(LifeCycle.Singleton);
 

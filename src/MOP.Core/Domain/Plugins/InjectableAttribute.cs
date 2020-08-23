@@ -6,6 +6,7 @@ namespace MOP.Core.Domain.Plugins
     /// Mark class to be injected into the Host container
     /// </summary>
     /// <seealso cref="Attribute" />
+    [AttributeUsage(AttributeTargets.Class)]
     public class InjectableAttribute : Attribute
     {
         public LifeCycle Life { get; set; }
