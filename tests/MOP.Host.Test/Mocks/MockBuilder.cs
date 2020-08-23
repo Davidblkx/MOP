@@ -37,7 +37,6 @@ namespace MOP.Host.Test.Mocks
             injector.RegisterService<IHost, MopHost>(LifeCycle.Singleton);
             injector.RegisterService<ILogService, LogService>(LifeCycle.Singleton);
             injector.RegisterService<IConfigService, ConfigService>(LifeCycle.Singleton);
-            injector.RegisterService<IActorService, ActorService>(LifeCycle.Singleton);
 
             if (injector.GetService<IHost>() is MopHost host)
                 return host;
@@ -79,8 +78,6 @@ namespace MOP.Host.Test.Mocks
                 WriteToConsole = true,
                 WriteToFile = true,
                 AllowRemote = true,
-                RemoteHostname = "localhost",
-                RemotePort = 0
             };
         }
 

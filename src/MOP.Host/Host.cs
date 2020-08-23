@@ -13,6 +13,7 @@ using MOP.Core.Domain.Plugins;
 using MOP.Core.Infra;
 
 using static MOP.Infra.Tools.InfoBuilder;
+using MOP.Host.Factories;
 
 [assembly: InternalsVisibleTo("MOP.Host.Test")]
 namespace MOP.Host
@@ -83,16 +84,17 @@ namespace MOP.Host
 
         public static async Task<MopHost> BuildHost(string[] args, CancellationToken token)
         {
-            var props = await HostPropertiesService.LoadHostProperties(args);
+            var props = await HostPropertiesFactory.BuildPropertiesAsync(args);
             var injector = new InjectorService();
+            var mainSystem = ActorSystemFactory.BuildFrom(props);
 
             injector.RegisterService(() => props, LifeCycle.Singleton);
             injector.RegisterService(() => new MopLifeService(token), LifeCycle.Singleton);
+            injector.RegisterService(() => mainSystem, LifeCycle.Singleton);
             injector.RegisterService<IInjectorService>(() => injector, LifeCycle.Singleton);
             injector.RegisterService<IHost, MopHost>(LifeCycle.Singleton);
             injector.RegisterService<ILogService, LogService>(LifeCycle.Singleton);
             injector.RegisterService<IConfigService, ConfigService>(LifeCycle.Singleton);
-            injector.RegisterService<IActorService, ActorService>(LifeCycle.Singleton);
             injector.RegisterService<IEventService, EventService>(LifeCycle.Singleton);
             injector.RegisterService<IPluginService, PluginService>(LifeCycle.Singleton);
 

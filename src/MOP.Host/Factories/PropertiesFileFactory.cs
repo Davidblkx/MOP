@@ -5,12 +5,12 @@ using System.Linq;
 using static Optional.Option;
 using MOP.Core.Infra.Extensions;
 
-namespace MOP.Host.Services
+namespace MOP.Host.Factories
 {
     /// <summary>
     /// Builds the HostProperties FileInfo
     /// </summary>
-    internal class PropertiesFileService
+    internal class PropertiesFileFactory
     {
         private static readonly string[] VALID_ARGS = new[] { "--config", "-c" };
         private const string FILE_NAME = ".mop.json";
@@ -20,12 +20,12 @@ namespace MOP.Host.Services
         /// </summary>
         /// <param name="args">The arguments.</param>
         /// <returns></returns>
-        public static FileInfo GetPropertiesFile(string[] args)
-            => new PropertiesFileService(args).GetFile();
+        public static FileInfo BuildPropertiesFile(string[] args)
+            => new PropertiesFileFactory(args).GetFile();
 
         private readonly string[] _args;
 
-        public PropertiesFileService(string[] args)
+        public PropertiesFileFactory(string[] args)
         {
             _args = args;
         }
@@ -37,13 +37,13 @@ namespace MOP.Host.Services
         private Option<FileInfo> GetFileFromArgument()
             => GetFilePathFromArgument()
                 .Match(
-                    some: e => e.ToFileInfo(), 
+                    some: e => e.ToFileInfo(),
                     none: () => None<FileInfo>()
                 );
 
         private Option<string> GetFilePathFromArgument()
         {
-            for(var i = 0; i < _args.Length; i++)
+            for (var i = 0; i < _args.Length; i++)
             {
                 if (VALID_ARGS.Contains(_args[i]))
                     if (i + 1 < _args.Length)

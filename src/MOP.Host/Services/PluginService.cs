@@ -102,17 +102,7 @@ namespace MOP.Host.Services
 
         private async Task<bool> TryAddPlugin(IPlugin p)
         {
-            try
-            {
-                await p.PreLoad(_host);
-                _pending.Add(p);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                _log.Debug(ex, "Error adding new plugin: {@Name}", p.Info.Name);
-                return false;
-            }
+            throw new NotImplementedException();
         }
 
         private void PluginLoadingSuccess(IPlugin p)

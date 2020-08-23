@@ -1,4 +1,5 @@
-﻿using Serilog.Events;
+﻿using MOP.Core.Akka.Hocon;
+using Serilog.Events;
 using System;
 
 namespace MOP.Host.Domain
@@ -13,7 +14,11 @@ namespace MOP.Host.Domain
         public bool WriteToConsole { get; set; } = true;
         public bool WriteToFile { get; set; } = true;
         public bool AllowRemote { get; set; } = true;
-        public int RemotePort { get; set; } = 7654;
-        public string RemoteHostname { get; set; } = "localhost";
+        public HoconConfig ActorSystemConfig { get; set; }
+
+        public HostProperties()
+        {
+            ActorSystemConfig = new HoconConfig();
+        }
     }
 }

@@ -3,6 +3,7 @@ using Optional;
 using MOP.Infra.Domain.Events;
 using MOP.Infra.Domain.Host;
 using MOP.Infra.Services;
+using MOP.Core.Infra.Extensions;
 using MOP.Host.Events;
 using Serilog;
 using System;
@@ -15,13 +16,15 @@ namespace MOP.Host.Services
 {
     internal class EventService : IEventService
     {
+        private const string ACTOR_NAME = "events";
+
         private readonly ILogger _log;
         private readonly IActorRef _eventsActor;
 
-        public EventService(IHost host, ILogService log, IActorService actors)
+        public EventService(IHost host, ILogService log, ActorSystem actorSystem)
         {
             _log = log.GetContextLogger<IEventService>();
-            _eventsActor = InitActorFactor(host, actors, log)
+            _eventsActor = InitEventActor(host, actorSystem, log)
                 .ValueOrFailure("Failed to initialize events actor");
         }
 
@@ -68,11 +71,21 @@ namespace MOP.Host.Services
         private Task<object> AskSubscribe(Action<IEvent> handler, params string[] types)
             => _eventsActor.Ask(new SubscribeCommand(handler, types));
 
-        private Option<IActorRef> InitActorFactor(IHost host, IActorService actors, ILogService log)
+        private Option<IActorRef> InitEventActor(IHost host, ActorSystem actorSystem, ILogService logService)
         {
-            var factory = new EventsActorFactory(host, "events", log);
-            actors.AddActorFactory(factory);
-            return actors.GetActorOf(factory.ActorRefName);
+            try
+            {
+                var dbPath = host.DataDirectory.RelativeFile($"{ACTOR_NAME}.db");
+                var storage = new EventStorage(dbPath, logService);
+                var handler = new EventSubscriptionHandler(storage, logService);
+                var props = EventsActor.WithProps(handler);
+                return Some(actorSystem.ActorOf(props, ACTOR_NAME));
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex, "Failed to starts events actor");
+                return None<IActorRef>();
+            }
         }
     }
 }
