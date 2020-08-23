@@ -2,18 +2,18 @@
 using MOP.Infra.Services;
 using MOP.Host.Domain;
 using MOP.Host.Services;
+using MOP.Core.Services;
+using MOP.Core.Domain.Plugins;
+using MOP.Core.Infra;
+using MOP.Host.Factories;
 using Serilog;
 using System;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using MOP.Core.Services;
-using MOP.Core.Domain.Plugins;
-using MOP.Core.Infra;
 
 using static MOP.Infra.Tools.InfoBuilder;
-using MOP.Host.Factories;
 
 [assembly: InternalsVisibleTo("MOP.Host.Test")]
 namespace MOP.Host

@@ -12,9 +12,9 @@ namespace MOP.Host.Services
         private static bool INIT = false;
         private readonly Container _container;
 
-        public InjectorService()
+        public InjectorService(bool forceOneInstance = true)
         {
-            if (INIT) throw new AccessViolationException("Service already instantiated");
+            if (forceOneInstance && INIT) throw new AccessViolationException("Service already instantiated");
             _container = new Container();
             _container.Options.AllowOverridingRegistrations = true;
             INIT = true;

@@ -16,7 +16,7 @@ namespace MOP.Host.Test.Mocks
 {
     public class MockBuilder : IDisposable
     {
-        public static readonly IInjectorService injector = new InjectorService();
+        public static readonly IInjectorService injector = new InjectorService(false);
 
         public IHost Host { get; }
         public IEventStorage Storage { get; }
