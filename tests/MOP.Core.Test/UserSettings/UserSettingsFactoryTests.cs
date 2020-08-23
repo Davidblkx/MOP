@@ -1,4 +1,4 @@
-﻿using MOP.Infra.UserSettings;
+﻿using MOP.Core.UserSettings;
 using Xunit;
 
 namespace MOP.Infra.Test.UserSettings

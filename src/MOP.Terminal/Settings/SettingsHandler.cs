@@ -1,10 +1,10 @@
-﻿using MOP.Infra.UserSettings;
-using Optional.Unsafe;
+﻿using Optional.Unsafe;
 using Serilog;
 using System.IO;
 using System.Threading.Tasks;
 using MOP.Core.Infra.Extensions;
 using MOP.Core.Infra.Tools;
+using MOP.Core.UserSettings;
 
 namespace MOP.Terminal.Settings
 {

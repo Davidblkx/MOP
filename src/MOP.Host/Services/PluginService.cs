@@ -15,7 +15,6 @@ namespace MOP.Host.Services
 {
     internal class PluginService : IPluginService
     {
-        private readonly IHost _host;
         private readonly ILogService _logService;
         private readonly ILogger _log;
         private readonly AssemblyLoader _loader;
@@ -23,9 +22,8 @@ namespace MOP.Host.Services
         private readonly List<IPlugin> _ready;
         private readonly List<IPlugin> _failed;
 
-        public PluginService(IHost host, ILogService log)
-        { 
-            _host = host;
+        public PluginService(ILogService log)
+        {
             _logService = log;
             _log = _logService.GetContextLogger<IPluginService>();
             _loader = new AssemblyLoader(_logService);

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 using static MOP.Core.Infra.Optional.Static;
 
-namespace MOP.Infra.UserSettings
+namespace MOP.Core.UserSettings
 {
     internal class UserSettingsLoader<T> : IUserSettingsLoader<T>
     {

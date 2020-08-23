@@ -74,12 +74,11 @@ namespace MOP.Host
             Exit?.Invoke(this, exitCode);
         }
 
-        private T GetValue<T>(bool replace, T instance, T value)
-            => (replace || instance is null) ? value : instance;
-
         private async Task LoadLocalPlugins()
         {
-            // TODO
+            var _events = _injector.GetService<IEventService>();
+            // TODO: Load plugins
+            await _events.Emit("Initial plugins loaded");
         }
 
         public static async Task<MopHost> BuildHost(string[] args, CancellationToken token)

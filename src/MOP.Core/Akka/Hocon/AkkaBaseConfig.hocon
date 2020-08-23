@@ -1,7 +1,6 @@
 ﻿akka {
 	version = "1.4.9 Akka"
 	loglevel = #!LOG_LEVEL
-	loggers=["Akka.Logger.Serilog.SerilogLogger, Akka.Logger.Serilog"]
 	stdout-loglevel = #!STDOUT_LOG_LEVEL
 	log-config-on-start = #!LOG_CONFIG
 	log-dead-letters = 10
@@ -10,6 +9,7 @@
 	daemonic = off
 
 	actor {
+		provider = remote
 		serialize-messages = off
 		serialize-creators = off
 

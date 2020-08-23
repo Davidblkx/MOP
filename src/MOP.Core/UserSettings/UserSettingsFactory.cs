@@ -4,7 +4,7 @@ using System.IO;
 using MOP.Core.Infra.Extensions;
 using MOP.Core.Infra.Tools;
 
-namespace MOP.Infra.UserSettings
+namespace MOP.Core.UserSettings
 {
     public class UserSettingsFactory<T>
     {
@@ -103,10 +103,10 @@ namespace MOP.Infra.UserSettings
             {
                 return Activator.CreateInstance<T>();
             }
-            catch 
+            catch
             {
 #pragma warning disable CS8603 // Possible null reference return.
-                return default(T);
+                return default;
 #pragma warning restore CS8603 // Possible null reference return.
             }
         }

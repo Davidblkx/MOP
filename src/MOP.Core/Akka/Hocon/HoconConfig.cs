@@ -6,7 +6,7 @@
         public LogLevel LogLevel { get; set; } = LogLevel.INFO;
 
         [HoconProperty("STDOUT_LOG_LEVEL")]
-        public LogLevel StdoutLogLevel { get; set; } = LogLevel.OFF;
+        public LogLevel StdoutLogLevel { get; set; } = LogLevel.INFO;
 
         [HoconProperty("LOG_CONFIG")]
         public Status LogConfigAtStartUp { get; set; } = Status.off;
@@ -15,7 +15,7 @@
         public int Port { get; set; } = 7654;
 
         [HoconProperty("REMOTE_HOSTNAME")]
-        public string Hostname { get; set; } = "0.0.0.0";
+        public string Hostname { get; set; } = "localhost";
 
         [HoconProperty("REMOTE_PUBLIC_HOSTNAME")]
         public string PublicHostname { get; set; } = "localhost";
