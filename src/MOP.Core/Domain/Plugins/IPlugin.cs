@@ -19,9 +19,8 @@ namespace MOP.Infra.Domain.Plugins
         IPluginInfo Info { get; }
 
         /// <summary>
-        /// Initializes plugin using the specified host.
+        /// Initializes plugin
         /// </summary>
-        /// <param name="host">The host.</param>
         /// <returns></returns>
         Task<bool> Initialize();
     }
