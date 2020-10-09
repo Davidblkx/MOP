@@ -1,0 +1,6 @@
+- uid: overview
+  name: Solution Overview
+  homepage: overview.md
+- uid: core
+  name: MOP.Core
+  homepage: core.md

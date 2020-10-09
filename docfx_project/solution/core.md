@@ -1,9 +1,5 @@
----
-id: sln-core
-title: MOP.Core
-sidebar_label: MOP.Core
-slug: /core
----
+
+# MOP.Core
 
 Contains _Models_ and _Interfaces_ to be shared between _Hosts_, _Clients_ and _Plugins_
 
