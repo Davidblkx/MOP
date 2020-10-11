@@ -1,7 +1,7 @@
 ﻿using MOP.Core.Domain.Api;
 using MOP.Core.Services;
 using MOP.Core.Infra.Extensions;
-using MOP.Infra.Services;
+using MOP.Core.Services;
 using Optional;
 using Serilog;
 using System;

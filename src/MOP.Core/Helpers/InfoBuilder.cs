@@ -1,8 +1,8 @@
-﻿using MOP.Infra.Domain.Host;
-using MOP.Infra.Domain.Plugins;
+﻿using MOP.Core.Domain.Host;
+using MOP.Core.Domain.Plugins;
 using System;
 
-namespace MOP.Infra.Tools
+namespace MOP.Core.Tools
 {
     /// <summary>
     /// Helper to build HOST info

@@ -1,5 +1,5 @@
-﻿using MOP.Infra.Domain.Events;
-using MOP.Infra.Services;
+﻿using MOP.Core.Domain.Events;
+using MOP.Core.Services;
 using Serilog;
 using System;
 using System.Collections.Generic;

@@ -1,5 +1,5 @@
-﻿using MOP.Infra.Domain.Host;
-using MOP.Infra.Services;
+﻿using MOP.Core.Domain.Host;
+using MOP.Core.Services;
 using Newtonsoft.Json.Linq;
 using Optional;
 using System;

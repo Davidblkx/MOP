@@ -1,13 +1,12 @@
-﻿using MOP.Infra.Domain.Host;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 
-namespace MOP.Infra.Domain.Plugins
+namespace MOP.Core.Domain.Plugins
 {
     /// <summary>
     /// To be implemented by plugins
     /// </summary>
-    /// <seealso cref="System.IDisposable" />
+    /// <seealso cref="IDisposable" />
     public interface IPlugin : IDisposable
     {
         /// <summary>

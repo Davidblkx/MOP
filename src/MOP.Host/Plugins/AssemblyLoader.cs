@@ -1,6 +1,6 @@
 ﻿using MOP.Core.Infra.Tools;
-using MOP.Infra.Domain.Plugins;
-using MOP.Infra.Services;
+using MOP.Core.Domain.Plugins;
+using MOP.Core.Services;
 using Optional;
 using Serilog;
 using System;

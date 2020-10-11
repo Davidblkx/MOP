@@ -1,12 +1,12 @@
 ﻿using Optional;
-using MOP.Infra.Domain.Events;
+using MOP.Core.Domain.Events;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using LiteDB;
 using Serilog;
-using MOP.Infra.Services;
+using MOP.Core.Services;
 using System.Runtime.CompilerServices;
 
 using static MOP.Core.Infra.Optional.Static;

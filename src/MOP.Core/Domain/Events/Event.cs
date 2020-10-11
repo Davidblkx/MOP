@@ -3,7 +3,7 @@ using System;
 
 using static MOP.Core.Infra.Optional.Static;
 
-namespace MOP.Infra.Domain.Events
+namespace MOP.Core.Domain.Events
 {
     public class Event : IEvent
     {

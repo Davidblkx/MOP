@@ -1,8 +1,8 @@
 ﻿using Akka.Actor;
 using Optional;
-using MOP.Infra.Domain.Events;
-using MOP.Infra.Domain.Host;
-using MOP.Infra.Services;
+using MOP.Core.Domain.Events;
+using MOP.Core.Domain.Host;
+using MOP.Core.Services;
 using MOP.Core.Infra.Extensions;
 using MOP.Host.Events;
 using Serilog;

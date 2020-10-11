@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace MOP.Infra.Services
+namespace MOP.Core.Services
 {
     /// <summary>
     /// Allow to create, load and save objects, it needs to be serializable

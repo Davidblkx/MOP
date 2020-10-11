@@ -1,4 +1,4 @@
-﻿namespace MOP.Infra.Domain.Events
+﻿namespace MOP.Core.Domain.Events
 {
     /// <summary>
     /// Empty object to use on event commands without body

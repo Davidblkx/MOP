@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 
-namespace MOP.Infra.Domain.Host
+namespace MOP.Core.Domain.Host
 {
     /// <summary>
     /// Provides the core services

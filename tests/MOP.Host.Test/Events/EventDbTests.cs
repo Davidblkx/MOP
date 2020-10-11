@@ -1,4 +1,4 @@
-﻿using MOP.Infra.Domain.Events;
+﻿using MOP.Core.Domain.Events;
 using MOP.Host.Events;
 using Optional.Unsafe;
 using Xunit;

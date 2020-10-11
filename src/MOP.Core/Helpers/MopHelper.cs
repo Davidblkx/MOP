@@ -2,7 +2,7 @@
 using MOP.Core.Infra.Tools;
 using System.Reflection;
 
-namespace MOP.Infra.Tools
+namespace MOP.Core.Tools
 {
     public static class MopHelper
     {

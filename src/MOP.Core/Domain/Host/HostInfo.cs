@@ -1,7 +1,7 @@
 ﻿using MOP.Core.Infra;
 using System;
 
-namespace MOP.Infra.Domain.Host
+namespace MOP.Core.Domain.Host
 {
     public class HostInfo : IHostInfo
     {

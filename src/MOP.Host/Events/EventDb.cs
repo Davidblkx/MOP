@@ -1,5 +1,5 @@
 ﻿using Akka.Util;
-using MOP.Infra.Domain.Events;
+using MOP.Core.Domain.Events;
 using System;
 using System.Runtime.CompilerServices;
 using static MOP.Core.Infra.Optional.Static;

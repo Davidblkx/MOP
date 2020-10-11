@@ -1,4 +1,4 @@
-﻿namespace MOP.Infra.Domain.Events
+﻿namespace MOP.Core.Domain.Events
 {
     public static class EventsExtensions
     {

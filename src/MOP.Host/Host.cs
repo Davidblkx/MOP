@@ -1,5 +1,5 @@
-﻿using MOP.Infra.Domain.Host;
-using MOP.Infra.Services;
+﻿using MOP.Core.Domain.Host;
+using MOP.Core.Services;
 using MOP.Host.Domain;
 using MOP.Host.Services;
 using MOP.Core.Services;
@@ -13,7 +13,7 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 
-using static MOP.Infra.Tools.InfoBuilder;
+using static MOP.Core.Tools.InfoBuilder;
 
 [assembly: InternalsVisibleTo("MOP.Host.Test")]
 namespace MOP.Host

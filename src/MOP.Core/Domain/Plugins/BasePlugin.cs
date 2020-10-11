@@ -1,7 +1,7 @@
 ﻿using MOP.Core.Services;
-using MOP.Infra.Domain.Events;
-using MOP.Infra.Domain.Plugins;
-using MOP.Infra.Services;
+using MOP.Core.Domain.Events;
+using MOP.Core.Domain.Plugins;
+using MOP.Core.Services;
 using Serilog;
 using System;
 using System.Collections.Generic;

@@ -1,7 +1,7 @@
-using MOP.Infra.Domain.Host;
+using MOP.Core.Domain.Host;
 using MOP.Host.Services;
 using MOP.Host.Test.Mocks;
-using MOP.Infra.Services;
+using MOP.Core.Services;
 using Optional.Unsafe;
 using System;
 using System.Threading.Tasks;

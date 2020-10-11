@@ -1,6 +1,6 @@
-﻿using MOP.Infra.Domain.Host;
-using MOP.Infra.Domain.Plugins;
-using MOP.Infra.Services;
+﻿using MOP.Core.Domain.Host;
+using MOP.Core.Domain.Plugins;
+using MOP.Core.Services;
 using MOP.Host.Plugins;
 using Serilog;
 using System;

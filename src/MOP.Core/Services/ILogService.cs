@@ -1,7 +1,7 @@
 ﻿using Serilog;
 using System;
 
-namespace MOP.Infra.Services
+namespace MOP.Core.Services
 {
     /// <summary>
     /// allow to get the logger

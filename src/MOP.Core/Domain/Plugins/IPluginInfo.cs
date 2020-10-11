@@ -1,7 +1,7 @@
 ﻿using MOP.Core.Infra;
 using System;
 
-namespace MOP.Infra.Domain.Plugins
+namespace MOP.Core.Domain.Plugins
 {
     /// <summary>
     /// Plugin information
