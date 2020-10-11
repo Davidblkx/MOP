@@ -1,0 +1,18 @@
+- name: Introduction
+  href: index.md
+- name: Solution
+  items:
+    - name: Overview
+      href: solution/overview.md
+    - name: MOP.Core
+      href: solution/core.md
+    - name: MOP.Host
+      href: solution/host.md
+- name: Plugins
+  items:
+    - name: Overview
+      href: plugin/index.md
+    - name: Service Plugins
+      href: plugin/service-plugins.md
+    - name: Actor Plugins
+      href: plugin/actor-plugins.md

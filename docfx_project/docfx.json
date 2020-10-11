@@ -28,8 +28,8 @@
       },
       {
         "files": [
-          "solution/**.md",
-          "solution/**/toc.yml"
+          "docs/**.md",
+          "docs/toc.yml"
         ]
       }
     ],

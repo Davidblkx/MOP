@@ -1,6 +1,6 @@
-- name: Solution
-  href: solution/
-  homepage: solution/overview.md
-- name: Api Documentation
+- name: Documentation
+  href: docs/
+  homepage: docs/index.md
+- name: Api Docs
   href: api/
   homepage: api/index.md
