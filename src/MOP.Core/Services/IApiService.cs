@@ -12,28 +12,32 @@ namespace MOP.Core.Services
     public interface IApiService
     {
         /// <summary>
-        /// Gets the by path.
+        /// Gets the API by name or path
         /// </summary>
-        /// <param name="path">The path.</param>
+        /// <param name="nameOrPath">The name or path.</param>
         /// <returns></returns>
-        Option<ActorInstance> GetByPath(string path);
+        Option<ApiHost> GetByPathOrName(string nameOrPath);
+
         /// <summary>
-        /// Gets all.
+        /// Gets all saved APIs.
         /// </summary>
         /// <returns></returns>
-        IEnumerable<ActorInstance> GetAll();
+        IEnumerable<ApiHost> GetAll();
+
         /// <summary>
-        /// Adds the specified instance.
+        /// Adds the specified API.
         /// </summary>
-        /// <param name="instance">The instance.</param>
-        void Add(ActorInstance instance);
+        /// <param name="api">The API.</param>
+        void Add(ApiHost api);
+
         /// <summary>
-        /// Adds the specified type.
+        /// Load ApiHost from type
         /// </summary>
         /// <param name="type">The type.</param>
         void Add(Type type);
+
         /// <summary>
-        /// Adds the specified assembly.
+        /// Load all ApiHost from assembly
         /// </summary>
         /// <param name="assembly">The assembly.</param>
         void Add(Assembly assembly);

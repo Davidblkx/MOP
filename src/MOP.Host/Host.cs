@@ -2,7 +2,6 @@
 using MOP.Core.Services;
 using MOP.Host.Domain;
 using MOP.Host.Services;
-using MOP.Core.Services;
 using MOP.Core.Domain.Plugins;
 using MOP.Core.Infra;
 using MOP.Host.Factories;
