@@ -10,6 +10,7 @@ namespace MOP.Core.Domain.Plugins
         public string Namespace { get; set; }
         public MopVersion CoreVersion { get; set; }
         public ulong Priority { get; set; }
+        public MopVersion Version { get; set; }
 
         public PluginInfo()
         {
@@ -18,6 +19,7 @@ namespace MOP.Core.Domain.Plugins
             Namespace = BuildNamespace();
             CoreVersion = new MopVersion(1, 0, 0);
             Priority = PluginPriority.DEFAULT;
+            Version = new MopVersion(0, 1, 0);
         }
 
         private string BuildNamespace()
@@ -37,7 +39,8 @@ namespace MOP.Core.Domain.Plugins
                 Id = i.Id,
                 Name = i.Name,
                 Namespace = i.Namespace,
-                Priority = i.Priority
+                Priority = i.Priority,
+                Version = i.Version,
             };
         }
     }

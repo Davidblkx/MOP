@@ -44,5 +44,13 @@ namespace MOP.Core.Domain.Plugins
         /// The priority.
         /// </value>
         ulong Priority { get; set; }
+
+        /// <summary>
+        /// Gets or sets plugin the version.
+        /// </summary>
+        /// <value>
+        /// The version.
+        /// </value>
+        MopVersion Version { get; set; }
     }
 }
