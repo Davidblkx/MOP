@@ -3,7 +3,7 @@
 namespace MOP.Core.Domain.Api
 {
     /// <summary>
-    /// Represents and actor that contains actions to be invoked by APIAction
+    /// Represents an actor that contains actions to be invoked by APIAction
     /// </summary>
     public class ApiHost
     {

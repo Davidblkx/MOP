@@ -63,6 +63,7 @@ public class MyPluginInfo : IPluginInfo
     public string Namespace => "my.plugin";
     public MopVersion CoreVersion => new MopVersion(0,1,0);
     public ulong Priority => PluginPriority.DEFAULT;
+    public MopVersion Version => new MopVersion(0,1,0);
 }
 ```
 
@@ -71,6 +72,7 @@ public class MyPluginInfo : IPluginInfo
 - `Namespace` prefix to use when storing properties for a plugin
 - `CoreVersion` minimum host version to use
 - `Priority` number that sets the order in which is loaded, lower numbers are loaded first
+- `Version` plugin version
 
 
 ## BasePlugin<T>

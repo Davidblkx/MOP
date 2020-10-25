@@ -31,21 +31,21 @@ MOP domain specif sources
 
 Contains logic related to core and plugins api reference, so remote clients know how to execute actions in a host
 
-**_ActorAction_**: Model of a action that can be called by clients
+**_ApiAction_**: Model of a action that can be called by clients
 
-**_ActorActionAttribute_**: Method attribute to allow it to be called by clients
+**_ApiActionAttribute_**: Method attribute to allow it to be called by clients
 
-**_ActorActionFactory_**: Factory to build an `ActorAction` from an `MethodInfo`
+**_ApiActionFactory_**: Factory to build an `ApiAction` from an `MethodInfo`
 
-**_ActorInstance_**: Group of `ActorActions` with a call path
+**_ApiCommand_**: Command to send to `ApiActor`, allow to invoke `ApiActions`
 
-**_ActorInstanceAttribute_**: Class attribute to allow its actions to be grouped
+**_ApiHost_**: Represents a group of `ApiAction` with the actor path to call
 
-**_ActorInstanceFactory_**: Factory to build an `ActorInstance` from an `Type`
+**_ApiHostAttribute_**: Class attribute to allow its actions to be grouped
 
-**_ArgumentItem_**: Model of arguments for a `ActorAction`
+**_ApiHostFactory_**: Factory to build an `ApiHost` from an `Type`
 
-**_CommandInvoke_**: Command to be sent by clients in order to invoke a action
+**_ApiSchemaHandler_**: Helper to create JSON schemas from a `Type`
 
 ### Events
 
