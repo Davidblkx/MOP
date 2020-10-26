@@ -1,4 +1,5 @@
-﻿using Optional;
+﻿using MOP.Core.Domain.Plugins;
+using Optional;
 using System;
 using System.Reflection;
 
@@ -45,5 +46,13 @@ namespace MOP.Core.Infra.Tools
                 && implements
                 && hasName;
         }
+
+        /// <summary>
+        /// Check if type should the be ignored.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <returns></returns>
+        public static bool ShouldBeIgnored(Type type)
+            => !(type.GetCustomAttribute<IgnorePluginAttribute>() is null);
     }
 }

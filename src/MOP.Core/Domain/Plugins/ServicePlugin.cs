@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MOP.Core.Domain.Plugins
 {
@@ -12,8 +13,17 @@ namespace MOP.Core.Domain.Plugins
     {
         public virtual LifeCycle LifeCycle => LifeCycle.Singleton;
 
-        public virtual IEnumerable<Type> Implements 
+        public virtual IEnumerable<Type> Implements
             => new List<Type> { typeof(T) };
+
+        public virtual IPluginInfo Info { get; protected set; }
+
+        public SingletonServicePlugin() { Info = BuildInfo(); }
+
+        public virtual void Dispose() { }
+        public virtual Task<bool> Initialize() => Task.Run(() => true);
+
+        protected abstract IPluginInfo BuildInfo();
     }
 
     /// <summary>
@@ -27,5 +37,14 @@ namespace MOP.Core.Domain.Plugins
 
         public virtual IEnumerable<Type> Implements
             => new List<Type> { typeof(T) };
+
+        public virtual IPluginInfo Info { get; protected set; }
+
+        public TransientServicePlugin() { Info = BuildInfo(); }
+
+        public virtual void Dispose() { }
+        public virtual Task<bool> Initialize() => Task.Run(() => true);
+
+        protected abstract IPluginInfo BuildInfo();
     }
 }

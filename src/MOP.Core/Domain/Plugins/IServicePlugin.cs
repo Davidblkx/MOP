@@ -6,7 +6,7 @@ namespace MOP.Core.Domain.Plugins
     /// <summary>
     /// Allow a class to be injected
     /// </summary>
-    public interface IServicePlugin
+    public interface IServicePlugin : IPlugin
     {
         /// <summary>
         /// Gets the service life cycle.

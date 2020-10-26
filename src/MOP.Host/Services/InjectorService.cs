@@ -10,33 +10,37 @@ namespace MOP.Host.Services
     internal class InjectorService : IInjectorService
     {
         private static bool INIT = false;
-        private readonly Container _container;
+
+        public Container Container { get; }
 
         public InjectorService(bool forceOneInstance = true)
         {
             if (forceOneInstance && INIT) throw new AccessViolationException("Service already instantiated");
-            _container = new Container();
-            _container.Options.AllowOverridingRegistrations = true;
+            Container = new Container();
+            Container.Options.AllowOverridingRegistrations = true;
             INIT = true;
         }
 
         public T GetService<T>() where T : class
-            => _container.GetInstance<T>();
+            => Container.GetInstance<T>();
+
+        public object? GetService(Type type)
+            => Container.GetInstance(type);
 
         public void RegisterService(Type service, LifeCycle lifeCycle = LifeCycle.Transient)
-            => _container.Register(service, service, GetLifestyle(lifeCycle));
+            => Container.Register(service, service, GetLifestyle(lifeCycle));
 
         public void RegisterService(Type service, Type instance, LifeCycle lifeCycle = LifeCycle.Transient)
-            => _container.Register(service, instance, GetLifestyle(lifeCycle));
+            => Container.Register(service, instance, GetLifestyle(lifeCycle));
 
         public void RegisterService<TService, TValue>(LifeCycle lifeCycle = LifeCycle.Transient)
             where TService : class
             where TValue : class, TService
-            => _container.Register<TService, TValue>(GetLifestyle(lifeCycle));
+            => Container.Register<TService, TValue>(GetLifestyle(lifeCycle));
 
         public void RegisterService<TService>(Func<TService> instanceCreator, LifeCycle lifeCycle = LifeCycle.Transient)
             where TService : class
-            => _container.Register(instanceCreator, GetLifestyle(lifeCycle));
+            => Container.Register(instanceCreator, GetLifestyle(lifeCycle));
 
         public static void ResetInitStatus()
         {

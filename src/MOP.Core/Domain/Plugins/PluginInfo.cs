@@ -22,6 +22,16 @@ namespace MOP.Core.Domain.Plugins
             Version = new MopVersion(0, 1, 0);
         }
 
+        public PluginInfo(Guid id)
+        {
+            Id = id;
+            Name = "Unknown";
+            Namespace = BuildNamespace();
+            CoreVersion = new MopVersion(1, 0, 0);
+            Priority = PluginPriority.DEFAULT;
+            Version = new MopVersion(0, 1, 0);
+        }
+
         private string BuildNamespace()
         {
             var id = Id.ToString().Replace("-", "");

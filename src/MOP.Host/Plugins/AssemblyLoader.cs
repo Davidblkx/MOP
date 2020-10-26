@@ -42,27 +42,5 @@ namespace MOP.Host.Plugins
 
             return None<Assembly>();
         }
-
-        public Option<IPlugin> LoadPluginFromAssembly(Assembly assembly)
-        {
-            foreach(var t in assembly.GetTypes())
-            {
-                try
-                {
-                    if (!TypeTools.CanInstantiate<IPlugin>(t)) continue;
-                    var instance = assembly.CreateInstance(t.FullName!) as IPlugin;
-                    if (instance is null)
-                        _log.Debug("Failed to instantiate type: {@FullName}", t.FullName);
-                    else return Some(instance);
-                }
-                catch (Exception ex)
-                {
-                    _log.Error("Error instantiate IPlugin from {@FullName}", t.FullName);
-                    _log.Debug(ex, "Error instantiate IPlugin");
-                }
-            }
-
-            return None<IPlugin>();
-        }
     }
 }

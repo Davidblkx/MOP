@@ -16,6 +16,13 @@ namespace MOP.Core.Services
         T GetService<T>() where T : class;
 
         /// <summary>
+        /// Gets the type implementation.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <returns></returns>
+        object? GetService(Type type);
+
+        /// <summary>
         /// Registers the service.
         /// </summary>
         /// <typeparam name="TService">The type of the service.</typeparam>

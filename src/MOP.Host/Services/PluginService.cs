@@ -1,4 +1,4 @@
-﻿using MOP.Core.Domain.Host;
+﻿using Akka.Util.Internal;
 using MOP.Core.Domain.Plugins;
 using MOP.Core.Services;
 using MOP.Host.Plugins;
@@ -6,10 +6,8 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using MOP.Core.Infra.Extensions;
 
 namespace MOP.Host.Services
 {
@@ -17,44 +15,42 @@ namespace MOP.Host.Services
     {
         private readonly ILogService _logService;
         private readonly ILogger _log;
+        private readonly IInjectorService _injector;
         private readonly AssemblyLoader _loader;
-        private readonly List<IPlugin> _pending;
+        private readonly SynchronizedCollection<Type> _pending;
         private readonly List<IPlugin> _ready;
         private readonly List<IPlugin> _failed;
 
-        public PluginService(ILogService log)
+        public PluginService(ILogService log, IInjectorService injector)
         {
             _logService = log;
             _log = _logService.GetContextLogger<IPluginService>();
+            _injector = injector;
             _loader = new AssemblyLoader(_logService);
-            _pending = new List<IPlugin>();
+            _pending = new SynchronizedCollection<Type>();
             _ready = new List<IPlugin>();
             _failed = new List<IPlugin>();
         }
 
-        public async Task AddPlugins(params IPlugin[] pluginList)
+        public void AddPlugins(params Type[] pluginList)
         {
-            foreach (var p in pluginList)
-            {
-                await AddPlugin(p);
-            }
+            pluginList.ForEach(e => _pending.Add(e));
         }
 
-        public async Task AddPluginsAssembly(Assembly assembly)
+        public void AddPluginsAssembly(Assembly assembly)
         {
-            var plugin = _loader.LoadPluginFromAssembly(assembly);
-            await plugin.AwaitSome(p => AddPlugins(p));
+            AddPlugins(assembly.GetTypes());
         }
 
-        public async Task AddPluginsFolder(DirectoryInfo info)
+        public void AddPluginsFolder(DirectoryInfo info)
         {
             if (!info.Exists) return;
 
             var files = info.GetFiles("*.dll", SearchOption.AllDirectories);
             foreach (var f in files)
             {
-                await _loader.LoadAssemblyFromFile(f)
-                    .AwaitSome(a => AddPluginsAssembly(a));
+                _loader.LoadAssemblyFromFile(f)
+                    .MatchSome(a => AddPluginsAssembly(a));
             }
         }
 
@@ -62,57 +58,18 @@ namespace MOP.Host.Services
 
         public IEnumerable<IPlugin> GetLoadedPlugins() => _ready;
 
-        public IEnumerable<IPlugin> GetPendingPlugins() => _pending;
+        public IEnumerable<Type> GetPending() => _pending;
 
         public async Task Load()
         {
-            var listToLoad = new List<IPlugin>(_pending);
+            var loader = new PluginLoader(_injector, _log);
+            loader.AddPlugin(_pending);
             _pending.Clear();
-            _log.Information("Starting loading {@Count} pending plugins", listToLoad.Count);
-            foreach (var p in listToLoad.OrderBy(e => e.Info.Priority))
-            {
-                if (await TryLoadingPlugin(p))
-                    PluginLoadingSuccess(p);
-                else
-                    PluginLoadingFail(p);
-            }
-        }
 
-        private async Task AddPlugin(IPlugin p)
-        {
-            if (await TryAddPlugin(p))
-                _log.Information("Preloaded plugin {@Name}", p.Info.Name);
-        }
+            await loader.Load();
 
-        private async Task<bool> TryLoadingPlugin(IPlugin p)
-        {
-            try
-            {
-                return await p.Initialize();
-            }
-            catch (Exception ex)
-            {
-                _log.Error("Can't load plugin {@Name}", p.Info.Name);
-                _log.Debug(ex, "Error loading a plugin");
-                return false;
-            }
-        }
-
-        private async Task<bool> TryAddPlugin(IPlugin p)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void PluginLoadingSuccess(IPlugin p)
-        {
-            _log.Information("Plugin loaded {@Name}", p.Info.Name);
-            _ready.Add(p);
-        }
-
-        private void PluginLoadingFail(IPlugin p)
-        {
-            _log.Warning("Fail to start plugin {@Name}", p.Info.Name);
-            _failed.Add(p);
+            _ready.AddRange(loader.Success);
+            _failed.AddRange(loader.Failed);
         }
     }
 }
