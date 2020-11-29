@@ -54,5 +54,13 @@ namespace MOP.Core.Infra.Tools
         /// <returns></returns>
         public static bool ShouldBeIgnored(Type type)
             => !(type.GetCustomAttribute<IgnorePluginAttribute>() is null);
+
+        /// <summary>
+        /// Gets the name of the void.
+        /// TODO: refactor this to save name
+        /// </summary>
+        /// <returns></returns>
+        public static string GetVoidName()
+            => typeof(void).AssemblyQualifiedName;
     }
 }

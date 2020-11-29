@@ -25,17 +25,19 @@ namespace MOP.Host.Plugins
         private readonly List<IPlugin> _success = new List<IPlugin>();
         private readonly IInjectorService _injector;
         private readonly ILogger _logger;
+        private readonly IRIPService _rip;
 
         public IEnumerable<IPlugin> Failed => _failed;
         public IEnumerable<IPlugin> Success => _success;
 
         public bool IsCompleted { get; private set; }
 
-        public PluginLoader(IInjectorService injector, ILogger logger )
+        public PluginLoader(IInjectorService injector, ILogService log, IRIPService rip)
         {
             IsCompleted = false;
             _injector = injector;
-            _logger = logger;
+            _logger = log.GetContextLogger<IPluginService>();
+            _rip = rip;
         }
 
         public void AddPlugin(Type type, bool warn = true)
@@ -76,6 +78,7 @@ namespace MOP.Host.Plugins
                 if (await s.Initialize())
                 {
                     s.Implements.ForEach(e => _injector.RegisterService(e, s.GetType(), s.LifeCycle));
+                    _rip.Register(s.GetType(), true);
                     _success.Add(s);
                     _logger.Debug($"Service Plugin loaded: {s.Info.Name}");
                 }

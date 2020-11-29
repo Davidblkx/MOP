@@ -13,20 +13,16 @@ namespace MOP.Host.Services
 {
     internal class PluginService : IPluginService
     {
-        private readonly ILogService _logService;
-        private readonly ILogger _log;
         private readonly IInjectorService _injector;
         private readonly AssemblyLoader _loader;
         private readonly SynchronizedCollection<Type> _pending;
         private readonly List<IPlugin> _ready;
         private readonly List<IPlugin> _failed;
 
-        public PluginService(ILogService log, IInjectorService injector)
+        public PluginService(IInjectorService injector, ILogService logService)
         {
-            _logService = log;
-            _log = _logService.GetContextLogger<IPluginService>();
             _injector = injector;
-            _loader = new AssemblyLoader(_logService);
+            _loader = new AssemblyLoader(logService);
             _pending = new SynchronizedCollection<Type>();
             _ready = new List<IPlugin>();
             _failed = new List<IPlugin>();
@@ -62,7 +58,7 @@ namespace MOP.Host.Services
 
         public async Task Load()
         {
-            var loader = new PluginLoader(_injector, _log);
+            var loader = _injector.GetService<PluginLoader>();
             loader.AddPlugin(_pending);
             _pending.Clear();
 

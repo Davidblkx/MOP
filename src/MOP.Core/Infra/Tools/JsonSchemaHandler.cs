@@ -1,16 +1,13 @@
 ﻿using NJsonSchema.Generation;
 using System;
 
-namespace MOP.Core.Domain.Api
+namespace MOP.Core.Infra.Tools
 {
-    /// <summary>
-    /// Generates schema from type
-    /// </summary>
-    public class ApiSchemaHandler
+    public class JsonSchemaHandler
     {
         private readonly JsonSchemaGenerator _schemaGenerator;
 
-        public ApiSchemaHandler()
+        public JsonSchemaHandler()
         {
             var settings = new JsonSchemaGeneratorSettings { };
             _schemaGenerator = new JsonSchemaGenerator(settings);
@@ -19,11 +16,11 @@ namespace MOP.Core.Domain.Api
         public string Generate(Type type)
             => _schemaGenerator.Generate(type).ToJson();
 
-        private static ApiSchemaHandler? handler;
-        private static ApiSchemaHandler GetHandler()
+        private static JsonSchemaHandler? handler;
+        private static JsonSchemaHandler GetHandler()
         {
             if (handler is null)
-                handler = new ApiSchemaHandler();
+                handler = new JsonSchemaHandler();
             return handler;
         }
 

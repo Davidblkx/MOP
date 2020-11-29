@@ -13,6 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using static MOP.Core.Tools.InfoBuilder;
+using MOP.Host.Plugins;
 
 [assembly: InternalsVisibleTo("MOP.Host.Test")]
 namespace MOP.Host
@@ -90,11 +91,12 @@ namespace MOP.Host
             injector.RegisterService(() => new MopLifeService(token), LifeCycle.Singleton);
             injector.RegisterService(() => mainSystem, LifeCycle.Singleton);
             injector.RegisterService<IInjectorService>(() => injector, LifeCycle.Singleton);
+            injector.RegisterService<IRIPService, RIPService>(LifeCycle.Singleton);
             injector.RegisterService<IHost, MopHost>(LifeCycle.Singleton);
             injector.RegisterService<ILogService, LogService>(LifeCycle.Singleton);
             injector.RegisterService<IConfigService, ConfigService>(LifeCycle.Singleton);
-            injector.RegisterService<IApiService, ApiService>(LifeCycle.Singleton);
             injector.RegisterService<IEventService, EventService>(LifeCycle.Singleton);
+            injector.RegisterService<PluginLoader, PluginLoader>(LifeCycle.Transient);
             injector.RegisterService<IPluginService, PluginService>(LifeCycle.Singleton);
 
             if (injector.GetService<IHost>() is MopHost host)
