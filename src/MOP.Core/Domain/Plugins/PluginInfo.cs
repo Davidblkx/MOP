@@ -32,7 +32,7 @@ namespace MOP.Core.Domain.Plugins
             Version = new MopVersion(0, 1, 0);
         }
 
-        private string BuildNamespace()
+        protected string BuildNamespace()
         {
             var id = Id.ToString().Replace("-", "");
             return $"[{id}]";

@@ -12,23 +12,18 @@ using static Nuke.Common.IO.PathConstruction;
 
 partial class Build
 {
-    List<AbsolutePath> PluginsSourceDirectory => new List<AbsolutePath>
-    {
-        // SourceDirectory / "MOP.Remote",
-    };
-
     List<Project> PluginsProjects => new List<Project>
     {
-        // MopSolution.GetProject("MOP.Remote"),
+        MopSolution.GetProject("MOP.RemoteInterfaceProtocol"),
     };
     
     AbsolutePath PluginsOutputDirectory => OutputDirectory / "MOPHost" / "Plugins";
+    AbsolutePath PluginsInputDirectory => SourceDirectory / "Plugins";
 
     Target PluginsClean => _ => _
         .Executes(() =>
         {
-            PluginsSourceDirectory.ForEach(p => 
-                p.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory));
+            PluginsInputDirectory.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
             EnsureCleanDirectory(PluginsOutputDirectory);
         });
 

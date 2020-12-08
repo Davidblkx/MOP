@@ -32,6 +32,15 @@ namespace MOP.Core.Services
         void RegisterService<TService, TValue>(LifeCycle lifeCycle = LifeCycle.Transient)
             where TService : class
             where TValue : class, TService;
+
+        /// <summary>
+        /// Registers the service.
+        /// </summary>
+        /// <typeparam name="TService">The type of the service.</typeparam>
+        /// <param name="lifeCycle">The life cycle.</param>
+        void RegisterService<TService>(LifeCycle lifeCycle = LifeCycle.Transient)
+            where TService : class;
+
         /// <summary>
         /// Registers the service.
         /// </summary>

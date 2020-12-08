@@ -2,7 +2,6 @@
 using MOP.Core.Domain.Plugins;
 using MOP.Core.Services;
 using MOP.Host.Plugins;
-using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,6 +17,9 @@ namespace MOP.Host.Services
         private readonly SynchronizedCollection<Type> _pending;
         private readonly List<IPlugin> _ready;
         private readonly List<IPlugin> _failed;
+        private readonly List<DirectoryInfo> _folders;
+
+        public IEnumerable<DirectoryInfo> PluginFolders => _folders;
 
         public PluginService(IInjectorService injector, ILogService logService)
         {
@@ -26,6 +28,7 @@ namespace MOP.Host.Services
             _pending = new SynchronizedCollection<Type>();
             _ready = new List<IPlugin>();
             _failed = new List<IPlugin>();
+            _folders = new List<DirectoryInfo>();
         }
 
         public void AddPlugins(params Type[] pluginList)
@@ -41,6 +44,8 @@ namespace MOP.Host.Services
         public void AddPluginsFolder(DirectoryInfo info)
         {
             if (!info.Exists) return;
+
+            _folders.Add(info);
 
             var files = info.GetFiles("*.dll", SearchOption.AllDirectories);
             foreach (var f in files)

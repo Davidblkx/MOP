@@ -9,7 +9,6 @@ using System.IO;
 using System.Threading;
 using MOP.Core.Infra.Extensions;
 using MOP.Core.Infra;
-using MOP.Core.Services;
 using MOP.Core.Domain.Plugins;
 
 namespace MOP.Host.Test.Mocks

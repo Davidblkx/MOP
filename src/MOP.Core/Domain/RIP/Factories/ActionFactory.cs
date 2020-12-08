@@ -30,7 +30,7 @@ namespace MOP.Core.Domain.RIP.Factories
             var argSchema = arg is null ? "" : GenerateSchema(arg.ParameterType);
             var returnSchema = GenerateSchema(_methodInfo.ReturnType);
 
-            return new Action(att.Name)
+            return new Action(_methodInfo.Name)
             {
                 ArgumentSchema = argSchema,
                 ArgumentType = argType,

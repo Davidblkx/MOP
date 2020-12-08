@@ -12,6 +12,8 @@ namespace MOP.Core.Services
     /// </summary>
     public interface IPluginService
     {
+        IEnumerable<DirectoryInfo> PluginFolders { get; }
+
         /// <summary>
         /// Gets the loaded plugins.
         /// </summary>

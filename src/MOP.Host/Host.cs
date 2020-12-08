@@ -5,6 +5,9 @@ using MOP.Host.Services;
 using MOP.Core.Domain.Plugins;
 using MOP.Core.Infra;
 using MOP.Host.Factories;
+using MOP.Host.Plugins;
+using MOP.Core.Infra.Tools;
+using MOP.Core.Infra.Extensions;
 using Serilog;
 using System;
 using System.IO;
@@ -13,7 +16,6 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using static MOP.Core.Tools.InfoBuilder;
-using MOP.Host.Plugins;
 
 [assembly: InternalsVisibleTo("MOP.Host.Test")]
 namespace MOP.Host
@@ -77,7 +79,12 @@ namespace MOP.Host
         private async Task LoadLocalPlugins()
         {
             var _events = _injector.GetService<IEventService>();
-            // TODO: Load plugins
+            var _plugins = _injector.GetService<IPluginService>();
+
+            var dir = PathTools.GetStartDirectory().RelativeDirectory("Plugins");
+            _plugins.AddPluginsFolder(dir);
+            await _plugins.Load();
+
             await _events.Emit("Initial plugins loaded");
         }
 
@@ -96,8 +103,12 @@ namespace MOP.Host
             injector.RegisterService<ILogService, LogService>(LifeCycle.Singleton);
             injector.RegisterService<IConfigService, ConfigService>(LifeCycle.Singleton);
             injector.RegisterService<IEventService, EventService>(LifeCycle.Singleton);
-            injector.RegisterService<PluginLoader, PluginLoader>(LifeCycle.Transient);
+            injector.RegisterService<PluginLoader>(LifeCycle.Transient);
             injector.RegisterService<IPluginService, PluginService>(LifeCycle.Singleton);
+            injector.RegisterService<AssemblyResolver>(LifeCycle.Transient);
+
+            if (injector.GetService<AssemblyResolver>() is AssemblyResolver r)
+                r.RegisterAppDomain(AppDomain.CurrentDomain);
 
             if (injector.GetService<IHost>() is MopHost host)
                 return host;

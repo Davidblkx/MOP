@@ -53,8 +53,6 @@ namespace MOP.Host.Plugins
                     _pendingPlugins.Add(type);
                 return;
             }
-
-            if (warn) _logger.Warning($"Can't load IPlugin from {type.FullName}");
         }
 
         public void AddPlugin(IEnumerable<Type> types, bool warn = true)
@@ -64,12 +62,15 @@ namespace MOP.Host.Plugins
         {
             if (IsCompleted) 
                 throw new InvalidOperationException("Can only be called once");
-
-            await LoadServices();
-            await LoadPlugins();
-
-            IsCompleted = true;
-        }
+            try {
+                await LoadServices();
+                await LoadPlugins();
+            } 
+            catch (Exception e)
+            {
+                _logger.Error(e, "Error loading plugins");
+            } finally { IsCompleted = true; }
+            }
 
         private async Task LoadServices()
         {
