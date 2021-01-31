@@ -1,7 +1,11 @@
 ﻿using Akka.Actor;
+using MOP.Core.Domain.RIP;
 using MOP.Terminal.Logger;
 using MOP.Terminal.Settings;
 using Serilog;
+using MOP.Core.Domain.RIP.Messaging;
+using System.Threading.Tasks;
+using System;
 
 namespace MOP.Terminal.ActorsSystem
 {
@@ -20,7 +24,9 @@ namespace MOP.Terminal.ActorsSystem
         private void ConfigureEndpoints()
         {
             Receive<string>(OnString);
-            Receive<ServerMessage>(OnServerMessage);
+            Receive<Response>(OnResponse);
+            Receive<ICall>(OnInvokeCall);
+            Receive<object>(OnAny);
         }
 
         private void OnString(string message)
@@ -28,10 +34,31 @@ namespace MOP.Terminal.ActorsSystem
             _log.Information($"server says: {message}");
         }
 
-        private void OnServerMessage(ServerMessage message)
+        private void OnAny(object? message)
         {
-            _server.Tell(message.Message);
+            _log.Information($"server says: {message?.GetType()}");
         }
+
+        private void OnResponse(Response res)
+        {
+            if (!res.Valid)
+            {
+                _log.Warning("[@{Code}] Error: {@Message}", res.Error?.code, res.Error?.message);
+                return;
+            } else if (res.Body is string str)
+            {
+                Console.WriteLine(str);
+                return;
+            }
+
+            _log.Warning("Can't read response");
+        }
+
+        private void OnInvokeCall(ICall call)
+            => AwaitResponse(_server.Ask<Response>(call));
+
+        private async void AwaitResponse(Task<Response> response)
+            => OnResponse(await response);
 
         public static Props BuildProps(IHostSettings host, params string[] remotePaths)
             => Props.Create<TerminalActor>(host, remotePaths);

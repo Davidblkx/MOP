@@ -31,13 +31,19 @@ namespace MOP.RemoteInterfaceProtocol
         private void RegisterReceivers()
         {
             Receive<ICall>(c => OnCall(c));
+            Receive<string>(m => OnString(m));
+        }
+
+        private void OnString(string message)
+        {
+            _log.Debug(message);
         }
 
         private void OnCall(ICall call)
         {
             try
             {
-                _log.Debug("Invoke request for {@Action} in {@Command}", call.Command, call.Action);
+                _log.Debug("Invoke request for {@Action} in {@Command}", call.Action, call.Command);
                 Invoke(call);
             } catch (Exception ex) {
                 Sender.Tell(BuildError(RIPErrors.InternalError, "On call receive", ex));
@@ -61,9 +67,9 @@ namespace MOP.RemoteInterfaceProtocol
             var response = Execute(call, c, a);
 
             if (a.ReturnType.Equals(GetVoidName()))
-                Sender.Tell(Response.Success());
+                Sender.Tell(Response.Success(), Self);
             else
-                Sender.Tell(Response.Success(response));
+                Sender.Tell(Response.Success(response), Self);
         }
 
         private object? Execute(ICall call, ICommand c, IAction a)

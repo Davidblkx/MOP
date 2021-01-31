@@ -21,7 +21,7 @@ namespace MOP.Terminal.ActorsSystem
             if (_settings is null)
                 throw new ArgumentNullException("Settings must be applied before building the system");
 
-            var hoconFactory = new HoconConfigFactory(_settings);
+            var hoconFactory = new HoconConfigFactory(_settings.ActorSystem);
             var config = ConfigurationFactory.ParseString(hoconFactory.Build());
             return ActorSystem.Create(_settings.Id.ToString(), config);
         }

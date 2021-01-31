@@ -8,6 +8,7 @@ using MOP.Terminal.ActorsSystem;
 using System.CommandLine;
 using System.CommandLine.Invocation;
 using MOP.Core.Infra.Extensions;
+using MOP.Core.Domain.RIP.Messaging;
 
 namespace MOP.Terminal.CommandLineTransformers
 {
@@ -21,17 +22,17 @@ namespace MOP.Terminal.CommandLineTransformers
         private Command CreateSendCommand()
         {
             var cmd = new Command("send", "send a message to a host");
-            cmd.AddArgument(new Argument<string>("path", "path to target") { Arity = ArgumentArity.ExactlyOne });
-            cmd.AddArgument(new Argument<string>("message", "message to send") { Arity = ArgumentArity.ExactlyOne });
-            cmd.Handler = CommandHandler.Create((string path, string message, string host) => OnSend(path, message, host));
+            cmd.AddArgument(new Argument<string>("command", "command to load") { Arity = ArgumentArity.ExactlyOne });
+            cmd.AddArgument(new Argument<string>("action", "action to invoke") { Arity = ArgumentArity.ExactlyOne });
+            cmd.Handler = CommandHandler.Create((string command, string action, string host) => OnSend(command, action, host));
             return cmd;
         }
 
-        private void OnSend(string path, string message, string host)
+        private void OnSend(string command, string action, string host)
         {
             var hostSettings = GetHost(GetHostName(host));
-            var actor = LocalActorSystem.Ref.CreateTerminalActor(hostSettings, path);
-            actor.Tell(ServerMessage.Create(message), actor);
+            var actor = LocalActorSystem.Ref.CreateTerminalActor(hostSettings, "RIP");
+            actor.Tell(new RemoteCall(command, action), actor);
         }
 
         private IHostSettings GetHost(string name)
