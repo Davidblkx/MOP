@@ -24,7 +24,7 @@ namespace MOP.Terminal.ActorsSystem
             catch (Exception ex)
             {
                 LOG.Error(ex, "Can't start the actor system");
-                throw;
+                throw ex;
             }
         }
 

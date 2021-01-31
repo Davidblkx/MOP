@@ -15,22 +15,6 @@ namespace MOP.Terminal.Settings
         Guid Id { get; set; }
 
         /// <summary>
-        /// Gets the port to communicate, 0 to use random.
-        /// </summary>
-        /// <value>
-        /// The port.
-        /// </value>
-        int Port { get; set; }
-
-        /// <summary>
-        /// Gets the address to use, localhost by default
-        /// </summary>
-        /// <value>
-        /// The address.
-        /// </value>
-        string Hostname { get; set; }
-
-        /// <summary>
         /// Gets a value indicating whether [log to file].
         /// </summary>
         /// <value>

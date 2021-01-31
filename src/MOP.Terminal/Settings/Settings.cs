@@ -10,10 +10,6 @@ namespace MOP.Terminal.Settings
     {
         public Guid Id { get; set; } = Guid.NewGuid();
 
-        public int Port { get; set; }
-
-        public string Hostname { get; set; } = "localhost";
-
         public string? DefaultHost { get ; set; }
 
         public List<HostSettings> Hosts { get; set; }
@@ -33,12 +29,11 @@ namespace MOP.Terminal.Settings
             return new LocalSettings
             {
                 Id = s.Id,
-                Port = s.Port,
-                Hostname = s.Hostname,
                 DefaultHost = s.DefaultHost,
                 Hosts = new List<HostSettings>(s.Hosts),
                 LogLevel = s.LogLevel,
-                LogToFile = s.LogToFile
+                LogToFile = s.LogToFile,
+                ActorSystem = s.ActorSystem,
             };
         }
 

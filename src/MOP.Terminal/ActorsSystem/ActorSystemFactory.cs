@@ -8,27 +8,22 @@ namespace MOP.Terminal.ActorsSystem
 {
     public class ActorSystemFactory
     {
-        private readonly HoconConfigFactory _hoconFactory;
-        private Guid? _id;
-
-        public ActorSystemFactory()
-        {
-            _hoconFactory = new HoconConfigFactory(TerminalHoconConfig.CONFIG);
-        }
+        private ISettings? _settings;
 
         public ActorSystemFactory SetSettings(ISettings s)
         {
-            _id = s.Id;
+            _settings = s;
             return this;
         }
 
         public ActorSystem Build()
         {
-            if (_id is null)
+            if (_settings is null)
                 throw new ArgumentNullException("Settings must be applied before building the system");
 
-            var config = ConfigurationFactory.ParseString(_hoconFactory.Build());
-            return ActorSystem.Create(_id.ToString(), config);
+            var hoconFactory = new HoconConfigFactory(_settings);
+            var config = ConfigurationFactory.ParseString(hoconFactory.Build());
+            return ActorSystem.Create(_settings.Id.ToString(), config);
         }
 
         public static ActorSystem Build(ISettings settings)
