@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using MOP.Core.Infra.Extensions;
 using MOP.Core.Infra.Tools;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MOP.Core.UserSettings
 {
@@ -59,6 +60,8 @@ namespace MOP.Core.UserSettings
 
         public UserSettingsFactory<T> SetFile(FileInfo file)
         {
+            if (file.Directory is null)
+                throw new ArgumentNullException("Directory is not defined for " + file.FullName);
             Directory = file.Directory;
             FileName = file.Name;
             return this;
@@ -76,6 +79,7 @@ namespace MOP.Core.UserSettings
             return this;
         }
 
+        [SuppressMessage("Usage", "CA2208:Instantiate argument exceptions correctly", Justification = "<Pending>")]
         public UserSettingsFactory<T> SetDefaultValue(T defaultValue)
         {
             if (defaultValue is null)
@@ -97,7 +101,7 @@ namespace MOP.Core.UserSettings
         /// tries to build the default value for T.
         /// </summary>
         /// <returns></returns>
-        private T BuildDefault()
+        private static T BuildDefault()
         {
             try
             {

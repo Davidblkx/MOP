@@ -109,10 +109,10 @@ namespace MOP.Host.Services
             }
         }
 
-        private Option<T> LogAndReturnCastErrorId<T>(Guid id, T value)
+        private Option<T> LogAndReturnCastErrorId<T>(Guid id, T? value)
             => LogAndReturn(Some(value), LogEventLevel.Warning, "Can't cast {@id} to target", id);
 
-        private Option<T> LogAndReturnMissingId<T>(Guid id, T value)
+        private Option<T> LogAndReturnMissingId<T>(Guid id, T? value)
             => LogAndReturn(Some(value), LogEventLevel.Warning, "Can't find config for {@id}", id);
 
         private T LogAndReturnInitFail<T>(T value)
@@ -127,7 +127,7 @@ namespace MOP.Host.Services
             return value;
         }
 
-        private async Task<string> ReadConfigFile(FileInfo configFile)
+        private static async Task<string> ReadConfigFile(FileInfo configFile)
         {
             if (!configFile.Exists)
                 return "{}";
@@ -141,10 +141,10 @@ namespace MOP.Host.Services
         private FileInfo GetFileInfo()
             => _host.DataDirectory.RelativeFile(FILE_NAME);
 
-        private Task SaveConfigFile(FileInfo configFile, string body)
+        private static Task SaveConfigFile(FileInfo configFile, string body)
             => File.WriteAllTextAsync(configFile.FullName, body);
 
-        private string SerializeConfig(JObject obj)
+        private static string SerializeConfig(JObject obj)
             => JsonConvert.SerializeObject(obj, Formatting.Indented);
 
         private async Task<bool> SaveConfig()

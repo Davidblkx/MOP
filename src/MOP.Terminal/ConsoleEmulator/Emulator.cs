@@ -18,6 +18,7 @@ namespace MOP.Terminal.ConsoleEmulator
             {
                 PrintCaret();
                 var input = Console.ReadLine();
+                if (input is null) continue;
                 if (IsReserved(input)) continue;
                 if (input.EqualIgnoreCase("exit")) break;
                 if (input.EqualIgnoreCase("help")) input = "--help";

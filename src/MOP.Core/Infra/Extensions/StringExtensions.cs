@@ -40,7 +40,7 @@ namespace MOP.Core.Infra.Extensions
         /// <returns></returns>
         public static Option<FileInfo> ToFileInfo(this string? value)
         {
-            try { return Option.Some(new FileInfo(value)); }
+            try { return Option.Some(new FileInfo(value ?? "")); }
             catch { return Option.None<FileInfo>(); }
         }
 

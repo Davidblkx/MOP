@@ -19,7 +19,8 @@ namespace MOP.Core.Akka.Hocon
             {
                 foreach (var att in prop.GetCustomAttributes<HoconPropertyAttribute>())
                 {
-                    yield return ($"#!{att.Name}", Convert.ToString(prop.GetValue(source)));
+                    if (Convert.ToString(prop.GetValue(source)) is string value)
+                        yield return ($"#!{att.Name}", value);
                 }
             }
         }

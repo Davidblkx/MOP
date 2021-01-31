@@ -51,6 +51,11 @@ namespace MOP.Host
 
         public MopHost(HostProperties p, MopLifeService life, IInjectorService injector)
         {
+            if (p.DataDirectory is null)
+                throw new ArgumentNullException("Data directory is null");
+            if (p.TempDirectory is null)
+                throw new ArgumentNullException("Temp directory is null");
+
             Info = BuildHostInfo(p.Id, p.Name);
             DataDirectory = new DirectoryInfo(p.DataDirectory);
             TempDirectory = new DirectoryInfo(p.TempDirectory);

@@ -28,7 +28,7 @@ namespace MOP.Core.Infra.Optional
         /// <typeparam name="T"></typeparam>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public static Option<T> Some<T>([AllowNull] T value)
+        public static Option<T> Some<T>(T? value)
             => value is null ?
                 Option.None<T>()
                 : Option.Some(value);

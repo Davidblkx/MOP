@@ -35,14 +35,14 @@ namespace MOP.Core.Infra
         public void Update(int major, int minor, int patch)
             => _version = new SemVersion(major, minor, patch);
 
-        public int CompareTo(object obj)
+        public int CompareTo(object? obj)
         {
             if (obj is MopVersion v)
                 return CompareTo(v);
             throw new ArgumentException("obj is not an MopVersion");
         }
 
-        public int CompareTo(MopVersion other)
-            => _version.CompareTo(other._version);
+        public int CompareTo(MopVersion? other)
+            => _version.CompareTo(other?._version);
     }
 }

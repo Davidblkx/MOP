@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Reflection;
+using System;
 
 namespace MOP.Core.Akka.Hocon
 {
@@ -16,11 +17,10 @@ namespace MOP.Core.Akka.Hocon
             if (resourceName is null)
                 throw new FileNotFoundException($"Can't file resource for {FILE_NAME}");
 
-            using (var stream = assembly.GetManifestResourceStream(resourceName))
-            using (var reader = new StreamReader(stream))
-            {
-                return reader.ReadToEnd();
-            }
+            using var stream = assembly.GetManifestResourceStream(resourceName);
+            if (stream is null) throw new NullReferenceException("Can't find resource with name: " + resourceName);
+            using var reader = new StreamReader(stream);
+            return reader.ReadToEnd();
         }
     }
 }

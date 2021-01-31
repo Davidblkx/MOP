@@ -36,9 +36,9 @@ namespace MOP.Core.Infra.Tools
         /// <exception cref="AccessViolationException">Can't locate running assembly location</exception>
         public static DirectoryInfo GetStartDirectory()
         {
-            var location = Process.GetCurrentProcess().MainModule.FileName;
-            var file = new FileInfo(location);
-            if (!file.Exists)
+            var location = Process.GetCurrentProcess().MainModule?.FileName;
+            var file = new FileInfo(location ?? "");
+            if (!file.Exists || file.Directory is null)
             {
                 throw new AccessViolationException("Can't locate running assembly location");
             }

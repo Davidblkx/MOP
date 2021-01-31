@@ -9,8 +9,8 @@ namespace MOP.Core.Infra.Tools
         public static MopVersion GetAssemblyVersion(Assembly assembly)
         {
             var version = assembly.
-                GetCustomAttribute<AssemblyInformationalVersionAttribute>()
-                .InformationalVersion;
+                GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
+                .InformationalVersion ?? "0.0.0";
             return new MopVersion(version);
         }
 
@@ -24,6 +24,7 @@ namespace MOP.Core.Infra.Tools
         {
             foreach (var t in assembly.GetTypes())
             {
+                if (t.FullName is null) continue;
                 if (!TypeTools.CanInstantiate<T>(t)) continue;
 
                 if (assembly.CreateInstance(t.FullName) is T instance)

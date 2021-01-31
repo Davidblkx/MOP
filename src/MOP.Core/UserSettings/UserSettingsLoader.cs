@@ -61,8 +61,8 @@ namespace MOP.Core.UserSettings
 
         private async Task TrySave(T settings)
         {
-            if (!SettingsFile.Directory.Exists)
-                SettingsFile.Directory.Create();
+            if (!(SettingsFile.Directory?.Exists ?? false))
+                SettingsFile.Directory?.Create();
 
             var json = JsonConvert.SerializeObject(settings, Formatting.Indented);
             await File.WriteAllTextAsync(SettingsFile.FullName, json);

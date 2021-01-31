@@ -26,7 +26,7 @@ namespace MOP.Core.Domain.RIP.Factories
 
             var arg = _methodInfo.GetParameters().FirstOrDefault();
             var argType = arg?.ParameterType.AssemblyQualifiedName ?? GetVoidName();
-            var returnType = _methodInfo.ReturnType.AssemblyQualifiedName;
+            var returnType = _methodInfo.ReturnType.AssemblyQualifiedName ?? "GenericType";
             var argSchema = arg is null ? "" : GenerateSchema(arg.ParameterType);
             var returnSchema = GenerateSchema(_methodInfo.ReturnType);
 

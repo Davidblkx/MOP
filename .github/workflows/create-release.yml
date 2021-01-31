@@ -21,7 +21,7 @@ jobs:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 3.1.300
+          dotnet-version: 5.0.102
       - name: Setup nuke build
         run: |
           dotnet tool install Nuke.GlobalTool --global

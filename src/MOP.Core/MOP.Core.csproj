@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <Nullable>enable</Nullable>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>9.0</LangVersion>
     <Version>0.1.0</Version>
     <RuntimeIdentifiers>win-x64;linux-x64;osx-x64</RuntimeIdentifiers>
   </PropertyGroup>
@@ -25,9 +25,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Akka" Version="1.4.12" />
+    <PackageReference Include="Akka" Version="1.4.16" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="NJsonSchema" Version="10.3.1" />
+    <PackageReference Include="NJsonSchema" Version="10.3.3" />
     <PackageReference Include="Optional" Version="4.0.0" />
     <PackageReference Include="Semver" Version="2.0.6" />
     <PackageReference Include="Serilog" Version="2.10.0" />

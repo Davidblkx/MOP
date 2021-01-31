@@ -61,6 +61,6 @@ namespace MOP.Core.Infra.Tools
         /// </summary>
         /// <returns></returns>
         public static string GetVoidName()
-            => typeof(void).AssemblyQualifiedName;
+            => typeof(void).AssemblyQualifiedName ?? "System.Void";
     }
 }

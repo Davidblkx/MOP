@@ -62,6 +62,9 @@ namespace MOP.Host.Services
 
         private void ConfigureFileLogger(HostProperties p)
         {
+            if (p.DataDirectory is null)
+                throw new ArgumentNullException("Data directory is null");
+
             var dir = new DirectoryInfo(p.DataDirectory);
             var logFile = dir.RelativeFile("log.txt");
 
