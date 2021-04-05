@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System.Reflection;
+﻿using System.Reflection;
 using MOP.Core.Domain.RIP.Messaging;
 using Akka.Actor;
 using MOP.Core.Domain.RIP;
@@ -11,6 +10,7 @@ using MOP.Core.Infra.Extensions;
 
 using static MOP.RemoteInterfaceProtocol.ErrorMap;
 using static MOP.Core.Infra.Tools.TypeTools;
+using Newtonsoft.Json.Linq;
 
 namespace MOP.RemoteInterfaceProtocol
 {
@@ -52,13 +52,13 @@ namespace MOP.RemoteInterfaceProtocol
 
         private void Invoke(ICall call)
         {
-            if (!(_rip.GetCommand(call.Command) is ICommand c))
+            if (_rip.GetCommand(call.Command) is not ICommand c)
             {
                 Sender.Tell(BuildError(RIPErrors.CommandNotFound, call.Command));
                 return;
             }
 
-            if (!(c.Actions.FirstOrDefault(e => e.Name.EqualIgnoreCase(call.Action)) is IAction a))
+            if (c.Actions.FirstOrDefault(e => e.Name.EqualIgnoreCase(call.Action)) is not IAction a)
             {
                 Sender.Tell(BuildError(RIPErrors.ActionNotFound, call.Action));
                 return;
@@ -87,16 +87,48 @@ namespace MOP.RemoteInterfaceProtocol
             return method.Invoke(service, args);
         }
 
-        private object?[] DeserializeArgument(MethodInfo info, string? argument)
+        private static object?[] DeserializeArgument(MethodInfo info, string? argument)
         {
             if (info.GetParameters().Length == 0)
-                return new object?[0];
+                return Array.Empty<object?>();
 
             if (argument is null)
-                return new object?[] { null };
+                return GetDefaultValuesForParameters(info);
 
-            var res = JsonConvert.DeserializeObject(argument, info.GetParameters().First().ParameterType);
-            return new object?[] { res };
+            return DeserializeArgument(info.GetParameters(), argument);
         }
+
+        private static object?[] GetDefaultValuesForParameters(MethodInfo info)
+        {
+            var pList = info.GetParameters()
+                    .Select(p => (p.Position, p.ParameterType));
+            var args = new object?[pList.Count()];
+            foreach (var (Position, ParameterType) in pList)
+            {
+                var value = DefaultValue(ParameterType);
+                args[Position] = value;
+            }
+            return args;
+        }
+
+        private static object?[] DeserializeArgument(ParameterInfo[] parameters, string args)
+        {
+            var res = new object?[parameters.Length];
+            var arr = JArray.Parse(args);
+
+            for (var i = 0; i < res.Length; i++)
+            {
+                var p = parameters.First(e => e.Position == i);
+
+                res[i] = i < arr.Count ?
+                    arr[i].ToObject(p.ParameterType)
+                    : DefaultValue(p.ParameterType);
+            }
+
+            return res;
+        }
+
+        private static object? DefaultValue(Type t)
+            => t.IsValueType ? Activator.CreateInstance(t) : null;
     }
 }

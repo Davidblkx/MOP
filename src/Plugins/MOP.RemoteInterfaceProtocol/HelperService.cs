@@ -18,7 +18,7 @@ namespace MOP.RemoteInterfaceProtocol
         [Action(Description = "Show all actions for a command name")]
         public string Detail(string name)
         {
-            if (!(_rip.GetCommand(name) is ICommand c))
+            if (_rip.GetCommand(name) is not ICommand c)
                 return "Can't find command for name: " + name;
 
             return BuildCommandDetail(c);
@@ -35,7 +35,7 @@ namespace MOP.RemoteInterfaceProtocol
             return builder.ToString();
         }
 
-        private string BuildCommandDetail(ICommand c)
+        private static string BuildCommandDetail(ICommand c)
         {
             return $"Command: {c.Name}";
         }

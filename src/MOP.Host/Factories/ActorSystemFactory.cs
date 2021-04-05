@@ -19,10 +19,11 @@ namespace MOP.Host.Services
 
         public ActorSystem Build()
         {
+            _config.EnsureRole("host");
             var factory = new HoconConfigFactory(_config);
             var configString = factory.Build();
             var actorConfig = ConfigurationFactory.ParseString(configString);
-            return ActorSystem.Create(_id.ToString(), actorConfig);
+            return ActorSystem.Create(_config.ActorSystemName, actorConfig);
         }
 
         public static ActorSystem BuildFrom(HostProperties props)

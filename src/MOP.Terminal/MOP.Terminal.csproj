@@ -10,13 +10,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Akka" Version="1.4.16" />
-    <PackageReference Include="Akka.Remote" Version="1.4.16" />
+    <PackageReference Include="Akka" Version="1.4.18" />
+    <PackageReference Include="Akka.Cluster" Version="1.4.18" />
+    <PackageReference Include="Akka.Remote" Version="1.4.18" />
+    <PackageReference Include="CommandLineFacilitator" Version="2.0.0-beta1" />
     <PackageReference Include="ConsoleInteractive" Version="2.1.0" />
     <PackageReference Include="Serilog" Version="2.10.1-dev-01265" />
     <PackageReference Include="Serilog.Sinks.Console" Version="4.0.0-dev-00839" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0-dev-00909" />
-    <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.20574.7" />
+    <PackageReference Include="SimpleInjector" Version="5.3.0" />
+    <PackageReference Include="Spectre.Console" Version="0.38.0" />
   </ItemGroup>
 
   <ItemGroup>

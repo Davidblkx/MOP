@@ -9,9 +9,7 @@
 	daemonic = off
 
 	actor {
-		provider = remote
-		serialize-messages = off
-		serialize-creators = off
+		provider = cluster
 
 		inbox {
 			inbox-size = 1000,
@@ -48,5 +46,10 @@
             public-hostname = #!REMOTE_PUBLIC_HOSTNAME
             public-port = #!REMOTE_PUBLIC_PORT
         }
+	}
+
+	cluster {
+		seed-nodes = [#!CLUSTER_SEED_NODES]
+		roles = [#!CLUSTER_ROLES]
 	}
 }

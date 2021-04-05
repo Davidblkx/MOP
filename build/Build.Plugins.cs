@@ -15,6 +15,7 @@ partial class Build
     List<Project> PluginsProjects => new List<Project>
     {
         MopSolution.GetProject("MOP.RemoteInterfaceProtocol"),
+        MopSolution.GetProject("MOP.Ping"),
     };
     
     AbsolutePath PluginsOutputDirectory => OutputDirectory / "MOPHost" / "Plugins";

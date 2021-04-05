@@ -1,7 +1,9 @@
-﻿using MOP.Terminal.CommandLine;
-using MOP.Terminal.ConsoleEmulator;
-using System.CommandLine.Parsing;
+﻿using MOP.Core.Infra;
+using MOP.Terminal.Models;
+using MOP.Terminal.Services;
 using System.Threading.Tasks;
+
+using static MOP.Terminal.Infra.DependencyInjector;
 
 namespace MOP.Terminal
 {
@@ -9,9 +11,15 @@ namespace MOP.Terminal
     {
         static async Task<int> Main(string[] args)
         {
-            var parser = await ParserBuilder.Build();
-            Emulator.CommonParser = parser;
-            return await parser.InvokeAsync(args);
+            var newArgs = Register(args);
+
+            var actorService = GetInstance<IActorService>();
+            actorService.Start(newArgs);
+
+            await GetInstance<MopLifeService>().WaitForExit();
+            await actorService.Shutdown();
+
+            return AppState.Result;
         }
     }
 }

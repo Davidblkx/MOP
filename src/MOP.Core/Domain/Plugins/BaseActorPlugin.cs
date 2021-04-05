@@ -19,6 +19,11 @@ namespace MOP.Core.Domain.Plugins
             return true;
         }
 
+        protected void RegisterRoles(params string[] roles) 
+        {
+            // TODO: implement logic to register new roles
+        }
+
         protected abstract Task<Props> GetActorPropsAsync();
     }
 }
