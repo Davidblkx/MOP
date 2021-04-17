@@ -4,6 +4,10 @@ using System.Threading.Tasks;
 
 namespace MOP.Core.Domain.Plugins
 {
+    /// <summary>
+    /// Base for plugins that use actors
+    /// </summary>
+    /// <typeparam name="T">Plugin Type</typeparam>
     public abstract class BaseActorPlugin<T> : BasePlugin<T>
     {
         public abstract string ActorRefName { get; }

@@ -16,7 +16,9 @@ namespace MOP.Core.Services
         /// <param name="id">The identifier.</param>
         /// <param name="defaultValue">The default value.</param>
         /// <returns></returns>
+#pragma warning disable CS8601 // Possible null reference assignment.
         public Task<Option<T>> LoadConfig<T>(Guid id, T defaultValue = default);
+#pragma warning restore CS8601 // Possible null reference assignment.
 
         /// <summary>
         /// Saves the configuration.

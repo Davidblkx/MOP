@@ -45,7 +45,18 @@ namespace MOP.Host.Factories
                 props.TempDirectory = GetSubRootDir(props.Id, TEMP_DIR_NAME);
             if (string.IsNullOrEmpty(props.DataDirectory))
                 props.DataDirectory = GetSubRootDir(props.Id, DATA_DIR_NAME);
+
+            SetExtension(props, "Akka.Cluster.Tools.PublishSubscribe.DistributedPubSubExtensionProvider,Akka.Cluster.Tools");
+
             return props;
+        }
+
+        private void SetExtension(HostProperties props, string extension)
+        {
+            if (props.ActorSystemConfig.Extensions.Contains(extension))
+                return;
+
+            props.ActorSystemConfig.Extensions.Add(extension);
         }
 
         private string GetSubRootDir(Guid id, string name)

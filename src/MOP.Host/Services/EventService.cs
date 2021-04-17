@@ -1,14 +1,11 @@
 ﻿using Akka.Actor;
 using Optional;
 using MOP.Core.Domain.Events;
-using MOP.Core.Domain.Host;
 using MOP.Core.Services;
-using MOP.Core.Infra.Extensions;
-using MOP.Host.Events;
 using Serilog;
 using System;
-using System.Threading.Tasks;
 using Optional.Unsafe;
+using System.Reactive.Subjects;
 
 using static MOP.Core.Infra.Optional.Static;
 
@@ -16,70 +13,43 @@ namespace MOP.Host.Services
 {
     internal class EventService : IEventService
     {
-        private const string ACTOR_NAME = "events";
-
         private readonly ILogger _log;
         private readonly IActorRef _eventsActor;
+        private readonly Subject<IEvent> _subject;
 
-        public EventService(IHost host, ILogService log, ActorSystem actorSystem)
+        public IObservable<IEvent> Events => _subject;
+
+        public EventService(ILogService log, ActorSystem actorSystem)
         {
             _log = log.GetContextLogger<IEventService>();
-            _eventsActor = InitEventActor(host, actorSystem, log)
+            _eventsActor = InitEventActor(actorSystem)
                 .ValueOrFailure("Failed to initialize events actor");
+            _subject = new Subject<IEvent>();
         }
 
-        public Task<Guid> Emit(string type)
-            => Emit(type, new Unit());
+        public Guid Emit(string type, bool global = false)
+            => Emit(type, new Unit(), global);
 
-        public Task<Guid> Emit<T>(string type, T body)
+        public Guid Emit<T>(string type, T body, bool global = false)
         {
             _log.Information("New event: {@Type} {@Body}", type, body);
-            var cmd = EventCommand.Create(type, body);
-            _eventsActor.Tell(cmd);
-            return Task.Run(() => cmd.Event.Id);
+
+            var @event = new Event<T>(type, body);
+            _subject.OnNext(@event);
+
+            if (global) _eventsActor.Tell(@event);
+
+            return @event.Id;
         }
 
-        public void ReplayEvents(Guid? startEventGuid)
-        {
-            Some(startEventGuid).Match(
-                some: e => _log.Information("Replaying events from id: {@E}", e),
-                none: () => _log.Information("Replaying all events"));
-
-            var cmd = new ReplayCommand(new string[0], startEventGuid);
-            _eventsActor.Tell(cmd);
-        }
-
-        public void ReplayEvents(string[] types, Guid? startEventGuid)
-        {
-            Some(startEventGuid).Match(
-                some: e => _log.Information("Replaying events for type {@Types} starting at {@E}", e, types),
-                none: () => _log.Information("Replaying all events for type {@Type}", types));
-
-            var cmd = new ReplayCommand(new string[0], startEventGuid);
-            _eventsActor.Tell(cmd);
-        }
-
-        public async Task<Option<IDisposable>> Subscribe(Action<IEvent> handler, params string[] types)
-        {
-            return (await AskSubscribe(handler, types)) switch
-            {
-                IDisposable e => Some(e),
-                _ => None<IDisposable>()
-            };
-        }
-
-        private Task<object> AskSubscribe(Action<IEvent> handler, params string[] types)
-            => _eventsActor.Ask(new SubscribeCommand(handler, types));
-
-        private Option<IActorRef> InitEventActor(IHost host, ActorSystem actorSystem, ILogService logService)
+        private Option<IActorRef> InitEventActor(ActorSystem actorSystem)
         {
             try
             {
-                var dbPath = host.DataDirectory.RelativeFile($"{ACTOR_NAME}.db");
-                var storage = new EventStorage(dbPath, logService);
-                var handler = new EventSubscriptionHandler(storage, logService);
-                var props = EventsActor.WithProps(handler);
-                return Some(actorSystem.ActorOf(props, ACTOR_NAME));
+                return Some(actorSystem.ActorOf(
+                    PublishEventActor.GetProps(),
+                    PublishEventActor.ActorName
+                   ));
             }
             catch (Exception ex)
             {

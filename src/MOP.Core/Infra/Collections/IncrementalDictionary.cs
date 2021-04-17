@@ -34,6 +34,8 @@ namespace MOP.Core.Infra.Collections
         private readonly Dictionary<T, ulong> _values;
         private readonly Dictionary<ulong, T> _keys;
 
+        public IEnumerable<T> Values => _values.Keys;
+
         public IncrementalDictionary()
         {
             _values = new Dictionary<T, ulong>();

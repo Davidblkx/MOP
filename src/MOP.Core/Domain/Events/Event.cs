@@ -45,7 +45,7 @@ namespace MOP.Core.Domain.Events
             => Id.Equals(other.Id);
 
         public static Event Clone(IEvent e)
-            => new Event(e.Type, e.DateTime, e.Id);
+            => new(e.Type, e.DateTime, e.Id);
     }
 
     public class Event<T> : Event, IEvent<T>

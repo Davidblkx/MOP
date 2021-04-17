@@ -4,6 +4,8 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Reactive.Linq;
+using System.Linq;
 
 namespace MOP.Core.Domain.Plugins
 {
@@ -13,7 +15,7 @@ namespace MOP.Core.Domain.Plugins
         
         protected IInjectorService Injector { get; }
         protected ILogger Logger { get; }
-        protected IEventService Events { get; }
+        protected IEventService EventService { get; }
         protected string FullName { get; }
 
         private List<IDisposable> _subscriptions;
@@ -26,7 +28,7 @@ namespace MOP.Core.Domain.Plugins
             Logger = Injector
                 .GetService<ILogService>()
                 .GetContextLogger<T>();
-            Events = Injector.GetService<IEventService>();
+            EventService = Injector.GetService<IEventService>();
             _subscriptions = new List<IDisposable>();
         }
 
@@ -35,6 +37,7 @@ namespace MOP.Core.Domain.Plugins
             Logger.Debug("Disposing plugin {@FullName}", FullName);
             foreach (var disposable in _subscriptions)
                 disposable.Dispose();
+            GC.SuppressFinalize(this);
         }
 
         public virtual async Task<bool> Initialize()
@@ -59,11 +62,12 @@ namespace MOP.Core.Domain.Plugins
         /// </summary>
         /// <param name="handler">The handler.</param>
         /// <param name="types">The types.</param>
-        protected async Task Subscribe(Action<IEvent> handler, params string[] types)
+        protected void Subscribe(Action<IEvent> handler, params string[] types)
         {
             Logger.Debug("Subscribing {@FullName} to events: {types}", FullName, types);
-            var subs = await Events.Subscribe(handler, types);
-            subs.MatchSome(d => _subscriptions.Add(d));
+            EventService.Events
+                .Where(e => types.Contains(e.Type))
+                .Subscribe(e => handler(e));
         }
 
         /// <summary>

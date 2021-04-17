@@ -24,4 +24,8 @@
     <ProjectReference Include="..\..\src\MOP.Host\MOP.Host.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Events\" />
+  </ItemGroup>
+
 </Project>

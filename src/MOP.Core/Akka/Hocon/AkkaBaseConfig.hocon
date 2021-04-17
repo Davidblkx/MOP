@@ -52,4 +52,6 @@
 		seed-nodes = [#!CLUSTER_SEED_NODES]
 		roles = [#!CLUSTER_ROLES]
 	}
+
+	extensions = [#!EXTENSIONS]
 }

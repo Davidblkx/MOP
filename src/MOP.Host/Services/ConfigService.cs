@@ -58,7 +58,9 @@ namespace MOP.Host.Services
             }
         }
 
+#pragma warning disable CS8601 // Possible null reference assignment.
         public async Task<Option<T>> LoadConfig<T>(Guid id, T defaultValue = default)
+#pragma warning restore CS8601 // Possible null reference assignment.
         {
             await ReloadConfigObject();
             _log.Information("Loading config for: {@id}", id);

@@ -1,7 +1,6 @@
 ﻿using MOP.Core.Domain.Host;
 using MOP.Core.Services;
 using MOP.Host.Domain;
-using MOP.Host.Events;
 using MOP.Host.Services;
 using Serilog;
 using System;
@@ -18,14 +17,12 @@ namespace MOP.Host.Test.Mocks
         public static readonly IInjectorService injector = new InjectorService(false);
 
         public IHost Host { get; }
-        public IEventStorage Storage { get; }
 
         private FileInfo db;
 
         public MockBuilder()
         {
             Host = BuildHost();
-            Storage = BuildStorage();
         }
 
         private IHost BuildHost()
@@ -41,12 +38,6 @@ namespace MOP.Host.Test.Mocks
                 return host;
 
             throw new Exception("Failed to instantiate host");
-        }
-
-        private IEventStorage BuildStorage()
-        {
-            db = Host.DataDirectory.RelativeFile("events.sb");
-            return new EventStorage(db, injector.GetService<ILogService>());
         }
 
         private void CleanDirectory()

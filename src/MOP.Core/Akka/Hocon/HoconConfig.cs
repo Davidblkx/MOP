@@ -36,8 +36,13 @@ namespace MOP.Core.Akka.Hocon
         [HoconProperty("CLUSTER_ROLES")]
         public string ComputedClusterRoles => CommaSeparate(ClusterRoles);
 
+        [JsonIgnore]
+        [HoconProperty("EXTENSIONS")]
+        public string ComputedExtensions => CommaSeparate(Extensions);
+
         public List<string> ClusterSeedNodes { get; set; } = new();
         public List<string> ClusterRoles { get; set; } = new();
+        public List<string> Extensions { get; set; } = new();
 
         public string ActorSystemName { get; set; } = "mop";
 

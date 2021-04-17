@@ -90,7 +90,7 @@ namespace MOP.Host
             _plugins.AddPluginsFolder(dir);
             await _plugins.Load();
 
-            await _events.Emit("Initial plugins loaded");
+            _events.Emit("Initial plugins loaded");
         }
 
         public static async Task<MopHost> BuildHost(string[] args, CancellationToken token)
