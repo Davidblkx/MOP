@@ -24,6 +24,8 @@ namespace MOP.Core.Services
         /// <returns>The event id</returns>
         Guid Emit<T>(string type, T body, bool global = false);
 
+        Guid Emit(IEvent @event, bool global = false);
+
         IObservable<IEvent> Events { get; }
     }
 }

@@ -7,7 +7,7 @@ using MOP.DirectoryWatcher.Actors;
 using MOP.DirectoryWatcher.Models;
 using System.Threading.Tasks;
 
-using static MOP.Core.Domain.Events.EventTypes;
+using static MOP.Core.Domain.Events.EventTypes.IO;
 
 namespace MOP.DirectoryWatcher
 {

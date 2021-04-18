@@ -4,7 +4,7 @@ using MOP.DirectoryWatcher.Models;
 using Serilog;
 using System.IO;
 
-using static MOP.Core.Domain.Events.EventTypes;
+using static MOP.Core.Domain.Events.EventTypes.IO;
 
 namespace MOP.DirectoryWatcher.Actors
 {

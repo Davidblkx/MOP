@@ -35,6 +35,12 @@ namespace MOP.Host.Services
             _log.Information("New event: {@Type} {@Body}", type, body);
 
             var @event = new Event<T>(type, body);
+
+            return Emit(@event, global);
+        }
+
+        public Guid Emit(IEvent @event, bool global = false)
+        {
             _subject.OnNext(@event);
 
             if (global) _eventsActor.Tell(@event);

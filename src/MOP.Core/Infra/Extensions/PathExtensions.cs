@@ -26,6 +26,12 @@ namespace MOP.Core.Infra.Extensions
             return new DirectoryInfo(Path.Combine(directory.FullName, string.Join('/', paths)));
         }
 
+        public static DirectoryInfo? GetDirectoryInfo(this string value)
+        {
+            try { return new DirectoryInfo(value); }
+            catch { return null; }
+        }
+
         public static string GetNameWithoutExtension(this FileInfo file)
         {
             var extLength = file.Extension?.Length ?? 0;

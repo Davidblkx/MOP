@@ -1,5 +1,7 @@
 ﻿using Akka.Actor;
+using MOP.Core.Akka;
 using MOP.Core.Domain.Events;
+using MOP.Core.Infra.Extensions;
 using MOP.Core.Services;
 using MOP.DirectoryWatcher.Models;
 using Serilog;
@@ -7,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+
+using static MOP.Core.Domain.Events.EventTypes.IO;
 
 namespace MOP.DirectoryWatcher.Actors
 {
@@ -19,6 +23,7 @@ namespace MOP.DirectoryWatcher.Actors
         private readonly Dictionary<string, IActorRef> _watchActors;
 
         private readonly IActorRef _configActor;
+        private readonly IActorRef _scanActor;
         private readonly string[] _supportedTypes;
 
         public SupervisorActor(IInjectorService injector, DirectoryWatchConfig config)
@@ -27,11 +32,10 @@ namespace MOP.DirectoryWatcher.Actors
             _config = config;
             _watchActors = new();
             _configActor = CreateConfigActor();
+            _scanActor = CreateScanActor();
+
             _supportedTypes = new string[]
-            {
-                EventTypes.AddWatchDirectory,
-                EventTypes.RemoveWatchDirectory
-            };
+                { AddWatchDirectory, RemoveWatchDirectory, DirectoryScan };
             
             _log = injector.GetService<ILogService>()
                 .GetContextLogger<SupervisorActor>();
@@ -50,12 +54,15 @@ namespace MOP.DirectoryWatcher.Actors
                 return;
             }
 
-            if (@event is IEvent<string> e && e.Body.HasValue)
+            if (@event is IEvent<string> e && 
+                e.Body.ValueOr("").GetDirectoryInfo() is DirectoryInfo dir)
             {
-                if (e.Type == EventTypes.AddWatchDirectory)
-                    AddDirectory(e.Body.ValueOr(""));
-                else if (e.Type == EventTypes.RemoveWatchDirectory)
-                    RemoveDirectory(e.Body.ValueOr(""));
+                if (e.Type == AddWatchDirectory)
+                    AddDirectory(dir);
+                else if (e.Type == RemoveWatchDirectory)
+                    RemoveDirectory(dir);
+                else if (e.Type == DirectoryScan)
+                    ScanDirectory(dir);
 
                 return;
             }
@@ -63,9 +70,8 @@ namespace MOP.DirectoryWatcher.Actors
             _log.Warning("WatchDirectory can't process event {@event}", @event);
         }
 
-        private void RemoveDirectory(string path)
+        private void RemoveDirectory(DirectoryInfo info)
         {
-            var info = new DirectoryInfo(path);
             if (!_watchActors.ContainsKey(info.FullName))
             {
                 _log.Warning("Directory {@Path}, is not in watch list", info.FullName);
@@ -78,10 +84,8 @@ namespace MOP.DirectoryWatcher.Actors
             _configActor.Tell(_config);
         }
 
-        private void AddDirectory(string path)
+        private void AddDirectory(DirectoryInfo info)
         {
-            var info = new DirectoryInfo(path);
-
             if (!info.Exists)
             {
                 _log.Warning("can't access {@Path}", info.FullName);
@@ -109,6 +113,9 @@ namespace MOP.DirectoryWatcher.Actors
 
         private void StartWatchActor(FolderToWatch folder)
         {
+            if (!_config.WatchForChanges)
+                return;
+
             if (_watchActors.ContainsKey(folder.FolderPath))
                 return;
 
@@ -117,7 +124,20 @@ namespace MOP.DirectoryWatcher.Actors
             _watchActors.Add(folder.FolderPath, actor);
         }
 
+        private void ScanDirectory(DirectoryInfo info)
+        {
+            if (!info.Exists) return;
+
+            _scanActor.Tell(info);
+        }
+
         private IActorRef CreateConfigActor()
             => Context.ActorOf(Props.Create<ConfigActor>(_injector));
+
+        private IActorRef CreateScanActor()
+            => Context.ActorOf(Props
+                .Create<ScanSupervisor>(_config.ScanThreads, _injector)
+                .WithMailbox(GenericPriorityMailbox.Name)
+            );
     }
 }
