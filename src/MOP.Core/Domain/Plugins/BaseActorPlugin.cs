@@ -12,6 +12,8 @@ namespace MOP.Core.Domain.Plugins
     {
         public abstract string ActorRefName { get; }
 
+        public string ActorPath => $"/user/{ActorRefName}";
+
         public BaseActorPlugin(IInjectorService injector) : base(injector) { }
 
         protected async override Task<bool> OnInitAsync()

@@ -16,5 +16,20 @@
         /// A file was changed in a directory
         /// </summary>
         public static string DirectoryFileChanged => "CORE_DIRECTORY_FILE_CHANGED";
+
+        /// <summary>
+        /// A file was added to a directory
+        /// </summary>
+        public static string DirectoryFileAdded => "CORE_DIRECTORY_FILE_CHANGED";
+
+        /// <summary>
+        /// A file was removed from a directory
+        /// </summary>
+        public static string DirectoryFileRemoved => "CORE_DIRECTORY_FILE_CHANGED";
+
+        /// <summary>
+        /// A file was moved in a directory
+        /// </summary>
+        public static string DirectoryFileMoved => "CORE_DIRECTORY_FILE_CHANGED";
     }
 }
