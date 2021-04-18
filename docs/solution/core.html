@@ -1,0 +1,191 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>MOP.Core </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="MOP.Core ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="mopcore">MOP.Core</h1>
+
+<p>Contains <em>Models</em> and <em>Interfaces</em> to be shared between <em>Hosts</em>, <em>Clients</em> and <em>Plugins</em></p>
+<h2 id="akka">Akka</h2>
+<p>Contains models and factories specific for AKKA related logic</p>
+<h3 id="hocon">Hocon</h3>
+<p><strong><em>AkkaBaseConfig.hocon</em></strong>: base HOCON file to use when starting akka, some properties
+can be changes using <code>HoconConfigFactory.cs</code>, such props are in the format <code>#!NAME</code></p>
+<p><strong><em>HoconConfig</em></strong>: Model of properties to be replaced in <code>AkkaBaseConfig.hocon</code> file</p>
+<p><strong><em>HoconConfigFactory</em></strong>: Factory to build an HOCON file based on a source input
+and an object that has properties with the attribute <code>HoconPropertyAttribute</code></p>
+<p><strong><em>HoconFileLoader</em></strong>: Helper to load the <code>AkkaBaseConfig.hocon</code> file from the assembly resources</p>
+<p><strong><em>HoconPropertyAttribute</em></strong>: Property attribute to mark a property to be replaced in an HOCON file</p>
+<hr>
+<h2 id="domain">Domain</h2>
+<p>MOP domain specif sources</p>
+<h3 id="api">Api</h3>
+<p>Contains logic related to core and plugins api reference, so remote clients know how to execute actions in a host</p>
+<p><strong><em>ApiAction</em></strong>: Model of a action that can be called by clients</p>
+<p><strong><em>ApiActionAttribute</em></strong>: Method attribute to allow it to be called by clients</p>
+<p><strong><em>ApiActionFactory</em></strong>: Factory to build an <code>ApiAction</code> from an <code>MethodInfo</code></p>
+<p><strong><em>ApiCommand</em></strong>: Command to send to <code>ApiActor</code>, allow to invoke <code>ApiActions</code></p>
+<p><strong><em>ApiHost</em></strong>: Represents a group of <code>ApiAction</code> with the actor path to call</p>
+<p><strong><em>ApiHostAttribute</em></strong>: Class attribute to allow its actions to be grouped</p>
+<p><strong><em>ApiHostFactory</em></strong>: Factory to build an <code>ApiHost</code> from an <code>Type</code></p>
+<p><strong><em>ApiSchemaHandler</em></strong>: Helper to create JSON schemas from a <code>Type</code></p>
+<h3 id="events">Events</h3>
+<p>Contains logic related to Events commands</p>
+<p><strong><em>Event</em></strong>: Implements <code>IEvent</code></p>
+<p><strong><em>EventCommand</em></strong>: Command to be sent by clients, generates and event in a Host</p>
+<p><strong><em>EventsExtensions</em></strong>: Extension helpers for <code>IEvent</code></p>
+<p><strong><em>IEvent</em></strong>: Model of an Host event</p>
+<p><strong><em>ReplayCommand</em></strong>: Command to replay all events from a specified moment</p>
+<p><strong><em>SubscribeCommand</em></strong>: Allow clients to subscribe to host events</p>
+<p><strong><em>Unit</em></strong>: Empty object to use on event commands without body</p>
+<h3 id="host">Host</h3>
+<p>Host interfaces</p>
+<p><strong><em>HostInfo</em></strong>: implements <code>IHostInfo</code></p>
+<p><strong><em>IHost</em></strong>: Host interface</p>
+<p><strong><em>IHostInfo</em></strong>: Interface for host specific information</p>
+<h3 id="plugins">Plugins</h3>
+<p><strong><em>BaseActorPlugin</em></strong>: Base implementation for plugins based on actors</p>
+<p><strong><em>BasePlugin</em></strong>: Base implementation for IPlugin</p>
+<p><strong><em>InjectableAttribute</em></strong>: Mark class to be injected at plugin load time</p>
+<p><strong><em>IPlugin</em></strong>: Interface for all plugins</p>
+<p><strong><em>IPluginInfo</em></strong>: Information for a plugin</p>
+<p><strong><em>LifeCycle</em></strong>: Enum for life cycle of a plugin service</p>
+<p><strong><em>PluginInfo</em></strong>: default implementation for IPluginInfo</p>
+<p><strong><em>PluginPriority</em></strong>: standard values to use as plugin priority</p>
+<hr>
+<h2 id="helpers">Helpers</h2>
+<p>Static classes with helper methods and extensions</p>
+<p><strong><em>InfoBuilder</em></strong>: Helpers for IPluginInfo</p>
+<p><strong><em>MopHelper</em></strong>: Helpers for MOP</p>
+<hr>
+<h2 id="infra">Infra</h2>
+<p>Infrastructure related objects</p>
+<p><strong><em>MopLifeService</em></strong>: Singleton service to await for application to exit</p>
+<p><strong><em>MopVersion</em></strong>: Represents a SemVersion instance, and allow to compare it</p>
+<h3 id="collections">Collections</h3>
+<p><strong><em>IncrementalCollection</em></strong>: Collection of values, where each entry has an automatic created ID</p>
+<h3 id="extensions">Extensions</h3>
+<p>Contains extensions for multiple purposes</p>
+<h3 id="optional">Optional</h3>
+<p><code>Option&lt;T&gt;</code> related methods</p>
+<h3 id="tools">Tools</h3>
+<p>Tool methods that doesn't fit any specific category</p>
+<hr>
+<h2 id="services">Services</h2>
+<p>Default services interfaces</p>
+<p><strong><em>IApiService</em></strong>: Manage and read api documentation</p>
+<p><strong><em>IConfigService</em></strong>: Allow to save to disk and read from disk, serializable objects</p>
+<p><strong><em>IEventsService</em></strong>: Emit and subscribe events</p>
+<p><strong><em>IInjectorService</em></strong>: IoC for MOP</p>
+<p><strong><em>ILogService</em></strong>: Create log entries</p>
+<p><strong><em>IPluginService</em></strong>: Manage plugins</p>
+<hr>
+<h2 id="usersettings">UserSettings</h2>
+<p>Save and load initial settings for current user</p>
+<p><strong><em>IUserSettingsLoader</em></strong>: Interface for user settings loaders</p>
+<p><strong><em>UserSettingsFactory</em></strong>: Factory to create default settings loader</p>
+<p><strong><em>UserSettingsLoader</em></strong>: Default <code>IUserSettingsLoader</code> implementation</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/Davidblkx/MOP/blob/master/docfx_project/docs/solution/core.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

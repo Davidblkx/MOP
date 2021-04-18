@@ -1,0 +1,206 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>MOP Plugins </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="MOP Plugins ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="mop-plugins">MOP Plugins</h1>
+
+<h2 id="about">About</h2>
+<p>Plugins allow to add new functionality to the Host. In MOP, plugins are develop
+using any .NET language, and to install them you just need to copy the file to
+the right folder. There are 2 kind of plugins, it can be a class
+that extends the interface <code>MOP.Core.Domain.Plugins.IPlugin</code> or a class that has
+the attribute <code>MOP.Core.Domain.Plugins.InjectableAttribute</code></p>
+<h2 id="iplugin">IPlugin</h2>
+<p><code>IPlugin</code> should be used when you intend to have functionality that is
+supposed to be used by th end user. This kind of plugins are only
+instantiated one time and is the developer responsibility to handle
+errors and control interaction.</p>
+<h3 id="ipluginexample">IPluginExample</h3>
+<pre><code class="lang-C#">public class HelloWorldPlugin : IPlugin
+{
+
+    public IPluginInfo Info =&gt; new MyPluginInfo();
+
+    private ILogger Logger { get; }
+
+    public HelloWorldPlugin(ILogService logService)
+    {
+        Logger = logService.GetContextLogger&lt;HelloWorldPlugin&gt;();
+    }
+
+    public async Task&lt;bool&gt; Initialize()
+    {
+        if (Logger is null) return false;
+        Logger.Information(&quot;Hello world from plugin!&quot;);
+        return true;
+    }
+
+    public void Dispose() {}
+}
+</code></pre>
+<p>This is just a simple plugin that logs a message when is loaded.
+<code>IPluginInfo</code> is the information related to the plugin you can
+check more details below. The constructor can have dependencies
+that will be injected at instantiation time. <code>Task&lt;bool&gt; Initialize()</code>
+is called after are plugins are instantiated.</p>
+<h2 id="iplugininfo">IPluginInfo</h2>
+<p><code>IPluginInfo</code> is responsible to tell the host how to identify and
+when to load a plugin. It also contains the minimum target version
+of the host that is required to run</p>
+<h3 id="iplugininfo-example">IPluginInfo Example</h3>
+<pre><code class="lang-C#">public class MyPluginInfo : IPluginInfo
+{
+    public Guid Id =&gt; Guid.Parse(&quot;cb3664b5-0b76-4a59-a018-acfcf8ad15ae&quot;);
+    public string Name =&gt; &quot;My super duper plugin&quot;;
+    public string Namespace =&gt; &quot;my.plugin&quot;;
+    public MopVersion CoreVersion =&gt; new MopVersion(0,1,0);
+    public ulong Priority =&gt; PluginPriority.DEFAULT;
+    public MopVersion Version =&gt; new MopVersion(0,1,0);
+}
+</code></pre>
+<ul>
+<li><code>Id</code> is a GUID constant that identifies the plugin needs to be unique</li>
+<li><code>Name</code> is a human readable form to identify the plugin, can be the same for multiple plugins.</li>
+<li><code>Namespace</code> prefix to use when storing properties for a plugin</li>
+<li><code>CoreVersion</code> minimum host version to use</li>
+<li><code>Priority</code> number that sets the order in which is loaded, lower numbers are loaded first</li>
+<li><code>Version</code> plugin version</li>
+</ul>
+<h2 id="baseplugin">BasePlugin<t></t></h2>
+<p>Since most plugins will required some basic dependencies like a logger
+or to subscribe to events a base implementation for <code>IPlugin</code> exists.
+This simplifies the boilerplate to create a new plugin</p>
+<h3 id="baseplugin-example">BasePlugin<t> Example</t></h3>
+<pre><code class="lang-C#">public class TriggerPlugin : BasePlugin&lt;TriggerPlugin&gt;
+{
+    public BaseActorPlugin(IInjectorService injector) : base(injector) {}
+
+    protected async override Task&lt;bool&gt; OnInitAsync()
+    {
+        await Subscribe(OnPlay, &quot;music.play.start&quot;, &quot;music.play.stop&quot;);
+        return true;
+    }
+
+    protected override IPluginInfo BuildPluginInfo()
+        =&gt; new TriggerPluginInfo();
+
+    private void OnPlay(IEvent e)
+    {
+        switch(e)
+        {
+            case PlayStartEvent start:
+                Logger.Information($&quot;Start playing a new song at {start.DateTime}&quot;);
+                break;
+            case PlayStopEvent stop:
+                Logger.Information($&quot;Stopped playback at {stop.DateTime}&quot;);
+                break;
+        }
+    }
+}
+</code></pre>
+<p>This plugin logs a message when a event of type <code>music.play.start</code> or <code>music.play.stop</code> is emit.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/Davidblkx/MOP/blob/master/docfx_project/docs/plugin/index.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>
